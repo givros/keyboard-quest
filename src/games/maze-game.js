@@ -66,6 +66,15 @@
     }
 
     handleKeyDown(event) {
+      const key = printableKey(event);
+      const token = this.tokenAtPlayer();
+      if (token && key && compareChar(key, token.label)) {
+        event.preventDefault();
+        token.done = true;
+        this.addHit(28);
+        return;
+      }
+
       const moves = {
         ArrowUp: [0, -1],
         ArrowDown: [0, 1],
@@ -86,17 +95,10 @@
         return;
       }
 
-      const key = printableKey(event);
-      const token = this.tokenAtPlayer();
       if (token && key) {
         event.preventDefault();
-        if (compareChar(key, token.label)) {
-          token.done = true;
-          this.addHit(28);
-        } else {
-          this.addMiss();
-          this.bump = 0.18;
-        }
+        this.addMiss();
+        this.bump = 0.18;
       }
     }
 
