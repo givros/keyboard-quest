@@ -239,8 +239,8 @@
         lastGame: "Dernier jeu",
         updated: "Mise à jour",
         empty: "Aucun score pour l'instant.",
-        live: "Mode live Firebase actif.",
-        local: "Mode local : configure Firebase pour partager les scores en direct depuis GitHub Pages.",
+        live: "Mode serveur local live actif.",
+        local: "Mode local : lance node server.js pour partager les scores en direct sur le reseau local.",
         never: "Jamais",
       },
       play: {
@@ -453,8 +453,8 @@
         lastGame: "Last game",
         updated: "Updated",
         empty: "No scores yet.",
-        live: "Firebase live mode is active.",
-        local: "Local mode: configure Firebase to share live scores from GitHub Pages.",
+        live: "Local live server mode is active.",
+        local: "Local mode: run node server.js to share live scores on the local network.",
         never: "Never",
       },
       play: {
@@ -667,8 +667,8 @@
         lastGame: "Último juego",
         updated: "Actualizado",
         empty: "Todavía no hay puntuaciones.",
-        live: "Modo live Firebase activo.",
-        local: "Modo local: configura Firebase para compartir puntuaciones en directo desde GitHub Pages.",
+        live: "Modo servidor local live activo.",
+        local: "Modo local: ejecuta node server.js para compartir puntuaciones en la red local.",
         never: "Nunca",
       },
       play: {

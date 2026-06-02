@@ -4,16 +4,11 @@
   CQ.SCORE_COOLDOWN_MS = 10 * 60 * 1000;
 
   CQ.scoreConfig = {
-    provider: "local",
+    provider: "auto",
     cooldownMs: CQ.SCORE_COOLDOWN_MS,
-    firebaseVersion: "12.4.0",
-    firebasePath: "keyboardQuest/leaderboard",
-    firebase: {
-      apiKey: "",
-      authDomain: "",
-      databaseURL: "",
-      projectId: "",
-      appId: "",
+    server: {
+      enabled: true,
+      baseUrl: "",
     },
   };
 })(window.CQ = window.CQ || {});

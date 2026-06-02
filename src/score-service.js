@@ -30,10 +30,6 @@
     return base + (grade === "4e" ? 1 : 0);
   }
 
-  function hasFirebaseConfig(config) {
-    return Boolean(config?.firebase?.apiKey && config.firebase.databaseURL && config.firebase.projectId && config.firebase.appId);
-  }
-
   function loadPlayer() {
     const saved = loadJson(CQ.PLAYER_STORAGE_KEY, null);
     if (saved?.id) {
@@ -48,11 +44,52 @@
     };
   }
 
+  function configuredServerBaseUrl(config) {
+    const explicitUrl = String(config?.server?.baseUrl || "").trim();
+    if (explicitUrl) return explicitUrl.replace(/\/+$/, "");
+    if (window.location.protocol === "http:" || window.location.protocol === "https:") {
+      return window.location.origin;
+    }
+    return "";
+  }
+
+  function isServerEnabled(config) {
+    return config?.provider !== "local" && config?.server?.enabled !== false;
+  }
+
+  async function fetchJson(url, options = {}, timeoutMs = 1400) {
+    const controller = window.AbortController ? new AbortController() : null;
+    const timer = controller ? window.setTimeout(() => controller.abort(), timeoutMs) : 0;
+    try {
+      const response = await fetch(url, {
+        ...options,
+        signal: controller?.signal,
+        headers: {
+          "Content-Type": "application/json",
+          ...(options.headers || {}),
+        },
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    } finally {
+      if (timer) window.clearTimeout(timer);
+    }
+  }
+
+  function entriesArrayToMap(entries) {
+    return (entries || []).reduce((map, entry) => {
+      if (!entry?.id) return map;
+      const { id, ...rest } = entry;
+      map[id] = rest;
+      return map;
+    }, {});
+  }
+
   const service = {
     player: loadPlayer(),
     entriesById: loadJson(CQ.SCORE_STORAGE_KEY, {}),
     status: "local",
-    firebase: null,
+    server: null,
     entryListeners: [],
     statusListeners: [],
 
@@ -63,8 +100,8 @@
       this.ensureLocalEntry();
       this.emitEntries();
       this.emitStatus("local");
-      if (CQ.scoreConfig?.provider === "firebase" && hasFirebaseConfig(CQ.scoreConfig)) {
-        this.connectFirebase();
+      if (isServerEnabled(CQ.scoreConfig)) {
+        this.connectServer();
       }
       return this.player;
     },
@@ -80,7 +117,12 @@
       saveJson(CQ.PLAYER_STORAGE_KEY, this.player);
       this.ensureLocalEntry();
       this.emitEntries();
-      if (this.firebase) this.syncFirebaseProfile();
+      if (this.server) {
+        this.syncServerProfile().catch((error) => {
+          console.warn("Score server profile sync unavailable, using local scores.", error);
+          this.fallbackToLocal();
+        });
+      }
       return true;
     },
 
@@ -111,54 +153,79 @@
       saveJson(CQ.SCORE_STORAGE_KEY, this.entriesById);
     },
 
-    async connectFirebase() {
-      const config = CQ.scoreConfig;
-      const version = config.firebaseVersion || "12.4.0";
+    applyRemoteEntries(entries) {
+      this.entriesById = entriesArrayToMap(entries);
+      this.emitEntries();
+    },
+
+    async connectServer() {
+      const baseUrl = configuredServerBaseUrl(CQ.scoreConfig);
+      if (!baseUrl) return;
+
       try {
-        const appModule = await import(`https://www.gstatic.com/firebasejs/${version}/firebase-app.js`);
-        const authModule = await import(`https://www.gstatic.com/firebasejs/${version}/firebase-auth.js`);
-        const databaseModule = await import(`https://www.gstatic.com/firebasejs/${version}/firebase-database.js`);
-        const app = appModule.initializeApp(config.firebase);
-        const auth = authModule.getAuth(app);
-        await authModule.signInAnonymously(auth);
-        const uid = auth.currentUser.uid;
-        this.player.id = uid;
-        saveJson(CQ.PLAYER_STORAGE_KEY, this.player);
-        const database = databaseModule.getDatabase(app);
-        this.firebase = {
-          database,
-          ref: databaseModule.ref,
-          onValue: databaseModule.onValue,
-          runTransaction: databaseModule.runTransaction,
-          update: databaseModule.update,
-          path: config.firebasePath || "keyboardQuest/leaderboard",
-        };
-        this.emitStatus("live");
-        this.watchFirebaseLeaderboard();
-        await this.syncFirebaseProfile();
+        const health = await fetchJson(`${baseUrl}/api/score/health`, { method: "GET" });
+        if (!health?.ok) throw new Error("Score server health check failed");
+        this.server = { baseUrl, eventSource: null };
+        this.emitStatus("server");
+        this.watchServerLeaderboard();
+        await this.syncServerProfile();
+        await this.refreshServerLeaderboard();
       } catch (error) {
-        console.warn("Firebase score mode unavailable, using local scores.", error);
-        this.firebase = null;
-        this.emitStatus("local");
+        console.warn("Score server unavailable, using local scores.", error);
+        this.fallbackToLocal();
       }
     },
 
-    watchFirebaseLeaderboard() {
-      const listRef = this.firebase.ref(this.firebase.database, this.firebase.path);
-      this.firebase.onValue(listRef, (snapshot) => {
-        this.entriesById = snapshot.val() || {};
-        saveJson(CQ.SCORE_STORAGE_KEY, this.entriesById);
-        this.emitEntries();
-      });
+    fallbackToLocal() {
+      if (this.server?.eventSource) this.server.eventSource.close();
+      this.server = null;
+      this.entriesById = loadJson(CQ.SCORE_STORAGE_KEY, {});
+      this.ensureLocalEntry();
+      this.emitEntries();
+      this.emitStatus("local");
     },
 
-    async syncFirebaseProfile() {
-      if (!this.firebase || !this.player.nickname) return;
-      const profileRef = this.firebase.ref(this.firebase.database, `${this.firebase.path}/${this.player.id}`);
-      await this.firebase.update(profileRef, {
-        nickname: this.player.nickname,
-        updatedAt: Date.now(),
+    watchServerLeaderboard() {
+      if (!window.EventSource || !this.server) return;
+      const source = new EventSource(`${this.server.baseUrl}/api/score/events`);
+      this.server.eventSource = source;
+      source.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          if (Array.isArray(data.entries)) this.applyRemoteEntries(data.entries);
+        } catch (error) {
+          console.warn("Invalid score stream event.", error);
+        }
+      };
+      source.onerror = () => {
+        console.warn("Score server stream disconnected, using local scores.");
+        this.fallbackToLocal();
+      };
+    },
+
+    async refreshServerLeaderboard() {
+      if (!this.server) return;
+      const data = await fetchJson(`${this.server.baseUrl}/api/score/leaderboard`, { method: "GET" });
+      if (Array.isArray(data.entries)) this.applyRemoteEntries(data.entries);
+    },
+
+    async syncServerProfile() {
+      if (!this.server || !this.player.nickname) return;
+      const data = await fetchJson(`${this.server.baseUrl}/api/score/player`, {
+        method: "POST",
+        body: JSON.stringify({
+          id: this.player.id,
+          nickname: this.player.nickname,
+        }),
       });
+      if (data.player?.id) {
+        this.player = {
+          id: data.player.id,
+          nickname: cleanNickname(data.player.nickname),
+        };
+        saveJson(CQ.PLAYER_STORAGE_KEY, this.player);
+      }
+      if (Array.isArray(data.entries)) this.applyRemoteEntries(data.entries);
     },
 
     async submitAward(payload) {
@@ -171,7 +238,14 @@
         cooldownMs: CQ.scoreConfig?.cooldownMs || CQ.SCORE_COOLDOWN_MS,
         now: Date.now(),
       };
-      if (this.firebase) return this.submitFirebaseAward(award);
+      if (this.server) {
+        try {
+          return await this.submitServerAward(award);
+        } catch (error) {
+          console.warn("Score server award unavailable, using local scores.", error);
+          this.fallbackToLocal();
+        }
+      }
       return this.submitLocalAward(award);
     },
 
@@ -211,58 +285,25 @@
       };
     },
 
-    async submitFirebaseAward(award) {
-      const awardId = `${award.now}-${Math.random().toString(16).slice(2)}`;
-      const playerRef = this.firebase.ref(this.firebase.database, `${this.firebase.path}/${this.player.id}`);
-      const result = await this.firebase.runTransaction(playerRef, (current) => {
-        const entry = current && typeof current === "object" ? current : {};
-        const cooldowns = entry.cooldowns || {};
-        const nextAvailableAt = Number(cooldowns[award.key]) || 0;
-        const baseEntry = {
-          ...entry,
+    async submitServerAward(award) {
+      const data = await fetchJson(`${this.server.baseUrl}/api/score/award`, {
+        method: "POST",
+        body: JSON.stringify({
+          id: this.player.id,
           nickname: this.player.nickname,
-          total: Number(entry.total) || 0,
-          cooldowns,
-        };
-
-        if (award.now < nextAvailableAt) {
-          return {
-            ...baseEntry,
-            lastAttempt: {
-              awardId,
-              awarded: false,
-              nextAvailableAt,
-              at: award.now,
-            },
-          };
-        }
-
-        return {
-          ...baseEntry,
-          total: baseEntry.total + award.points,
-          updatedAt: award.now,
-          lastGame: award.gameTitle || award.gameId,
-          lastGameId: award.gameId,
-          cooldowns: {
-            ...cooldowns,
-            [award.key]: award.now + award.cooldownMs,
-          },
-          lastAttempt: {
-            awardId,
-            awarded: true,
-            points: award.points,
-            nextAvailableAt: award.now + award.cooldownMs,
-            at: award.now,
-          },
-        };
+          gameId: award.gameId,
+          gameTitle: award.gameTitle,
+          grade: award.grade,
+          difficulty: award.difficulty,
+          success: true,
+        }),
       });
-
-      const attempt = result.snapshot.val()?.lastAttempt || {};
+      if (Array.isArray(data.entries)) this.applyRemoteEntries(data.entries);
       return {
-        awarded: Boolean(attempt.awarded),
-        points: Number(attempt.points) || 0,
-        reason: attempt.awarded ? "awarded" : "cooldown",
-        nextAvailableAt: attempt.nextAvailableAt,
+        awarded: Boolean(data.awarded),
+        points: Number(data.points) || 0,
+        reason: data.reason || (data.awarded ? "awarded" : "cooldown"),
+        nextAvailableAt: data.nextAvailableAt,
       };
     },
   };

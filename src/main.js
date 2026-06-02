@@ -163,7 +163,7 @@
   }
 
   function scoreStatusText() {
-    return app.scoreStatus === "live" ? t("leaderboard.live") : t("leaderboard.local");
+    return app.scoreStatus === "server" || app.scoreStatus === "live" ? t("leaderboard.live") : t("leaderboard.local");
   }
 
   function scoreKey(gameId = app.gameId) {
