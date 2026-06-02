@@ -165,6 +165,19 @@
     }).format(new Date(timestamp));
   }
 
+  function formatNote(value) {
+    return new Intl.NumberFormat(app.language, {
+      maximumFractionDigits: 1,
+    }).format(value);
+  }
+
+  function gradingScaleText() {
+    return t("leaderboard.gradingScale", {
+      grade: app.grade,
+      target: CQ.scoreService.gradeTarget(app.grade),
+    });
+  }
+
   function scoreStatusText() {
     const room = CQ.scoreService.getRoom();
     if (app.scoreStatus === "relay") return t("leaderboard.live", { room });
@@ -364,7 +377,7 @@
   function renderScoreStatus() {
     const statusText = scoreStatusText();
     els.landingScoreStatus.textContent = statusText;
-    els.scoreStatus.textContent = statusText;
+    els.scoreStatus.textContent = `${statusText} · ${gradingScaleText()}`;
   }
 
   function renderLeaderboard(entries = app.leaderboard) {
@@ -372,7 +385,7 @@
     if (!entries.length) {
       const row = document.createElement("tr");
       const cell = document.createElement("td");
-      cell.colSpan = 5;
+      cell.colSpan = 7;
       cell.textContent = t("leaderboard.empty");
       row.appendChild(cell);
       els.scoreTableBody.appendChild(row);
@@ -384,17 +397,25 @@
       const rank = document.createElement("td");
       const name = document.createElement("td");
       const points = document.createElement("td");
+      const note = document.createElement("td");
+      const mention = document.createElement("td");
       const lastGame = document.createElement("td");
       const updated = document.createElement("td");
+      const total = Number(entry.total) || 0;
+      const report = CQ.scoreService.gradeReport(total, app.grade);
 
       rank.className = "score-rank";
+      note.className = "score-note";
+      mention.className = `score-mention score-mention-${report.mention}`;
       rank.textContent = `#${index + 1}`;
       name.textContent = entry.nickname || "???";
-      points.textContent = String(Number(entry.total) || 0);
+      points.textContent = String(total);
+      note.textContent = `${formatNote(report.note)}/20`;
+      mention.textContent = t(`leaderboard.mentions.${report.mention}`);
       lastGame.textContent = entry.lastGame || "-";
       updated.textContent = formatDateTime(entry.updatedAt);
 
-      row.append(rank, name, points, lastGame, updated);
+      row.append(rank, name, points, note, mention, lastGame, updated);
       els.scoreTableBody.appendChild(row);
     });
   }
@@ -697,6 +718,8 @@
         app.grade = button.dataset.grade;
         document.querySelectorAll("[data-grade]").forEach((item) => item.classList.toggle("active", item === button));
         renderGameCards();
+        renderScoreStatus();
+        renderLeaderboard();
       });
     });
 

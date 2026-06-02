@@ -56,6 +56,11 @@
     },
   };
 
+  CQ.gradeScoreTargets = {
+    "5e": 60,
+    "4e": 75,
+  };
+
   CQ.gameCards = [
     {
       id: "meteors",
@@ -261,6 +266,8 @@
         rank: "Rang",
         player: "Pseudo",
         points: "Points",
+        note: "Note /20",
+        mention: "Mention",
         lastGame: "Dernier jeu",
         updated: "Mise à jour",
         empty: "Aucun score pour l'instant.",
@@ -268,6 +275,14 @@
         connecting: "Connexion au salon {room}...",
         relayError: "Salon {room} indisponible : les scores restent locaux.",
         local: "Mode local : aucune room active.",
+        gradingScale: "Barème 1 h {grade} : {target} pts = 20/20",
+        mentions: {
+          progress: "En cours",
+          validated: "Objectif atteint",
+          bronze: "Bronze",
+          silver: "Argent",
+          gold: "Or",
+        },
         never: "Jamais",
       },
       play: {
@@ -491,6 +506,8 @@
         rank: "Rank",
         player: "Nickname",
         points: "Points",
+        note: "Grade /20",
+        mention: "Mention",
         lastGame: "Last game",
         updated: "Updated",
         empty: "No scores yet.",
@@ -498,6 +515,14 @@
         connecting: "Connecting to room {room}...",
         relayError: "Room {room} unavailable: scores stay local.",
         local: "Local mode: no room is active.",
+        gradingScale: "1-hour scale {grade}: {target} pts = 20/20",
+        mentions: {
+          progress: "In progress",
+          validated: "Target reached",
+          bronze: "Bronze",
+          silver: "Silver",
+          gold: "Gold",
+        },
         never: "Never",
       },
       play: {
@@ -721,6 +746,8 @@
         rank: "Rango",
         player: "Seudónimo",
         points: "Puntos",
+        note: "Nota /20",
+        mention: "Mención",
         lastGame: "Último juego",
         updated: "Actualizado",
         empty: "Todavía no hay puntuaciones.",
@@ -728,6 +755,14 @@
         connecting: "Conectando a la sala {room}...",
         relayError: "Sala {room} no disponible: las puntuaciones siguen locales.",
         local: "Modo local: no hay room activa.",
+        gradingScale: "Baremo 1 h {grade}: {target} pts = 20/20",
+        mentions: {
+          progress: "En curso",
+          validated: "Objetivo alcanzado",
+          bronze: "Bronce",
+          silver: "Plata",
+          gold: "Oro",
+        },
         never: "Nunca",
       },
       play: {

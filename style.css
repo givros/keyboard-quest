@@ -692,7 +692,7 @@ p {
 
 .score-table {
   width: 100%;
-  min-width: 720px;
+  min-width: 940px;
   border-collapse: collapse;
 }
 
@@ -722,6 +722,47 @@ p {
   width: 72px;
   color: var(--teal-dark);
   font-weight: 950;
+}
+
+.score-table .score-note {
+  color: var(--ink);
+  font-weight: 950;
+}
+
+.score-mention {
+  width: max-content;
+  max-width: 100%;
+  display: inline-grid;
+  place-items: center;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: rgba(24, 33, 43, 0.08);
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.score-mention-validated,
+.score-mention-bronze,
+.score-mention-silver,
+.score-mention-gold {
+  color: var(--ink);
+}
+
+.score-mention-validated {
+  background: rgba(22, 124, 128, 0.14);
+}
+
+.score-mention-bronze {
+  background: rgba(233, 137, 118, 0.2);
+}
+
+.score-mention-silver {
+  background: rgba(159, 199, 177, 0.32);
+}
+
+.score-mention-gold {
+  background: rgba(231, 198, 111, 0.42);
 }
 
 body.has-mobile-keyboard {

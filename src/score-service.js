@@ -52,6 +52,27 @@
     return Number(CQ.gameRewardBonuses?.[gameId]) || 0;
   }
 
+  function gradeTarget(grade) {
+    return Number(CQ.gradeScoreTargets?.[grade]) || 60;
+  }
+
+  function roundedHalf(value) {
+    return Math.round(value * 2) / 2;
+  }
+
+  function gradeReport(total, grade) {
+    const target = gradeTarget(grade);
+    const safeTotal = Math.max(0, Number(total) || 0);
+    const ratio = target ? safeTotal / target : 0;
+    const note = Math.min(20, roundedHalf(ratio * 20));
+    let mention = "progress";
+    if (ratio >= 2) mention = "gold";
+    else if (ratio >= 1.5) mention = "silver";
+    else if (ratio >= 1.25) mention = "bronze";
+    else if (ratio >= 1) mention = "validated";
+    return { note, target, mention, ratio };
+  }
+
   function pointsFor({ difficulty, grade, gameId }) {
     const base = POINTS_BY_DIFFICULTY[difficulty] || 1;
     return base + gameRewardBonus(gameId) + (grade === "4e" ? 2 : 0);
@@ -128,6 +149,14 @@
 
     difficultyMultiplier(difficulty) {
       return POINTS_BY_DIFFICULTY[difficulty] || 1;
+    },
+
+    gradeTarget(grade) {
+      return gradeTarget(grade);
+    },
+
+    gradeReport(total, grade) {
+      return gradeReport(total, grade);
     },
 
     awardAvailability({ gameId, grade, difficulty }) {
