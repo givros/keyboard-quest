@@ -34,6 +34,9 @@
     words: (options) => new CQ.WordGame(options),
     shortcuts: (options) => new CQ.ShortcutGame(options),
     maze: (options) => new CQ.MazeGame(options),
+    symbols: (options) => new CQ.SymbolForgeGame(options),
+    cipher: (options) => new CQ.CipherGame(options),
+    formula: (options) => new CQ.FormulaFixGame(options),
   };
 
   const app = {
