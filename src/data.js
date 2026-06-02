@@ -208,7 +208,6 @@
         home: "← Accueil",
         homeShort: "Accueil",
         replay: "Rejouer",
-        reset: "Remettre les scores à zéro",
       },
       hud: {
         score: "Score",
@@ -429,7 +428,6 @@
         home: "← Home",
         homeShort: "Home",
         replay: "Play again",
-        reset: "Reset scores",
       },
       hud: {
         score: "Score",
@@ -650,7 +648,6 @@
         home: "← Inicio",
         homeShort: "Inicio",
         replay: "Jugar otra vez",
-        reset: "Reiniciar puntuaciones",
       },
       hud: {
         score: "Puntos",

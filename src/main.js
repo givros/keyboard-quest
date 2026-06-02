@@ -32,7 +32,6 @@
     hudMeterFill: document.querySelector("#hudMeterFill"),
     hudMission: document.querySelector("#hudMission"),
     bestScorePill: document.querySelector("#bestScorePill"),
-    resetProgress: document.querySelector("#resetProgress"),
     soundToggle: document.querySelector("#soundToggle"),
     navHome: document.querySelector("[data-nav-home]"),
     scoreHome: document.querySelector("#scoreHome"),
@@ -716,11 +715,6 @@
     els.scoreHome.addEventListener("click", goHome);
     els.restartGame.addEventListener("click", () => startGame(app.gameId));
     els.playAgain.addEventListener("click", () => startGame(app.gameId));
-    els.resetProgress.addEventListener("click", () => {
-      app.scores = {};
-      saveJson(CQ.STORAGE_KEY, app.scores);
-      renderGameCards();
-    });
     els.soundToggle.addEventListener("click", () => {
       CQ.audio.enabled = !CQ.audio.enabled;
       els.soundToggle.setAttribute("aria-pressed", String(CQ.audio.enabled));
