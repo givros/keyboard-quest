@@ -16,6 +16,13 @@
 
   function cleanRoom(value) {
     return String(value || "")
+      .trim()
+      .replace(/\D/g, "")
+      .slice(0, 8);
+  }
+
+  function cleanTopicPart(value) {
+    return String(value || "")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .trim()
@@ -78,7 +85,7 @@
   }
 
   function relayTopic(config, room) {
-    const prefix = cleanRoom(config?.relay?.topicPrefix || "keyboard-quest");
+    const prefix = cleanTopicPart(config?.relay?.topicPrefix || "keyboard-quest") || "keyboard-quest";
     return `${prefix}-${cleanRoom(room)}`;
   }
 
