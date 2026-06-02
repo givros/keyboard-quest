@@ -79,12 +79,30 @@
       this.blocked = new Set();
       this.buildings = [];
       this.terrain = this.buildTerrain();
-      this.quests = (CQ.rpgQuests[this.language] || CQ.rpgQuests.fr).map((quest) => ({ ...quest, done: false }));
+      this.quests = this.selectQuests(CQ.rpgQuests[this.language] || CQ.rpgQuests.fr);
       this.activeQuest = null;
       this.buffer = "";
       this.feedback = "";
       this.feedbackTimer = 0;
       this.completed = 0;
+    }
+
+    selectQuests(quests) {
+      const plans = {
+        "5e": {
+          calme: ["mail", "tag", "euro", "accents", "shortcut", "final"],
+          rythme: ["mail", "tag", "euro", "braces", "brackets", "accents", "shortcut", "final"],
+          defi: ["mail", "tag", "euro", "braces", "brackets", "bar", "slash", "accents", "shortcut", "final"],
+        },
+        "4e": {
+          calme: ["mail", "tag", "euro", "braces", "brackets", "accents", "shortcut"],
+          rythme: ["mail", "tag", "euro", "braces", "brackets", "bar", "slash", "accents", "shortcut"],
+          defi: ["mail", "tag", "euro", "braces", "brackets", "bar", "slash", "accents", "shortcut", "final"],
+        },
+      };
+      const ids = plans[this.grade]?.[this.difficulty] || plans["5e"].calme;
+      const byId = new Map(quests.map((quest) => [quest.id, quest]));
+      return ids.map((id) => byId.get(id)).filter(Boolean).map((quest) => ({ ...quest, done: false }));
     }
 
     buildTerrain() {
@@ -136,12 +154,7 @@
     }
 
     timeoutQuestTarget() {
-      const targets = {
-        calme: 6,
-        rythme: 8,
-        defi: this.quests.length,
-      };
-      return targets[this.difficulty] || 6;
+      return this.quests.length;
     }
 
     questAt(x, y) {
@@ -418,7 +431,7 @@
         meterRatio: this.completed / this.quests.length,
         mission: nearby
           ? `<strong>${this.t("rpg.nearby", { name: nearby.npc })}</strong> <br> ${nearby.done ? this.t("rpg.alreadyDone") : nearby.title}`
-          : `<strong>${this.t("rpg.questDone", { count: this.completed })}</strong> <br> ${this.t("rpg.moveHint")} ${this.t("rpg.interactHint")}`,
+          : `<strong>${this.t("rpg.questDone", { count: this.completed, target: this.quests.length })}</strong> <br> ${this.t("rpg.moveHint")} ${this.t("rpg.interactHint")}`,
       };
     }
   }

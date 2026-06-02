@@ -8,13 +8,33 @@
       super(options);
       this.timeLimit = this.settings.time + 12;
       this.timeLeft = this.timeLimit;
-      this.phrases = shuffle(this.content.words);
+      this.phrases = shuffle(this.selectPhrases());
       this.index = 0;
       this.current = this.phrases[this.index];
       this.buffer = "";
       this.shake = 0;
       this.completed = 0;
       this.target = (this.difficulty === "calme" ? 6 : this.difficulty === "rythme" ? 10 : 18) + this.settings.wordTargetBonus;
+    }
+
+    selectPhrases() {
+      const all = this.content.words || [];
+      const sentenceItems = all.filter((item) => /[.!?]$/.test(item.trim()));
+      const termItems = all.filter((item) => !sentenceItems.includes(item));
+      const shortLimit = this.grade === "4e" ? 13 : 12;
+      const shortTerms = termItems.filter((item) => item.length <= shortLimit);
+      const longTerms = termItems.filter((item) => item.length > shortLimit);
+
+      if (this.difficulty === "calme") {
+        return shortTerms.length ? shortTerms : termItems;
+      }
+
+      if (this.difficulty === "rythme") {
+        const sentenceCount = this.grade === "4e" ? 2 : 1;
+        return [...termItems, ...sentenceItems.slice(0, sentenceCount)].filter(Boolean);
+      }
+
+      return [...sentenceItems, ...longTerms, ...termItems].filter(Boolean);
     }
 
     update(dt) {

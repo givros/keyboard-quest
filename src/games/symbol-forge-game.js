@@ -8,7 +8,7 @@
       super(options);
       this.timeLimit = this.settings.time;
       this.timeLeft = this.timeLimit;
-      this.pool = shuffle(CQ.symbolSets[this.grade] || CQ.symbolSets["5e"]);
+      this.pool = shuffle(this.symbolPool());
       this.goal = (this.difficulty === "calme" ? 9 : this.difficulty === "rythme" ? 16 : 28) + this.settings.shortcutGoalBonus;
       this.completed = 0;
       this.queue = [];

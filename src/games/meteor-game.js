@@ -12,11 +12,27 @@
       this.spawnTimer = 0;
       this.items = [];
       this.flash = 0;
-      const extraCount = (this.difficulty === "defi" ? 26 : this.difficulty === "rythme" ? 14 : 8) + this.settings.meteorExtraPool;
-      this.pool = [
-        ...this.content.keys,
-        ...this.content.extraKeys.slice(0, extraCount),
-      ];
+      this.pool = this.createPool();
+    }
+
+    createPool() {
+      const keys = this.content.keys || [];
+      const extras = this.content.extraKeys || [];
+      const symbols = this.symbolPool().map((item) => item.symbol);
+      let pool = keys;
+
+      if (this.difficulty === "calme") {
+        const keyCount = this.grade === "4e" ? keys.length : Math.ceil(keys.length * 0.7);
+        pool = keys.slice(0, keyCount);
+      } else if (this.difficulty === "rythme") {
+        const extraCount = this.grade === "4e" ? 10 + this.settings.meteorExtraPool : 6;
+        pool = [...keys, ...extras.slice(0, extraCount)];
+      } else {
+        const extraCount = this.grade === "4e" ? extras.length : 8 + this.settings.meteorExtraPool;
+        pool = [...symbols, ...extras.slice(0, extraCount), ...keys.slice(0, this.grade === "4e" ? 12 : 8)];
+      }
+
+      return [...new Set(pool)].filter(Boolean);
     }
 
     update(dt) {

@@ -50,13 +50,33 @@
         [6, 7],
         [16, 10],
       ];
-      const pool = shuffle([...this.content.keys, ...this.content.extraKeys]).slice(0, this.settings.tokens);
+      const pool = shuffle(this.tokenPool()).slice(0, this.settings.tokens);
       return spots.slice(0, this.settings.tokens).map(([x, y], index) => ({
         x,
         y,
         label: pool[index],
         done: false,
       }));
+    }
+
+    tokenPool() {
+      const keys = this.content.keys || [];
+      const extras = this.content.extraKeys || [];
+      const symbols = this.symbolPool().map((item) => item.symbol);
+      let pool = keys;
+
+      if (this.difficulty === "calme") {
+        const keyCount = this.grade === "4e" ? keys.length : Math.ceil(keys.length * 0.75);
+        pool = keys.slice(0, keyCount);
+      } else if (this.difficulty === "rythme") {
+        const extraCount = this.grade === "4e" ? 12 : 7;
+        pool = [...extras.slice(0, extraCount), ...keys];
+      } else {
+        pool = [...symbols, ...extras, ...keys.slice(0, this.grade === "4e" ? 8 : 5)];
+      }
+
+      const unique = [...new Set(pool)].filter(Boolean);
+      return unique.length >= this.settings.tokens ? unique : [...new Set([...unique, ...keys, ...extras])].filter(Boolean);
     }
 
     update(dt) {

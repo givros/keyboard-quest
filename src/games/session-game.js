@@ -34,6 +34,10 @@
       };
     }
 
+    symbolPool() {
+      return CQ.symbolSetFor?.(this.grade, this.difficulty) || CQ.symbolSets[this.grade] || CQ.symbolSets["5e"];
+    }
+
     get accuracy() {
       const total = this.hits + this.misses;
       return total ? this.hits / total : 1;

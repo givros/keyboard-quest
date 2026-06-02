@@ -8,7 +8,7 @@
       super(options);
       this.timeLimit = this.settings.time + 12;
       this.timeLeft = this.timeLimit;
-      this.pool = shuffle(CQ.symbolSets[this.grade] || CQ.symbolSets["5e"]);
+      this.pool = shuffle(this.symbolPool());
       this.targetRounds = (this.difficulty === "calme" ? 4 : this.difficulty === "rythme" ? 6 : 10) + Math.ceil(this.settings.wordTargetBonus / 2);
       this.completed = 0;
       this.sequence = [];

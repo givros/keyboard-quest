@@ -139,6 +139,31 @@
     ],
   };
 
+  CQ.difficultySymbolSets = {
+    "5e": {
+      calme: ["_", "-", "?", "!", ".", "/", ":", "@"],
+      rythme: ["@", "#", "€", "_", "-", "?", "!", ".", "/", ":"],
+      defi: ["@", "#", "€", "_", "-", "?", "!", ".", "/", ":", "{", "}", "[", "]"],
+    },
+    "4e": {
+      calme: ["@", "#", "€", "_", "-", "?", "!", ".", "/", ":"],
+      rythme: ["@", "#", "€", "{", "}", "[", "]", "|", "\\", "_", "?", "!", "/", ":"],
+      defi: ["@", "#", "€", "{", "}", "[", "]", "|", "\\", "~", "^", "_", "?", "!", "/", ":", "."],
+    },
+  };
+
+  CQ.symbolSetFor = function symbolSetFor(grade, difficulty) {
+    const fallback = CQ.symbolSets["5e"];
+    const gradeSet = CQ.symbolSets[grade] || fallback;
+    const allSets = [...(CQ.symbolSets["5e"] || []), ...(CQ.symbolSets["4e"] || [])];
+    const allowed = CQ.difficultySymbolSets[grade]?.[difficulty];
+    if (!allowed) return gradeSet;
+    const selected = allowed
+      .map((symbol) => gradeSet.find((item) => item.symbol === symbol) || allSets.find((item) => item.symbol === symbol))
+      .filter(Boolean);
+    return selected.length ? selected : gradeSet;
+  };
+
   CQ.rpgQuests = {
     fr: [
       { id: "mail", x: 8, y: 5, icon: "@", npc: "Messager Pixel", title: "Le portail @", prompt: "Le portail du collège réclame le symbole arobase.", answer: "@", type: "text" },
@@ -414,7 +439,7 @@
         answer: "Réponse",
         comboAnswer: "Raccourci attendu",
         enterValidate: "Entrée pour valider. Échap pour fermer.",
-        questDone: "{count}/10 quêtes terminées",
+        questDone: "{count}/{target} quêtes terminées",
         nearby: "Parle à {name}",
         noQuest: "Explore la cité et cherche les symboles.",
       },
@@ -654,7 +679,7 @@
         answer: "Answer",
         comboAnswer: "Expected shortcut",
         enterValidate: "Enter to validate. Escape to close.",
-        questDone: "{count}/10 quests complete",
+        questDone: "{count}/{target} quests complete",
         nearby: "Talk to {name}",
         noQuest: "Explore the city and look for symbols.",
       },
@@ -894,7 +919,7 @@
         answer: "Respuesta",
         comboAnswer: "Atajo esperado",
         enterValidate: "Enter para validar. Escape para cerrar.",
-        questDone: "{count}/10 misiones completadas",
+        questDone: "{count}/{target} misiones completadas",
         nearby: "Habla con {name}",
         noQuest: "Explora la ciudad y busca símbolos.",
       },

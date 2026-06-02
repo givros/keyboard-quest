@@ -8,13 +8,28 @@
       super(options);
       this.timeLimit = this.settings.time;
       this.timeLeft = this.timeLimit;
-      this.deck = shuffle(this.content.shortcuts);
+      this.deck = shuffle(this.selectShortcuts());
       this.index = 0;
       this.current = this.deck[this.index];
       this.feedback = "";
       this.feedbackTimer = 0;
       this.goal = (this.difficulty === "calme" ? 8 : this.difficulty === "rythme" ? 14 : 24) + this.settings.shortcutGoalBonus;
       this.completed = 0;
+    }
+
+    selectShortcuts() {
+      const all = this.content.shortcuts || [];
+      const essential = new Set(["Ctrl+C", "Ctrl+V", "Ctrl+Z", "Ctrl+A", "Ctrl+S", "Ctrl+F", "Tab", "Enter", "Escape"]);
+      const method = new Set([...essential, "Ctrl+X", "Ctrl+Y", "Shift+Tab"]);
+      let deck = all;
+
+      if (this.difficulty === "calme") {
+        deck = all.filter((item) => essential.has(item.combo));
+      } else if (this.difficulty === "rythme") {
+        deck = all.filter((item) => method.has(item.combo));
+      }
+
+      return deck.length ? deck : all;
     }
 
     update(dt) {

@@ -8,7 +8,7 @@
       super(options);
       this.timeLimit = this.settings.time + 8;
       this.timeLeft = this.timeLimit;
-      this.tasks = shuffle(this.content.formulas || []);
+      this.tasks = shuffle(this.selectTasks());
       this.goal = (this.difficulty === "calme" ? 7 : this.difficulty === "rythme" ? 12 : 22) + this.settings.wordTargetBonus;
       this.completed = 0;
       this.index = 0;
@@ -16,8 +16,34 @@
       this.current = this.tasks[this.index % this.tasks.length];
     }
 
+    selectTasks() {
+      const base = this.content.formulas || [];
+      const technical = [
+        { text: "tableau□3]", symbol: "[" },
+        { text: "tableau[3□", symbol: "]" },
+        { text: "bloc □ score: 12 }", symbol: "{" },
+        { text: "bloc { score: 12 □", symbol: "}" },
+        { text: "choixA □ choixB", symbol: "|" },
+        { text: "chemin□docs", symbol: "\\" },
+      ];
+      const allowed = new Set(this.symbolPool().map((item) => item.symbol));
+      let tasks = base;
+
+      if (this.difficulty === "calme") {
+        const simple = new Set(["@", "#", "€"]);
+        tasks = base.filter((task) => simple.has(task.symbol));
+      } else if (this.difficulty === "rythme") {
+        const medium = new Set(["@", "#", "€", "/", "_", ".", "?", "!", "[", "]"]);
+        tasks = [...base, ...technical].filter((task) => medium.has(task.symbol) && allowed.has(task.symbol));
+      } else {
+        tasks = [...base, ...technical].filter((task) => allowed.has(task.symbol));
+      }
+
+      return tasks.length ? tasks : base;
+    }
+
     symbolMeta(symbol) {
-      return (CQ.symbolSets[this.grade] || CQ.symbolSets["5e"]).find((item) => item.symbol === symbol) || { symbol, combo: symbol };
+      return this.symbolPool().find((item) => item.symbol === symbol) || { symbol, combo: symbol };
     }
 
     nextTask() {
