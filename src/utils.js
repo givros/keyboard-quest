@@ -33,7 +33,8 @@
   }
 
   function printableKey(event) {
-    if (event.key.length === 1) return event.key.normalize("NFC");
+    const key = String(event.key || "").normalize("NFC");
+    if (Array.from(key).length === 1) return key;
     return "";
   }
 
