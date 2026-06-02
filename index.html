@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Clavier Quest - 5e / 4e</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="src/data.js" defer></script>
+    <script src="src/utils.js" defer></script>
+    <script src="src/i18n.js" defer></script>
+    <script src="src/drawing.js" defer></script>
+    <script src="src/games/session-game.js" defer></script>
+    <script src="src/games/meteor-game.js" defer></script>
+    <script src="src/games/word-game.js" defer></script>
+    <script src="src/games/shortcut-game.js" defer></script>
+    <script src="src/games/maze-game.js" defer></script>
+    <script src="src/main.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#home" data-nav-home aria-label="Retour accueil" data-i18n-aria-label="aria.home">
+          <span class="brand-mark" aria-hidden="true">CQ</span>
+          <span>
+            <span class="brand-title">Clavier Quest</span>
+            <span class="brand-subtitle">5e &amp; 4e</span>
+          </span>
+        </a>
+        <div class="topbar-meta">
+          <span id="bestScorePill">Meilleur score : 0</span>
+          <div class="language-switch" role="group" aria-label="Langue" data-i18n-aria-label="aria.language">
+            <button type="button" class="lang-button active" data-language="fr">FR</button>
+            <button type="button" class="lang-button" data-language="en">EN</button>
+            <button type="button" class="lang-button" data-language="es">ES</button>
+          </div>
+          <button class="icon-button" id="soundToggle" type="button" aria-pressed="true" title="Son" data-i18n-title="aria.sound">
+            <span aria-hidden="true">♪</span>
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <section class="screen screen-active" id="homeScreen" aria-labelledby="homeTitle">
+          <div class="intro-band">
+            <div class="intro-copy">
+              <p class="eyebrow" data-i18n="home.eyebrow">Entraînement clavier</p>
+              <h1 id="homeTitle" data-i18n="home.title">Des mini-jeux courts pour gagner en précision.</h1>
+              <p data-i18n="home.description">
+                Sélectionne un niveau, choisis un défi, puis joue au clavier. Les scores restent enregistrés dans ce navigateur.
+              </p>
+            </div>
+            <div class="quick-panel" aria-label="Réglages de session" data-i18n-aria-label="aria.settings">
+              <div>
+                <span class="control-label" data-i18n="controls.grade">Niveau</span>
+                <div class="segmented" role="group" aria-label="Niveau scolaire" data-i18n-aria-label="aria.grade">
+                  <button type="button" class="segment active" data-grade="5e">5e</button>
+                  <button type="button" class="segment" data-grade="4e">4e</button>
+                </div>
+              </div>
+              <div>
+                <span class="control-label" data-i18n="controls.intensity">Intensité</span>
+                <div class="segmented wide" role="group" aria-label="Intensité" data-i18n-aria-label="aria.intensity">
+                  <button type="button" class="segment active" data-difficulty="calme">Calme</button>
+                  <button type="button" class="segment" data-difficulty="rythme">Rythme</button>
+                  <button type="button" class="segment" data-difficulty="defi">Défi</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-head">
+            <h2 data-i18n="home.choose">Choisis ton entraînement</h2>
+            <button id="resetProgress" class="text-button" type="button" data-i18n="actions.reset">Remettre les scores à zéro</button>
+          </div>
+          <div class="game-grid" id="gameGrid" aria-live="polite"></div>
+        </section>
+
+        <section class="screen" id="playScreen" aria-labelledby="gameTitle">
+          <div class="play-header">
+            <button class="back-button" type="button" id="backToHome" data-i18n="actions.home">← Accueil</button>
+            <div>
+              <p class="eyebrow" id="gameModeLabel">Mini-jeu</p>
+              <h1 id="gameTitle">Jeu</h1>
+            </div>
+            <button class="text-button" type="button" id="restartGame" data-i18n="actions.replay">Rejouer</button>
+          </div>
+
+          <div class="play-layout">
+            <div class="stage-wrap">
+              <canvas id="gameCanvas" width="960" height="540" tabindex="0"></canvas>
+              <div class="result-panel hidden" id="resultPanel" role="dialog" aria-modal="true">
+                <p class="eyebrow" data-i18n="results.eyebrow">Session terminée</p>
+                <h2 id="resultTitle">Bravo !</h2>
+                <p id="resultText"></p>
+                <div class="result-actions">
+                  <button class="primary-button" type="button" id="playAgain" data-i18n="actions.replay">Rejouer</button>
+                  <button class="text-button" type="button" id="resultHome" data-i18n="actions.homeShort">Accueil</button>
+                </div>
+              </div>
+            </div>
+
+            <aside class="hud" aria-live="polite">
+              <div class="hud-row">
+                <span data-i18n="hud.score">Score</span>
+                <strong id="hudScore">0</strong>
+              </div>
+              <div class="hud-row">
+                <span data-i18n="hud.combo">Série</span>
+                <strong id="hudCombo">0</strong>
+              </div>
+              <div class="hud-row">
+                <span data-i18n="hud.accuracy">Précision</span>
+                <strong id="hudAccuracy">100%</strong>
+              </div>
+              <div class="meter-block">
+                <div class="meter-label">
+                  <span id="hudMeterLabel">Temps</span>
+                  <strong id="hudMeterValue">60 s</strong>
+                </div>
+                <div class="meter">
+                  <span id="hudMeterFill"></span>
+                </div>
+              </div>
+              <div class="mission" id="hudMission"></div>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
