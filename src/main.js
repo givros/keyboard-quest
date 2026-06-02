@@ -27,6 +27,7 @@
     resetProgress: document.querySelector("#resetProgress"),
     soundToggle: document.querySelector("#soundToggle"),
     navHome: document.querySelector("[data-nav-home]"),
+    mobileKeyboard: document.querySelector("#mobileKeyboard"),
   };
 
   const gameFactories = {
@@ -51,6 +52,64 @@
     running: false,
     scores: loadJson(CQ.STORAGE_KEY, {}),
     lastResult: null,
+  };
+
+  const virtualKeyboardState = {
+    ctrl: false,
+    shift: false,
+    altgr: false,
+  };
+
+  const virtualKeyboardRows = [
+    {
+      className: "mobile-keyboard-controls",
+      keys: [
+        { key: "ArrowLeft", label: "←", type: "action", aria: "Arrow left" },
+        { key: "ArrowUp", label: "↑", type: "action", aria: "Arrow up" },
+        { key: "ArrowDown", label: "↓", type: "action", aria: "Arrow down" },
+        { key: "ArrowRight", label: "→", type: "action", aria: "Arrow right" },
+        { key: "Enter", label: "↵", type: "action", wide: true, aria: "Enter" },
+        { key: "Backspace", label: "⌫", type: "action", aria: "Backspace" },
+        { key: "Escape", label: "Esc", type: "action", aria: "Escape" },
+      ],
+    },
+    {
+      keys: [
+        { modifier: "ctrl", label: "Ctrl", type: "modifier", wide: true, aria: "Control" },
+        { modifier: "shift", label: "⇧", type: "modifier", wide: true, aria: "Shift" },
+        { modifier: "altgr", label: "AltGr", type: "modifier", wide: true, aria: "AltGr" },
+        { key: "Tab", label: "Tab", type: "action", aria: "Tab" },
+        { key: "Space", label: "␣", type: "action", extraWide: true, aria: "Space" },
+      ],
+    },
+    { keys: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"] },
+    { keys: ["a", "z", "e", "r", "t", "y", "u", "i", "o", "p"] },
+    { keys: ["q", "s", "d", "f", "g", "h", "j", "k", "l", "m"] },
+    { keys: ["w", "x", "c", "v", "b", "n", "é", "è", "à", "ç"] },
+    { keys: ["@", "#", "€", "_", "-", "?", "!", ".", ",", ";"] },
+    { keys: [":", "/", "\\", "|", "{", "}", "[", "]", "~", "^"] },
+    { keys: ["'", '"', "(", ")", "+", "=", "<", ">", "*", "%"] },
+  ];
+
+  const altGrOutputMap = {
+    "0": "@",
+    "2": "~",
+    "3": "#",
+    "4": "{",
+    "5": "[",
+    "6": "|",
+    "8": "\\",
+    ")": "]",
+    "=": "}",
+    e: "€",
+    E: "€",
+  };
+
+  const shiftOutputMap = {
+    ",": "?",
+    "8": "!",
+    ";": ".",
+    ":": "/",
   };
 
   function t(path, values = {}) {
@@ -115,6 +174,7 @@
   function setScreen(screen) {
     els.home.classList.toggle("screen-active", screen === "home");
     els.play.classList.toggle("screen-active", screen === "play");
+    updateVirtualKeyboardVisibility();
   }
 
   function updatePlayHeader() {
@@ -151,6 +211,7 @@
     if (app.frameId) cancelAnimationFrame(app.frameId);
     app.frameId = 0;
     app.running = false;
+    updateVirtualKeyboardVisibility();
   }
 
   function loop(time) {
@@ -205,6 +266,7 @@
     renderResult();
     els.resultPanel.classList.remove("hidden");
     renderGameCards();
+    updateVirtualKeyboardVisibility();
   }
 
   function goHome() {
@@ -234,6 +296,167 @@
     updateBestPill();
     updatePlayHeader();
     renderResult();
+  }
+
+  function isLikelyMobilePortrait() {
+    const forceMobileKeyboard = new URLSearchParams(window.location.search).has("mobileKeyboard");
+    if (forceMobileKeyboard) return true;
+    const hasTouch = navigator.maxTouchPoints > 0 || window.matchMedia("(pointer: coarse)").matches;
+    const compactPortrait = window.matchMedia("(max-width: 1100px) and (orientation: portrait)").matches;
+    return hasTouch && compactPortrait;
+  }
+
+  function updateVirtualKeyboardVisibility() {
+    if (!els.mobileKeyboard) return;
+    const showKeyboard = els.play.classList.contains("screen-active") && app.running && isLikelyMobilePortrait();
+    els.mobileKeyboard.classList.toggle("mobile-keyboard-active", showKeyboard);
+    els.mobileKeyboard.setAttribute("aria-hidden", String(!showKeyboard));
+    document.body.classList.toggle("has-mobile-keyboard", showKeyboard);
+  }
+
+  function virtualKeyType(key) {
+    if (key.length === 1 && /^[a-zéèàç]$/i.test(key)) return "letter";
+    if (key.length === 1) return "symbol";
+    return "action";
+  }
+
+  function normalizeVirtualKeyDefinition(definition) {
+    if (typeof definition === "string") {
+      return {
+        key: definition,
+        label: definition,
+        type: virtualKeyType(definition),
+      };
+    }
+    return definition;
+  }
+
+  function updateVirtualModifiers() {
+    if (!els.mobileKeyboard) return;
+    els.mobileKeyboard.querySelectorAll("[data-virtual-modifier]").forEach((button) => {
+      const modifier = button.dataset.virtualModifier;
+      const active = Boolean(virtualKeyboardState[modifier]);
+      button.classList.toggle("virtual-key-active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+  }
+
+  function resetVirtualModifiers() {
+    virtualKeyboardState.ctrl = false;
+    virtualKeyboardState.shift = false;
+    virtualKeyboardState.altgr = false;
+    updateVirtualModifiers();
+  }
+
+  function toggleVirtualModifier(modifier) {
+    virtualKeyboardState[modifier] = !virtualKeyboardState[modifier];
+    updateVirtualModifiers();
+    try {
+      canvas.focus({ preventScroll: true });
+    } catch {
+      canvas.focus();
+    }
+  }
+
+  function resolveVirtualKey(rawKey) {
+    let key = rawKey === "Space" ? " " : rawKey;
+    const modifiers = {
+      ctrlKey: virtualKeyboardState.ctrl,
+      shiftKey: virtualKeyboardState.shift,
+      altKey: virtualKeyboardState.altgr,
+      metaKey: false,
+    };
+
+    if (virtualKeyboardState.altgr && key.length === 1) {
+      key = altGrOutputMap[key] || altGrOutputMap[key.toLocaleLowerCase("fr-FR")] || key;
+      modifiers.ctrlKey = false;
+      modifiers.shiftKey = false;
+      modifiers.altKey = false;
+    } else if (virtualKeyboardState.shift && key.length === 1) {
+      if (shiftOutputMap[key]) {
+        key = shiftOutputMap[key];
+        modifiers.shiftKey = false;
+      } else if (!virtualKeyboardState.ctrl && key.toLocaleLowerCase("fr-FR") !== key.toLocaleUpperCase("fr-FR")) {
+        key = key.toLocaleUpperCase("fr-FR");
+        modifiers.shiftKey = false;
+      }
+    }
+
+    return { key, modifiers };
+  }
+
+  function sendVirtualKey(rawKey) {
+    if (!app.game || !app.running) {
+      resetVirtualModifiers();
+      return;
+    }
+
+    const { key, modifiers } = resolveVirtualKey(rawKey);
+    const syntheticEvent = {
+      key,
+      ...modifiers,
+      defaultPrevented: false,
+      preventDefault() {
+        this.defaultPrevented = true;
+      },
+    };
+
+    try {
+      canvas.focus({ preventScroll: true });
+    } catch {
+      canvas.focus();
+    }
+    app.game.handleKeyDown(syntheticEvent);
+    resetVirtualModifiers();
+  }
+
+  function createVirtualKey(definition) {
+    const key = normalizeVirtualKeyDefinition(definition);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = [
+      "virtual-key",
+      `virtual-key-${key.type || "action"}`,
+      key.wide ? "virtual-key-wide" : "",
+      key.extraWide ? "virtual-key-extra-wide" : "",
+    ].filter(Boolean).join(" ");
+    button.textContent = key.label;
+    button.setAttribute("aria-label", key.aria || key.label);
+
+    if (key.modifier) {
+      button.dataset.virtualModifier = key.modifier;
+      button.setAttribute("aria-pressed", "false");
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        toggleVirtualModifier(key.modifier);
+      });
+    } else {
+      button.dataset.virtualKey = key.key;
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        sendVirtualKey(key.key);
+      });
+    }
+    return button;
+  }
+
+  function renderVirtualKeyboard() {
+    if (!els.mobileKeyboard) return;
+    els.mobileKeyboard.innerHTML = "";
+    for (const rowDefinition of virtualKeyboardRows) {
+      const row = document.createElement("div");
+      row.className = ["mobile-keyboard-row", rowDefinition.className || ""].filter(Boolean).join(" ");
+      for (const key of rowDefinition.keys) row.appendChild(createVirtualKey(key));
+      els.mobileKeyboard.appendChild(row);
+    }
+    updateVirtualModifiers();
+    updateVirtualKeyboardVisibility();
+  }
+
+  function bindVirtualKeyboard() {
+    renderVirtualKeyboard();
+    window.addEventListener("resize", updateVirtualKeyboardVisibility);
+    window.addEventListener("orientationchange", updateVirtualKeyboardVisibility);
   }
 
   function bindSegmentedControls() {
@@ -301,6 +524,7 @@
   bindSegmentedControls();
   bindGameInput();
   bindNavigation();
+  bindVirtualKeyboard();
   applyLanguage();
   renderGameCards();
 })(window.CQ = window.CQ || {});

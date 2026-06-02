@@ -174,6 +174,7 @@
         settings: "Réglages de session",
         grade: "Niveau scolaire",
         intensity: "Intensité",
+        virtualKeyboard: "Clavier tactile de jeu",
       },
       home: {
         eyebrow: "Entraînement clavier",
@@ -357,6 +358,7 @@
         settings: "Session settings",
         grade: "School level",
         intensity: "Intensity",
+        virtualKeyboard: "Touch game keyboard",
       },
       home: {
         eyebrow: "Keyboard training",
@@ -540,6 +542,7 @@
         settings: "Ajustes de sesión",
         grade: "Nivel escolar",
         intensity: "Intensidad",
+        virtualKeyboard: "Teclado táctil de juego",
       },
       home: {
         eyebrow: "Entrenamiento de teclado",
