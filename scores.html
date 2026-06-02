@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Clavier Quest - Scores</title>
+    <script>
+      const target = new URL("index.html", window.location.href);
+      target.search = window.location.search;
+      target.hash = "scores";
+      window.location.replace(target.href);
+    </script>
+  </head>
+  <body>
+    <a href="index.html#scores">Scores</a>
+  </body>
+</html>

@@ -11,6 +11,7 @@
     gameGrid: document.querySelector("#gameGrid"),
     playerForm: document.querySelector("#playerForm"),
     playerName: document.querySelector("#playerName"),
+    scoreRoom: document.querySelector("#scoreRoom"),
     landingScoreStatus: document.querySelector("#landingScoreStatus"),
     gameTitle: document.querySelector("#gameTitle"),
     gameModeLabel: document.querySelector("#gameModeLabel"),
@@ -163,7 +164,11 @@
   }
 
   function scoreStatusText() {
-    return app.scoreStatus === "server" || app.scoreStatus === "live" ? t("leaderboard.live") : t("leaderboard.local");
+    const room = CQ.scoreService.getRoom();
+    if (app.scoreStatus === "relay") return t("leaderboard.live", { room });
+    if (app.scoreStatus === "relayConnecting") return t("leaderboard.connecting", { room });
+    if (app.scoreStatus === "relayError") return t("leaderboard.relayError", { room });
+    return t("leaderboard.local");
   }
 
   function scoreKey(gameId = app.gameId) {
@@ -607,8 +612,10 @@
 
   function bindPlayerForm() {
     els.playerName.value = currentPlayer().nickname || "";
+    els.scoreRoom.value = CQ.scoreService.getRoom() || "";
     els.playerForm.addEventListener("submit", (event) => {
       event.preventDefault();
+      CQ.scoreService.setRoom(els.scoreRoom.value);
       if (!CQ.scoreService.setPlayerName(els.playerName.value)) {
         els.landingScoreStatus.textContent = t("landing.required");
         els.playerName.focus();
