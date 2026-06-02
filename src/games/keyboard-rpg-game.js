@@ -69,7 +69,6 @@
     constructor(options) {
       super(options);
       const questTimeBonus = {
-        imma: 180,
         calme: 135,
         rythme: 95,
         defi: 60,
@@ -138,7 +137,6 @@
 
     timeoutQuestTarget() {
       const targets = {
-        imma: 4,
         calme: 6,
         rythme: 8,
         defi: this.quests.length,

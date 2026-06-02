@@ -14,7 +14,7 @@
       this.buffer = "";
       this.shake = 0;
       this.completed = 0;
-      this.target = (this.difficulty === "imma" ? 3 : this.difficulty === "calme" ? 6 : this.difficulty === "rythme" ? 10 : 18) + this.settings.wordTargetBonus;
+      this.target = (this.difficulty === "calme" ? 6 : this.difficulty === "rythme" ? 10 : 18) + this.settings.wordTargetBonus;
     }
 
     update(dt) {

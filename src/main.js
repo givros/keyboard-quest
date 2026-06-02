@@ -53,7 +53,7 @@
 
   const app = {
     grade: "5e",
-    difficulty: "imma",
+    difficulty: "calme",
     language: CQ.i18n.language,
     gameId: null,
     game: null,
@@ -193,16 +193,12 @@
     if (!els.difficultyRewards) return;
     const chips = Object.keys(CQ.difficultySettings)
       .map((difficulty) => {
-        const label = t(`difficulties.${difficulty}`);
         const multiplier = CQ.scoreService.difficultyMultiplier(difficulty);
         const active = difficulty === app.difficulty ? " active" : "";
-        return `<span class="reward-chip${active}"><span>${label}</span><strong>x${multiplier}</strong></span>`;
+        return `<span class="reward-chip${active}">x${multiplier}</span>`;
       })
       .join("");
-    els.difficultyRewards.innerHTML = `
-      <span class="reward-title">${t("score.multiplier")}</span>
-      <span class="reward-chip-row">${chips}</span>
-    `;
+    els.difficultyRewards.innerHTML = `<span class="reward-chip-row">${chips}</span>`;
   }
 
   function gameDefinition(gameId) {

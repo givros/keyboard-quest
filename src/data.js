@@ -10,13 +10,6 @@
   ];
 
   CQ.difficultySettings = {
-    imma: {
-      speed: 0.45,
-      spawn: 1.85,
-      time: 110,
-      lives: 12,
-      tokens: 3,
-    },
     calme: {
       speed: 0.75,
       spawn: 1.25,
@@ -221,11 +214,9 @@
         new: "Nouveau",
         live: "Scores live",
         local: "Scores locaux",
-        multiplier: "Multiplicateur",
         pointsBadge: "Gain : +{points} pt(s)",
       },
       difficulties: {
-        imma: "Imma",
         calme: "Calme",
         rythme: "Rythme",
         defi: "Défi",
@@ -441,11 +432,9 @@
         new: "New",
         live: "Live scores",
         local: "Local scores",
-        multiplier: "Multiplier",
         pointsBadge: "Reward: +{points} pt(s)",
       },
       difficulties: {
-        imma: "Imma",
         calme: "Calm",
         rythme: "Rhythm",
         defi: "Challenge",
@@ -661,11 +650,9 @@
         new: "Nuevo",
         live: "Puntuaciones live",
         local: "Puntuaciones locales",
-        multiplier: "Multiplicador",
         pointsBadge: "Recompensa: +{points} pt(s)",
       },
       difficulties: {
-        imma: "Imma",
         calme: "Tranquilo",
         rythme: "Ritmo",
         defi: "Reto",
