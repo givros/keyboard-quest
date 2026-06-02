@@ -45,6 +45,7 @@
   const gameFactories = {
     meteors: (options) => new CQ.MeteorGame(options),
     words: (options) => new CQ.WordGame(options),
+    typing: (options) => new CQ.TypingSprintGame(options),
     shortcuts: (options) => new CQ.ShortcutGame(options),
     maze: (options) => new CQ.MazeGame(options),
     symbols: (options) => new CQ.SymbolForgeGame(options),

@@ -71,6 +71,10 @@
       art: ["é", "q", "u", "a", "t", "i", "o", "n", ".", ";", "?", "!"],
     },
     {
+      id: "typing",
+      art: ["5", "lignes", "AZ", "é", "@", "#", "€", "{", "}", "Entrée", "vite", "✓"],
+    },
+    {
       id: "shortcuts",
       art: ["Ctrl", "C", "V", "Z", "S", "F", "Tab", "↵", "Esc", "B", "I", "U"],
     },
@@ -99,6 +103,7 @@
   CQ.gameRewardBonuses = {
     meteors: 0,
     words: 1,
+    typing: 5,
     shortcuts: 2,
     maze: 2,
     symbols: 3,
@@ -162,6 +167,158 @@
       .map((symbol) => gradeSet.find((item) => item.symbol === symbol) || allSets.find((item) => item.symbol === symbol))
       .filter(Boolean);
     return selected.length ? selected : gradeSet;
+  };
+
+  CQ.typingTexts = {
+    fr: {
+      "5e": {
+        calme: [
+          "Le clavier reste calme et précis.",
+          "Je lis la ligne puis je tape sans courir.",
+          "Chaque espace compte dans le texte.",
+          "Mes doigts reviennent au point de départ.",
+          "La dernière ligne valide le sprint.",
+        ],
+        rythme: [
+          "La classe prépare un exposé clair.",
+          "Chaque équipe note les idées importantes.",
+          "Le symbole @ sert pour une adresse.",
+          "Le prix de 12€ apparaît dans l'exercice.",
+          "Je termine vite, mais sans oublier la ponctuation.",
+        ],
+        defi: [
+          "Mission #clavier : écrire cinq lignes sans pause.",
+          "L'adresse aide@college.fr doit rester exacte.",
+          "Le budget affiche 18€, puis une question ?",
+          "Je garde les accents : é, è, à et ç.",
+          "Fin du sprint : @ # € ? ! tout est validé.",
+        ],
+      },
+      "4e": {
+        calme: [
+          "Un argument solide se construit avec méthode.",
+          "La vitesse dépend du temps et de la distance.",
+          "Je vérifie les accents avant de valider.",
+          "Une formule claire évite les erreurs.",
+          "La cinquième ligne conclut le sprint.",
+        ],
+        rythme: [
+          "Le tableau[3] indique une position précise.",
+          "Le bloc { score: 12 } garde une valeur.",
+          "La barre | sépare deux choix logiques.",
+          "Le chemin C:\\docs demande une barre inverse.",
+          "Je tape vite : @ # € et les crochets restent exacts.",
+        ],
+        defi: [
+          "Défi final #4e : vitesse, précision et mémoire.",
+          "mail@class.fr coûte 25€ ? réponse immédiate !",
+          "tableau[3] = { score: 12 } | bonus",
+          "Chemin C:\\docs\\notes puis symbole ~ et ^.",
+          "Dernière ligne : @ # € { } [ ] | \\ ~ ^",
+        ],
+      },
+    },
+    en: {
+      "5e": {
+        calme: [
+          "The keyboard stays calm and precise.",
+          "I read the line before typing fast.",
+          "Every space counts in the text.",
+          "My fingers return to the home row.",
+          "The last line completes the sprint.",
+        ],
+        rythme: [
+          "The class prepares a clear report.",
+          "Each team writes the important ideas.",
+          "The @ symbol is used in an address.",
+          "The price shows 12€ in the exercise.",
+          "I finish quickly, but keep punctuation.",
+        ],
+        defi: [
+          "Mission #keyboard: type five lines nonstop.",
+          "The address help@school.org must stay exact.",
+          "The budget shows 18€, then a question ?",
+          "I keep accents when they appear: é and ç.",
+          "Final sprint: @ # € ? ! everything is right.",
+        ],
+      },
+      "4e": {
+        calme: [
+          "A strong argument is built with method.",
+          "Speed depends on distance and time.",
+          "I check punctuation before validating.",
+          "A clear formula avoids mistakes.",
+          "The fifth line closes the sprint.",
+        ],
+        rythme: [
+          "The array[3] shows a precise position.",
+          "The block { score: 12 } stores a value.",
+          "The bar | separates two logical choices.",
+          "The path C:\\docs needs a backslash.",
+          "I type fast: @ # € and brackets stay exact.",
+        ],
+        defi: [
+          "Final #4e challenge: speed, accuracy, memory.",
+          "mail@class.org costs 25€ ? answer now !",
+          "array[3] = { score: 12 } | bonus",
+          "Path C:\\docs\\notes then symbols ~ and ^.",
+          "Last line: @ # € { } [ ] | \\ ~ ^",
+        ],
+      },
+    },
+    es: {
+      "5e": {
+        calme: [
+          "El teclado queda tranquilo y preciso.",
+          "Leo la línea antes de escribir rápido.",
+          "Cada espacio cuenta en el texto.",
+          "Mis dedos vuelven a la fila inicial.",
+          "La última línea valida el sprint.",
+        ],
+        rythme: [
+          "La clase prepara una exposición clara.",
+          "Cada equipo anota las ideas importantes.",
+          "El símbolo @ sirve para una dirección.",
+          "El precio muestra 12€ en el ejercicio.",
+          "Termino rápido, pero cuido la puntuación.",
+        ],
+        defi: [
+          "Misión #teclado: escribir cinco líneas sin pausa.",
+          "La dirección ayuda@colegio.es debe ser exacta.",
+          "El presupuesto marca 18€, luego una pregunta ?",
+          "Conservo los acentos: á, é, í, ó y ñ.",
+          "Sprint final: @ # € ? ! todo queda validado.",
+        ],
+      },
+      "4e": {
+        calme: [
+          "Un argumento sólido se construye con método.",
+          "La velocidad depende del tiempo y la distancia.",
+          "Reviso los acentos antes de validar.",
+          "Una fórmula clara evita errores.",
+          "La quinta línea cierra el sprint.",
+        ],
+        rythme: [
+          "La tabla[3] indica una posición precisa.",
+          "El bloque { score: 12 } guarda un valor.",
+          "La barra | separa dos opciones lógicas.",
+          "La ruta C:\\docs pide una barra inversa.",
+          "Escribo rápido: @ # € y corchetes exactos.",
+        ],
+        defi: [
+          "Reto final #4e: velocidad, precisión y memoria.",
+          "mail@clase.es cuesta 25€ ? respuesta ya !",
+          "tabla[3] = { score: 12 } | bonus",
+          "Ruta C:\\docs\\notas luego símbolos ~ y ^.",
+          "La última línea: @ # € { } [ ] | \\ ~ ^",
+        ],
+      },
+    },
+  };
+
+  CQ.typingTextFor = function typingTextFor(language, grade, difficulty) {
+    const bundle = CQ.typingTexts[language] || CQ.typingTexts[CQ.DEFAULT_LANGUAGE];
+    return bundle?.[grade]?.[difficulty] || CQ.typingTexts[CQ.DEFAULT_LANGUAGE]["5e"].calme;
   };
 
   CQ.rpgQuests = {
@@ -327,6 +484,12 @@
           summary: "Écris des mots et phrases de cours sans perdre le fil.",
           tag: "mots",
         },
+        typing: {
+          title: "Sprint 5 lignes",
+          mode: "Vitesse",
+          summary: "Tape un texte de 5 lignes le plus vite possible sans casser la précision.",
+          tag: "vitesse",
+        },
         shortcuts: {
           title: "Raccourcis express",
           mode: "Méthode",
@@ -372,6 +535,7 @@
         sequences: "Suites",
         repairs: "Réparations",
         quests: "Quêtes",
+        lines: "Lignes",
       },
       meteor: {
         line: "ligne de concentration",
@@ -387,6 +551,13 @@
         success: "La série de mots est validée.",
         enterHint: "Entrée valide aussi une phrase complète",
         mission: "Respecte les accents, les espaces et la ponctuation.",
+      },
+      typing: {
+        timeUp: "Le temps est écoulé avant la fin du texte.",
+        success: "Les 5 lignes sont tapées dans le temps.",
+        mission: "Tape exactement les 5 lignes. Entrée sert à passer à la ligne.",
+        line: "Ligne {current} / {target}",
+        wpm: "{wpm} mots/min",
       },
       shortcut: {
         timeUp: "La manche est terminée.",
@@ -567,6 +738,12 @@
           summary: "Type lesson words and sentences without losing the thread.",
           tag: "words",
         },
+        typing: {
+          title: "5-Line Sprint",
+          mode: "Speed",
+          summary: "Type a 5-line text as fast as possible without breaking accuracy.",
+          tag: "speed",
+        },
         shortcuts: {
           title: "Shortcut Sprint",
           mode: "Method",
@@ -612,6 +789,7 @@
         sequences: "Sequences",
         repairs: "Repairs",
         quests: "Quests",
+        lines: "Lines",
       },
       meteor: {
         line: "focus line",
@@ -627,6 +805,13 @@
         success: "The word streak is validated.",
         enterHint: "Enter also validates a full sentence",
         mission: "Respect spaces, capitals, and punctuation.",
+      },
+      typing: {
+        timeUp: "Time ran out before the text was complete.",
+        success: "The 5 lines were typed in time.",
+        mission: "Type exactly the 5 lines. Enter moves to the next line.",
+        line: "Line {current} / {target}",
+        wpm: "{wpm} wpm",
       },
       shortcut: {
         timeUp: "The round is over.",
@@ -807,6 +992,12 @@
           summary: "Escribe palabras y frases de clase sin perder el hilo.",
           tag: "palabras",
         },
+        typing: {
+          title: "Sprint 5 líneas",
+          mode: "Velocidad",
+          summary: "Escribe un texto de 5 líneas lo más rápido posible sin perder precisión.",
+          tag: "velocidad",
+        },
         shortcuts: {
           title: "Atajos rápidos",
           mode: "Método",
@@ -852,6 +1043,7 @@
         sequences: "Secuencias",
         repairs: "Reparaciones",
         quests: "Misiones",
+        lines: "Líneas",
       },
       meteor: {
         line: "línea de concentración",
@@ -867,6 +1059,13 @@
         success: "La serie de palabras está validada.",
         enterHint: "Enter también valida una frase completa",
         mission: "Respeta espacios, acentos y puntuación.",
+      },
+      typing: {
+        timeUp: "Se acabó el tiempo antes de terminar el texto.",
+        success: "Las 5 líneas se escribieron a tiempo.",
+        mission: "Escribe exactamente las 5 líneas. Enter pasa a la línea siguiente.",
+        line: "Línea {current} / {target}",
+        wpm: "{wpm} ppm",
       },
       shortcut: {
         timeUp: "La ronda ha terminado.",
