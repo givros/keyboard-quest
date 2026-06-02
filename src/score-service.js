@@ -2,9 +2,9 @@
   const { loadJson, saveJson } = CQ.utils;
   const POINTS_BY_DIFFICULTY = {
     imma: 1,
-    calme: 1,
-    rythme: 2,
-    defi: 3,
+    calme: 2,
+    rythme: 5,
+    defi: 12,
   };
 
   function cleanNickname(value) {
@@ -51,7 +51,7 @@
 
   function pointsFor({ difficulty, grade }) {
     const base = POINTS_BY_DIFFICULTY[difficulty] || 1;
-    return base + (grade === "4e" ? 1 : 0);
+    return base + (grade === "4e" ? 2 : 0);
   }
 
   function loadPlayer() {

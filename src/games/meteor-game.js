@@ -12,7 +12,7 @@
       this.spawnTimer = 0;
       this.items = [];
       this.flash = 0;
-      const extraCount = (this.difficulty === "imma" ? 4 : this.difficulty === "defi" ? 16 : this.difficulty === "rythme" ? 12 : 8) + this.settings.meteorExtraPool;
+      const extraCount = (this.difficulty === "imma" ? 2 : this.difficulty === "defi" ? 26 : this.difficulty === "rythme" ? 14 : 8) + this.settings.meteorExtraPool;
       this.pool = [
         ...this.content.keys,
         ...this.content.extraKeys.slice(0, extraCount),

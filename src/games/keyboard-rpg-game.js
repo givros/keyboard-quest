@@ -68,7 +68,13 @@
   class KeyboardRpgGame extends CQ.SessionGame {
     constructor(options) {
       super(options);
-      this.timeLimit = this.settings.time + 135;
+      const questTimeBonus = {
+        imma: 180,
+        calme: 135,
+        rythme: 95,
+        defi: 60,
+      };
+      this.timeLimit = this.settings.time + (questTimeBonus[this.difficulty] || 110);
       this.timeLeft = this.timeLimit;
       this.player = { x: 8, y: 6, facing: "down", step: 0 };
       this.blocked = new Set();
@@ -127,7 +133,17 @@
       this.timeLeft -= dt;
       this.feedbackTimer = Math.max(0, this.feedbackTimer - dt);
       if (!this.feedbackTimer) this.feedback = "";
-      if (this.timeLeft <= 0) this.finish(this.completed >= 6, this.t("rpg.timeUp"));
+      if (this.timeLeft <= 0) this.finish(this.completed >= this.timeoutQuestTarget(), this.t("rpg.timeUp"));
+    }
+
+    timeoutQuestTarget() {
+      const targets = {
+        imma: 4,
+        calme: 6,
+        rythme: 8,
+        defi: this.quests.length,
+      };
+      return targets[this.difficulty] || 6;
     }
 
     questAt(x, y) {

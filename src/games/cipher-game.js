@@ -9,7 +9,7 @@
       this.timeLimit = this.settings.time + 12;
       this.timeLeft = this.timeLimit;
       this.pool = shuffle(CQ.symbolSets[this.grade] || CQ.symbolSets["5e"]);
-      this.targetRounds = (this.difficulty === "imma" ? 3 : this.difficulty === "calme" ? 4 : this.difficulty === "rythme" ? 5 : 6) + Math.ceil(this.settings.wordTargetBonus / 2);
+      this.targetRounds = (this.difficulty === "imma" ? 2 : this.difficulty === "calme" ? 4 : this.difficulty === "rythme" ? 6 : 10) + Math.ceil(this.settings.wordTargetBonus / 2);
       this.completed = 0;
       this.sequence = [];
       this.cursor = 0;
@@ -20,10 +20,10 @@
     }
 
     sequenceLength() {
-      const difficultyBonus = this.difficulty === "defi" ? 2 : this.difficulty === "rythme" ? 1 : 0;
+      const difficultyBonus = this.difficulty === "defi" ? 4 : this.difficulty === "rythme" ? 1 : 0;
       const gradeBonus = this.grade === "4e" ? 1 : 0;
       const baseLength = this.difficulty === "imma" ? 2 : 3;
-      return Math.min(8, baseLength + this.completed + difficultyBonus + gradeBonus);
+      return Math.min(10, baseLength + this.completed + difficultyBonus + gradeBonus);
     }
 
     beginRound() {

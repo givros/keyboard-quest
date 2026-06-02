@@ -9,7 +9,7 @@
       this.timeLimit = this.settings.time;
       this.timeLeft = this.timeLimit;
       this.pool = shuffle(CQ.symbolSets[this.grade] || CQ.symbolSets["5e"]);
-      this.goal = (this.difficulty === "imma" ? 6 : this.difficulty === "calme" ? 10 : this.difficulty === "rythme" ? 14 : 18) + this.settings.shortcutGoalBonus;
+      this.goal = (this.difficulty === "imma" ? 4 : this.difficulty === "calme" ? 9 : this.difficulty === "rythme" ? 16 : 28) + this.settings.shortcutGoalBonus;
       this.completed = 0;
       this.queue = [];
       this.flash = 0;

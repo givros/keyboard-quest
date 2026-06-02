@@ -45,6 +45,10 @@
         [11, 7],
         [2, 9],
         [13, 9],
+        [4, 1],
+        [14, 1],
+        [6, 7],
+        [16, 10],
       ];
       const pool = shuffle([...this.content.keys, ...this.content.extraKeys]).slice(0, this.settings.tokens);
       return spots.slice(0, this.settings.tokens).map(([x, y], index) => ({
