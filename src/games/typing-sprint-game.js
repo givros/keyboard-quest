@@ -66,6 +66,13 @@
       return Math.round((typedCharacters / 5) / (elapsed / 60));
     }
 
+    lineFontSize(line) {
+      if (line.length > 56) return 20;
+      if (line.length > 50) return 21;
+      if (line.length > 44) return 22;
+      return 24;
+    }
+
     update(dt) {
       this.timeLeft -= dt;
       this.shake = Math.max(0, this.shake - dt);
@@ -159,7 +166,8 @@
         context.textAlign = "center";
         context.fillText(String(index + 1), 106, y);
 
-        context.font = "850 24px Inter, sans-serif";
+        const fontSize = this.lineFontSize(line);
+        context.font = `850 ${fontSize}px Inter, sans-serif`;
         context.textAlign = "left";
         const x = 136;
         context.fillStyle = "#167c80";

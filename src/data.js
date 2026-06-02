@@ -316,9 +316,328 @@
     },
   };
 
+  function addTypingLines(language, grade, difficulty, lines) {
+    CQ.typingTexts[language][grade][difficulty].push(...lines);
+  }
+
+  addTypingLines("fr", "5e", "calme", [
+    "Le regard suit les mots sans paniquer.",
+    "Une erreur se corrige avec patience.",
+    "La main gauche trouve a, z, e et r.",
+    "La main droite garde le rythme.",
+    "Je garde un souffle régulier.",
+    "Le texte court reste bien aligné.",
+    "Chaque touche reçoit son moment.",
+    "Je finis proprement la ligne.",
+  ]);
+  addTypingLines("fr", "5e", "rythme", [
+    "Le résumé indique trois idées utiles.",
+    "Le groupe écrit : titre, exemple, conclusion.",
+    "Une adresse test@college.fr reste lisible.",
+    "Le total vaut 15€, puis 18€ avec bonus.",
+    "Le symbole # classe le mot important.",
+    "Je tape vite ; la virgule reste placée.",
+    "Le point final arrive au bon endroit.",
+    "La question ? demande une réponse nette.",
+  ]);
+  addTypingLines("fr", "5e", "defi", [
+    "Le défi #vitesse mélange @, € et ?.",
+    "contact@club.fr coûte 9€ aujourd'hui !",
+    "Je tape : é, è, à, ç, puis j'avance.",
+    "Le code @#€?! doit rester dans l'ordre.",
+    "Mission rapide : zéro faute, cinq lignes.",
+    "Le lien aide@cours.fr finit par /docs.",
+    "Je note #maths, #info et 12€.",
+    "Attention : espaces, accents et symboles !",
+  ]);
+  addTypingLines("fr", "4e", "calme", [
+    "Le graphique compare deux grandeurs.",
+    "L'hypothèse demande une preuve courte.",
+    "La méthode évite les réponses floues.",
+    "Je relis chaque signe avant Entrée.",
+    "Le raisonnement avance sans pause.",
+    "Une donnée précise aide le calcul.",
+    "La phrase reste claire et complète.",
+    "Je garde vitesse et précision ensemble.",
+  ]);
+  addTypingLines("fr", "4e", "rythme", [
+    "tableau[2] contient une valeur précise.",
+    "objet { note: 14 } reste bien formé.",
+    "Le choix a | b demande une lecture nette.",
+    "Le chemin C:\\cours\\maths reste exact.",
+    "Le mail prof@college.fr répond vite.",
+    "Je combine @, #, €, puis les crochets.",
+    "La formule x / y garde ses espaces.",
+    "Le bloc { actif: vrai } se referme.",
+  ]);
+  addTypingLines("fr", "4e", "defi", [
+    "Défi #4e : @mail.fr, 25€ et tableau[3].",
+    "objet { score: 18 } | bonus reste exact.",
+    "Chemin C:\\dev\\notes puis test ~ et ^.",
+    "Suite rapide : @ # € { } [ ] | \\.",
+    "mail@classe.fr ? réponse : oui !",
+    "La ligne code[5] = { ok: vrai }.",
+    "Je tape \\ puis | sans inverser les deux.",
+    "Final : #algo @lab.fr 42€ {x|y}.",
+  ]);
+
+  addTypingLines("en", "5e", "calme", [
+    "The line stays short and clear.",
+    "A calm hand keeps the rhythm.",
+    "I type each word in order.",
+    "The home row helps my fingers.",
+    "Every space has its place.",
+    "I finish the sentence cleanly.",
+    "The sprint starts without panic.",
+    "My eyes follow the next word.",
+  ]);
+  addTypingLines("en", "5e", "rythme", [
+    "The report gives three useful ideas.",
+    "The group writes: title, example, ending.",
+    "An address like test@school.org stays clear.",
+    "The price is 15€, then 18€ with a bonus.",
+    "The # sign marks an important keyword.",
+    "I type fast; the comma stays in place.",
+    "The final period lands correctly.",
+    "The question ? asks for a clear answer.",
+  ]);
+  addTypingLines("en", "5e", "defi", [
+    "Speed #test mixes @, €, ? and !.",
+    "club@school.org costs 9€ today !",
+    "I type: accents, spaces, then symbols.",
+    "The code @#€?! must stay in order.",
+    "Fast mission: no mistake, five lines.",
+    "The link help@class.org ends with /docs.",
+    "I note #maths, #info and 12€.",
+    "Watch spaces, capitals and symbols !",
+  ]);
+  addTypingLines("en", "4e", "calme", [
+    "The graph compares two quantities.",
+    "The hypothesis needs a short proof.",
+    "A method avoids unclear answers.",
+    "I check every sign before Enter.",
+    "The reasoning moves without a pause.",
+    "Precise data helps the calculation.",
+    "The sentence stays clear and complete.",
+    "I keep speed and accuracy together.",
+  ]);
+  addTypingLines("en", "4e", "rythme", [
+    "array[2] contains a precise value.",
+    "object { mark: 14 } stays well formed.",
+    "The choice a | b needs clear reading.",
+    "The path C:\\class\\maths stays exact.",
+    "The mail teacher@school.org is fast.",
+    "I combine @, #, €, then brackets.",
+    "The formula x / y keeps its spaces.",
+    "The block { active: true } closes.",
+  ]);
+  addTypingLines("en", "4e", "defi", [
+    "Final #4e: @mail.org, 25€ and array[3].",
+    "object { score: 18 } | bonus stays exact.",
+    "Path C:\\dev\\notes then test ~ and ^.",
+    "Quick suite: @ # € { } [ ] | \\.",
+    "mail@class.org ? answer: yes !",
+    "The line code[5] = { ok: true }.",
+    "I type \\ then | without swapping them.",
+    "Final: #algo @lab.org 42€ {x|y}.",
+  ]);
+
+  addTypingLines("es", "5e", "calme", [
+    "La mirada sigue las palabras sin miedo.",
+    "Un error se corrige con paciencia.",
+    "La mano izquierda encuentra a, s, d y f.",
+    "La mano derecha conserva el ritmo.",
+    "Mantengo una respiración regular.",
+    "El texto corto queda bien alineado.",
+    "Cada tecla recibe su momento.",
+    "Termino limpiamente la línea.",
+  ]);
+  addTypingLines("es", "5e", "rythme", [
+    "El resumen indica tres ideas útiles.",
+    "El grupo escribe: título, ejemplo, cierre.",
+    "Una dirección test@colegio.es queda clara.",
+    "El total vale 15€, luego 18€ con bonus.",
+    "El símbolo # marca una palabra importante.",
+    "Escribo rápido ; la coma queda colocada.",
+    "El punto final llega al lugar correcto.",
+    "La pregunta ? pide una respuesta clara.",
+  ]);
+  addTypingLines("es", "5e", "defi", [
+    "El reto #velocidad mezcla @, € y ?.",
+    "club@colegio.es cuesta 9€ hoy !",
+    "Escribo: á, é, í, ó, ñ y sigo.",
+    "El código @#€?! debe quedar ordenado.",
+    "Misión rápida: cero fallos, cinco líneas.",
+    "El enlace ayuda@clase.es termina en /docs.",
+    "Anoto #mates, #info y 12€.",
+    "Atención: espacios, acentos y símbolos !",
+  ]);
+  addTypingLines("es", "4e", "calme", [
+    "El gráfico compara dos magnitudes.",
+    "La hipótesis necesita una prueba corta.",
+    "El método evita respuestas confusas.",
+    "Reviso cada signo antes de Enter.",
+    "El razonamiento avanza sin pausa.",
+    "Un dato preciso ayuda al cálculo.",
+    "La frase queda clara y completa.",
+    "Conservo velocidad y precisión juntas.",
+  ]);
+  addTypingLines("es", "4e", "rythme", [
+    "tabla[2] contiene un valor preciso.",
+    "objeto { nota: 14 } queda bien formado.",
+    "La opción a | b exige lectura clara.",
+    "La ruta C:\\clase\\mates queda exacta.",
+    "El mail profe@colegio.es responde rápido.",
+    "Combino @, #, €, luego corchetes.",
+    "La fórmula x / y conserva espacios.",
+    "El bloque { activo: true } se cierra.",
+  ]);
+  addTypingLines("es", "4e", "defi", [
+    "Reto #4e: @mail.es, 25€ y tabla[3].",
+    "objeto { score: 18 } | bonus exacto.",
+    "Ruta C:\\dev\\notas luego test ~ y ^.",
+    "Secuencia rápida: @ # € { } [ ] | \\.",
+    "mail@clase.es ? respuesta: sí !",
+    "La línea code[5] = { ok: true }.",
+    "Tecleo \\ luego | sin cambiar el orden.",
+    "Final: #algo @lab.es 42€ {x|y}.",
+  ]);
+
+  CQ.typingTextProfiles = {
+    fr: {
+      "5e": {
+        calme: { min: 185, max: 220, lineMax: 58 },
+        rythme: { min: 200, max: 250, lineMax: 60 },
+        defi: { min: 214, max: 265, lineMax: 60 },
+      },
+      "4e": {
+        calme: { min: 204, max: 240, lineMax: 60 },
+        rythme: { min: 216, max: 265, lineMax: 60 },
+        defi: { min: 205, max: 275, lineMax: 60 },
+      },
+    },
+    en: {
+      "5e": {
+        calme: { min: 171, max: 215, lineMax: 58 },
+        rythme: { min: 181, max: 240, lineMax: 60 },
+        defi: { min: 211, max: 260, lineMax: 60 },
+      },
+      "4e": {
+        calme: { min: 177, max: 230, lineMax: 60 },
+        rythme: { min: 195, max: 255, lineMax: 60 },
+        defi: { min: 188, max: 270, lineMax: 60 },
+      },
+    },
+    es: {
+      "5e": {
+        calme: { min: 176, max: 220, lineMax: 58 },
+        rythme: { min: 195, max: 245, lineMax: 60 },
+        defi: { min: 222, max: 265, lineMax: 60 },
+      },
+      "4e": {
+        calme: { min: 192, max: 240, lineMax: 60 },
+        rythme: { min: 200, max: 260, lineMax: 60 },
+        defi: { min: 198, max: 275, lineMax: 60 },
+      },
+    },
+  };
+
+  function shuffleTypingLines(lines) {
+    const copy = [...lines];
+    for (let i = copy.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function typingLineTotal(lines) {
+    return lines.reduce((sum, line) => sum + line.length, 0);
+  }
+
+  function typingProfileFor(language, grade, difficulty) {
+    return CQ.typingTextProfiles[language]?.[grade]?.[difficulty] || CQ.typingTextProfiles[CQ.DEFAULT_LANGUAGE]["5e"].calme;
+  }
+
+  function balancedTypingLines(source, profile) {
+    const lines = shuffleTypingLines(source);
+    const valid = [];
+    for (let a = 0; a < lines.length - 4; a += 1) {
+      for (let b = a + 1; b < lines.length - 3; b += 1) {
+        for (let c = b + 1; c < lines.length - 2; c += 1) {
+          for (let d = c + 1; d < lines.length - 1; d += 1) {
+            for (let e = d + 1; e < lines.length; e += 1) {
+              const sample = [lines[a], lines[b], lines[c], lines[d], lines[e]];
+              const total = typingLineTotal(sample);
+              if (total >= profile.min && total <= profile.max) valid.push(sample);
+            }
+          }
+        }
+      }
+    }
+    return valid.length ? valid[Math.floor(Math.random() * valid.length)] : null;
+  }
+
+  function rebalanceTypingLines(lines, source, profile) {
+    const selected = [...lines];
+    for (let guard = 0; guard < 30; guard += 1) {
+      const total = typingLineTotal(selected);
+      if (total >= profile.min && total <= profile.max) return selected;
+
+      const unused = source.filter((line) => !selected.includes(line));
+      if (!unused.length) return selected;
+
+      if (total < profile.min) {
+        let shortestIndex = 0;
+        selected.forEach((line, index) => {
+          if (line.length < selected[shortestIndex].length) shortestIndex = index;
+        });
+        const replacement = unused
+          .filter((line) => line.length > selected[shortestIndex].length)
+          .sort((a, b) => a.length - b.length)
+          .find((line) => total - selected[shortestIndex].length + line.length <= profile.max);
+        if (!replacement) return selected;
+        selected[shortestIndex] = replacement;
+      } else {
+        let longestIndex = 0;
+        selected.forEach((line, index) => {
+          if (line.length > selected[longestIndex].length) longestIndex = index;
+        });
+        const replacement = unused
+          .filter((line) => line.length < selected[longestIndex].length)
+          .sort((a, b) => b.length - a.length)
+          .find((line) => total - selected[longestIndex].length + line.length >= profile.min);
+        if (!replacement) return selected;
+        selected[longestIndex] = replacement;
+      }
+    }
+    return selected;
+  }
+
   CQ.typingTextFor = function typingTextFor(language, grade, difficulty) {
     const bundle = CQ.typingTexts[language] || CQ.typingTexts[CQ.DEFAULT_LANGUAGE];
-    return bundle?.[grade]?.[difficulty] || CQ.typingTexts[CQ.DEFAULT_LANGUAGE]["5e"].calme;
+    const bank = bundle?.[grade]?.[difficulty] || CQ.typingTexts[CQ.DEFAULT_LANGUAGE]["5e"].calme;
+    const profile = typingProfileFor(language, grade, difficulty);
+    const usable = bank.filter((line) => line.length <= profile.lineMax);
+    const source = usable.length >= 5 ? usable : bank;
+    const balanced = balancedTypingLines(source, profile);
+    if (balanced) return balanced;
+
+    let best = source.slice(0, 5);
+    let bestScore = Infinity;
+
+    for (let attempt = 0; attempt < 120; attempt += 1) {
+      const sample = shuffleTypingLines(source).slice(0, 5);
+      const total = typingLineTotal(sample);
+      const score = total < profile.min ? profile.min - total : Math.max(0, total - profile.max);
+      if (score < bestScore) {
+        best = sample;
+        bestScore = score;
+      }
+      if (score === 0) return sample;
+    }
+
+    return rebalanceTypingLines(best, source, profile);
   };
 
   CQ.rpgQuests = {
