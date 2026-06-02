@@ -13,6 +13,7 @@
     playerName: document.querySelector("#playerName"),
     scoreRoom: document.querySelector("#scoreRoom"),
     landingScoreStatus: document.querySelector("#landingScoreStatus"),
+    difficultyRewards: document.querySelector("#difficultyRewards"),
     gameTitle: document.querySelector("#gameTitle"),
     gameModeLabel: document.querySelector("#gameModeLabel"),
     backToHome: document.querySelector("#backToHome"),
@@ -185,6 +186,26 @@
     saveJson(CQ.STORAGE_KEY, app.scores);
   }
 
+  function pointsForDifficulty(difficulty = app.difficulty) {
+    return CQ.scoreService.pointsFor({ difficulty, grade: app.grade });
+  }
+
+  function renderDifficultyRewards() {
+    if (!els.difficultyRewards) return;
+    const chips = Object.keys(CQ.difficultySettings)
+      .map((difficulty) => {
+        const label = t(`difficulties.${difficulty}`);
+        const multiplier = CQ.scoreService.difficultyMultiplier(difficulty);
+        const active = difficulty === app.difficulty ? " active" : "";
+        return `<span class="reward-chip${active}"><span>${label}</span><strong>x${multiplier}</strong></span>`;
+      })
+      .join("");
+    els.difficultyRewards.innerHTML = `
+      <span class="reward-title">${t("score.multiplier")}</span>
+      <span class="reward-chip-row">${chips}</span>
+    `;
+  }
+
   function gameDefinition(gameId) {
     const base = CQ.gameCards.find((game) => game.id === gameId);
     if (!base) return null;
@@ -203,12 +224,14 @@
       card.type = "button";
       card.dataset.game = game.id;
       const best = bestScore(game.id);
+      const points = pointsForDifficulty();
       card.innerHTML = `
         <div class="card-art" aria-hidden="true">
           ${game.art.map((key) => `<span class="mini-key">${key}</span>`).join("")}
         </div>
         <h3>${game.title}</h3>
         <p>${game.summary}</p>
+        <div class="card-reward">${t("score.pointsBadge", { points })}</div>
         <div class="card-footer">
           <span class="tag">${game.tag}</span>
           <span>${best ? t("score.record", { score: best }) : t("score.new")}</span>
@@ -217,6 +240,7 @@
       card.addEventListener("click", () => startGame(game.id));
       els.gameGrid.appendChild(card);
     }
+    renderDifficultyRewards();
     updateBestPill();
   }
 
@@ -434,6 +458,7 @@
     });
     updateBestPill();
     updatePlayHeader();
+    renderDifficultyRewards();
     renderResult();
     renderScoreStatus();
     renderLeaderboard();

@@ -300,6 +300,58 @@ p {
   box-shadow: 0 8px 22px rgba(24, 33, 43, 0.18);
 }
 
+.difficulty-rewards {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.reward-title {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.reward-chip-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.reward-chip {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 7px 8px;
+  border: 1px solid rgba(24, 33, 43, 0.12);
+  border-radius: 6px;
+  background: #fffaf0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.reward-chip span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reward-chip strong {
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+
+.reward-chip.active {
+  border-color: rgba(22, 124, 128, 0.4);
+  background: rgba(22, 124, 128, 0.12);
+  color: var(--teal-dark);
+}
+
 .section-head {
   display: flex;
   align-items: center;
@@ -398,6 +450,18 @@ p {
 .game-card p {
   color: var(--muted);
   line-height: 1.45;
+}
+
+.card-reward {
+  width: max-content;
+  max-width: 100%;
+  margin: 2px 0 12px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  background: rgba(233, 137, 118, 0.16);
+  color: #8c301f;
+  font-size: 0.9rem;
+  font-weight: 900;
 }
 
 .card-footer {
@@ -777,6 +841,10 @@ body.has-mobile-keyboard {
   .game-grid,
   .hud {
     grid-template-columns: 1fr;
+  }
+
+  .reward-chip-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .play-header h1 {

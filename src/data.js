@@ -222,6 +222,8 @@
         new: "Nouveau",
         live: "Scores live",
         local: "Scores locaux",
+        multiplier: "Multiplicateur",
+        pointsBadge: "Gain : +{points} pt(s)",
       },
       difficulties: {
         imma: "Imma",
@@ -441,6 +443,8 @@
         new: "New",
         live: "Live scores",
         local: "Local scores",
+        multiplier: "Multiplier",
+        pointsBadge: "Reward: +{points} pt(s)",
       },
       difficulties: {
         imma: "Imma",
@@ -660,6 +664,8 @@
         new: "Nuevo",
         live: "Puntuaciones live",
         local: "Puntuaciones locales",
+        multiplier: "Multiplicador",
+        pointsBadge: "Recompensa: +{points} pt(s)",
       },
       difficulties: {
         imma: "Imma",

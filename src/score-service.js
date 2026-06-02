@@ -119,6 +119,14 @@
     entryListeners: [],
     statusListeners: [],
 
+    pointsFor(options) {
+      return pointsFor(options);
+    },
+
+    difficultyMultiplier(difficulty) {
+      return POINTS_BY_DIFFICULTY[difficulty] || 1;
+    },
+
     init({ onEntries, onStatus } = {}) {
       if (onEntries) this.entryListeners.push(onEntries);
       if (onStatus) this.statusListeners.push(onStatus);
