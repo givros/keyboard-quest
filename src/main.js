@@ -53,7 +53,7 @@
 
   const app = {
     grade: "5e",
-    difficulty: "calme",
+    difficulty: "imma",
     language: CQ.i18n.language,
     gameId: null,
     game: null,

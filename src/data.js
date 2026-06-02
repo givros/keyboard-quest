@@ -10,6 +10,13 @@
   ];
 
   CQ.difficultySettings = {
+    imma: {
+      speed: 0.58,
+      spawn: 1.55,
+      time: 95,
+      lives: 9,
+      tokens: 4,
+    },
     calme: {
       speed: 0.82,
       spawn: 1.15,
@@ -217,6 +224,7 @@
         local: "Scores locaux",
       },
       difficulties: {
+        imma: "Imma",
         calme: "Calme",
         rythme: "Rythme",
         defi: "Défi",
@@ -435,6 +443,7 @@
         local: "Local scores",
       },
       difficulties: {
+        imma: "Imma",
         calme: "Calm",
         rythme: "Rhythm",
         defi: "Challenge",
@@ -653,6 +662,7 @@
         local: "Puntuaciones locales",
       },
       difficulties: {
+        imma: "Imma",
         calme: "Tranquilo",
         rythme: "Ritmo",
         defi: "Reto",
