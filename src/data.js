@@ -193,6 +193,14 @@
         start: "Commencer",
         required: "Entre un pseudo pour rejoindre la partie.",
       },
+      onboarding: {
+        eyebrow: "Mode d'emploi",
+        title: "Comprendre le clavier, pas seulement aller vite.",
+        keyboard: "Chaque mini-jeu fait travailler une zone du clavier : lettres, accents, symboles, raccourcis et touches combinées.",
+        points: "Pour gagner des points de classement, il faut réussir le défi choisi.",
+        cooldown: "Quand un défi a déjà donné des points, le même jeu au même niveau et à la même intensité ne rapporte plus avant le délai indiqué.",
+        close: "J'ai compris",
+      },
       controls: {
         grade: "Niveau",
         intensity: "Intensité",
@@ -215,6 +223,7 @@
         live: "Scores live",
         local: "Scores locaux",
         pointsBadge: "Gain : +{points} pt(s)",
+        cooldownBadge: "Gain bloqué jusqu'à {time}",
       },
       difficulties: {
         calme: "Calme",
@@ -411,6 +420,14 @@
         start: "Start",
         required: "Enter a nickname to join the game.",
       },
+      onboarding: {
+        eyebrow: "How it works",
+        title: "Understand the keyboard, not just speed up.",
+        keyboard: "Each mini-game trains a keyboard area: letters, accents, symbols, shortcuts, and combined keys.",
+        points: "To earn leaderboard points, you must complete the selected challenge.",
+        cooldown: "When a challenge has already awarded points, the same game at the same level and intensity cannot award more before the displayed delay.",
+        close: "Got it",
+      },
       controls: {
         grade: "Level",
         intensity: "Intensity",
@@ -433,6 +450,7 @@
         live: "Live scores",
         local: "Local scores",
         pointsBadge: "Reward: +{points} pt(s)",
+        cooldownBadge: "Reward locked until {time}",
       },
       difficulties: {
         calme: "Calm",
@@ -629,6 +647,14 @@
         start: "Empezar",
         required: "Escribe un seudónimo para unirte a la partida.",
       },
+      onboarding: {
+        eyebrow: "Cómo funciona",
+        title: "Entender el teclado, no solo ir rápido.",
+        keyboard: "Cada mini juego entrena una zona del teclado: letras, acentos, símbolos, atajos y teclas combinadas.",
+        points: "Para ganar puntos de clasificación, debes completar el reto elegido.",
+        cooldown: "Cuando un reto ya dio puntos, el mismo juego con el mismo nivel e intensidad no vuelve a dar puntos antes del plazo indicado.",
+        close: "Entendido",
+      },
       controls: {
         grade: "Nivel",
         intensity: "Intensidad",
@@ -651,6 +677,7 @@
         live: "Puntuaciones live",
         local: "Puntuaciones locales",
         pointsBadge: "Recompensa: +{points} pt(s)",
+        cooldownBadge: "Recompensa bloqueada hasta {time}",
       },
       difficulties: {
         calme: "Tranquilo",

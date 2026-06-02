@@ -13,6 +13,8 @@
     playerName: document.querySelector("#playerName"),
     scoreRoom: document.querySelector("#scoreRoom"),
     landingScoreStatus: document.querySelector("#landingScoreStatus"),
+    onboardingModal: document.querySelector("#onboardingModal"),
+    onboardingClose: document.querySelector("#onboardingClose"),
     difficultyRewards: document.querySelector("#difficultyRewards"),
     gameTitle: document.querySelector("#gameTitle"),
     gameModeLabel: document.querySelector("#gameModeLabel"),
@@ -220,13 +222,18 @@
       card.dataset.game = game.id;
       const best = bestScore(game.id);
       const points = pointsForDifficulty();
+      const availability = CQ.scoreService.awardAvailability({ gameId: game.id, grade: app.grade, difficulty: app.difficulty });
+      const rewardClass = availability.available ? "card-reward" : "card-reward card-reward-warning";
+      const rewardText = availability.available
+        ? t("score.pointsBadge", { points })
+        : t("score.cooldownBadge", { time: formatTime(availability.nextAvailableAt) });
       card.innerHTML = `
         <div class="card-art" aria-hidden="true">
           ${game.art.map((key) => `<span class="mini-key">${key}</span>`).join("")}
         </div>
         <h3>${game.title}</h3>
         <p>${game.summary}</p>
-        <div class="card-reward">${t("score.pointsBadge", { points })}</div>
+        <div class="${rewardClass}">${rewardText}</div>
         <div class="card-footer">
           <span class="tag">${game.tag}</span>
           <span>${best ? t("score.record", { score: best }) : t("score.new")}</span>
@@ -255,6 +262,18 @@
     els.play.classList.toggle("screen-active", screen === "play");
     els.scores.classList.toggle("screen-active", screen === "scores");
     updateVirtualKeyboardVisibility();
+  }
+
+  function openOnboardingModal() {
+    if (!els.onboardingModal) return;
+    els.onboardingModal.classList.remove("hidden");
+    els.onboardingModal.setAttribute("aria-hidden", "false");
+    els.onboardingClose?.focus();
+  }
+
+  function closeOnboardingModal() {
+    els.onboardingModal?.classList.add("hidden");
+    els.onboardingModal?.setAttribute("aria-hidden", "true");
   }
 
   function updatePlayHeader() {
@@ -400,6 +419,7 @@
       app.leaderboard = CQ.scoreService.leaderboard();
       renderLeaderboard();
       updateBestPill();
+      renderGameCards();
     } catch {
       els.resultAwardText.textContent = t("leaderboard.local");
     }
@@ -646,6 +666,7 @@
       renderLeaderboard();
       renderGameCards();
       setScreen("home");
+      openOnboardingModal();
     });
   }
 
@@ -711,6 +732,13 @@
     els.scoreHome.addEventListener("click", goHome);
     els.restartGame.addEventListener("click", () => startGame(app.gameId));
     els.playAgain.addEventListener("click", () => startGame(app.gameId));
+    els.onboardingClose?.addEventListener("click", closeOnboardingModal);
+    els.onboardingModal?.addEventListener("click", (event) => {
+      if (event.target === els.onboardingModal) closeOnboardingModal();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !els.onboardingModal?.classList.contains("hidden")) closeOnboardingModal();
+    });
     els.soundToggle.addEventListener("click", () => {
       CQ.audio.enabled = !CQ.audio.enabled;
       els.soundToggle.setAttribute("aria-pressed", String(CQ.audio.enabled));

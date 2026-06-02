@@ -182,5 +182,18 @@
 
       <div class="mobile-keyboard" id="mobileKeyboard" aria-label="Clavier virtuel" data-i18n-aria-label="aria.virtualKeyboard" aria-hidden="true"></div>
     </div>
+
+    <div class="info-modal hidden" id="onboardingModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="onboardingTitle">
+      <div class="info-modal-panel">
+        <p class="eyebrow" data-i18n="onboarding.eyebrow">Mode d'emploi</p>
+        <h2 id="onboardingTitle" data-i18n="onboarding.title">Comprendre le clavier, pas seulement aller vite.</h2>
+        <div class="onboarding-list">
+          <p data-i18n="onboarding.keyboard">Chaque mini-jeu fait travailler une zone du clavier : lettres, accents, symboles, raccourcis et touches combinees.</p>
+          <p data-i18n="onboarding.points">Pour gagner des points de classement, il faut reussir le defi choisi.</p>
+          <p data-i18n="onboarding.cooldown">Quand un defi a deja donne des points, le meme jeu au meme niveau et a la meme intensite ne rapporte plus avant le delai indique.</p>
+        </div>
+        <button class="primary-button" type="button" id="onboardingClose" data-i18n="onboarding.close">J'ai compris</button>
+      </div>
+    </div>
   </body>
 </html>

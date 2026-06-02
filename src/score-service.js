@@ -126,6 +126,17 @@
       return POINTS_BY_DIFFICULTY[difficulty] || 1;
     },
 
+    awardAvailability({ gameId, grade, difficulty }) {
+      const entry = this.entriesById[this.player.id] || {};
+      const key = `${gameId}:${grade}:${difficulty}`;
+      const nextAvailableAt = Number(entry.cooldowns?.[key]) || 0;
+      const now = Date.now();
+      return {
+        available: now >= nextAvailableAt,
+        nextAvailableAt,
+      };
+    },
+
     init({ onEntries, onStatus } = {}) {
       if (onEntries) this.entryListeners.push(onEntries);
       if (onStatus) this.statusListeners.push(onStatus);
