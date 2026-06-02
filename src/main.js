@@ -187,8 +187,8 @@
     saveJson(CQ.STORAGE_KEY, app.scores);
   }
 
-  function pointsForDifficulty(difficulty = app.difficulty) {
-    return CQ.scoreService.pointsFor({ difficulty, grade: app.grade });
+  function pointsForChallenge(gameId, difficulty = app.difficulty) {
+    return CQ.scoreService.pointsFor({ gameId, difficulty, grade: app.grade });
   }
 
   function renderDifficultyRewards() {
@@ -221,7 +221,7 @@
       card.type = "button";
       card.dataset.game = game.id;
       const best = bestScore(game.id);
-      const points = pointsForDifficulty();
+      const points = pointsForChallenge(game.id);
       const availability = CQ.scoreService.awardAvailability({ gameId: game.id, grade: app.grade, difficulty: app.difficulty });
       const rewardClass = availability.available ? "card-reward" : "card-reward card-reward-warning";
       const rewardText = app.difficulty === "defi"

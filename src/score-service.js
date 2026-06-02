@@ -48,9 +48,13 @@
       .sort((a, b) => b.total - a.total || String(a.nickname || "").localeCompare(String(b.nickname || "")));
   }
 
-  function pointsFor({ difficulty, grade }) {
+  function gameRewardBonus(gameId) {
+    return Number(CQ.gameRewardBonuses?.[gameId]) || 0;
+  }
+
+  function pointsFor({ difficulty, grade, gameId }) {
     const base = POINTS_BY_DIFFICULTY[difficulty] || 1;
-    return base + (grade === "4e" ? 2 : 0);
+    return base + gameRewardBonus(gameId) + (grade === "4e" ? 2 : 0);
   }
 
   function loadPlayer() {
@@ -331,7 +335,7 @@
       const key = `${award.gameId}:${award.grade}:${award.difficulty}`;
       const at = Number(payload.at) || Date.now();
       const cooldowns = entry.cooldowns || {};
-      const points = pointsFor({ difficulty: award.difficulty, grade: award.grade });
+      const points = pointsFor({ difficulty: award.difficulty, grade: award.grade, gameId: award.gameId });
 
       if (payload.type === "penalty") {
         this.entriesById[playerId] = {

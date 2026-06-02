@@ -91,6 +91,17 @@
     },
   ];
 
+  CQ.gameRewardBonuses = {
+    meteors: 0,
+    words: 1,
+    shortcuts: 2,
+    maze: 2,
+    symbols: 3,
+    cipher: 4,
+    formula: 4,
+    rpg: 6,
+  };
+
   CQ.symbolSets = {
     "5e": [
       { symbol: "@", combo: "AltGr + 0", modifier: "AltGr" },
