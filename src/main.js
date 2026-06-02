@@ -37,6 +37,7 @@
     symbols: (options) => new CQ.SymbolForgeGame(options),
     cipher: (options) => new CQ.CipherGame(options),
     formula: (options) => new CQ.FormulaFixGame(options),
+    rpg: (options) => new CQ.KeyboardRpgGame(options),
   };
 
   const app = {

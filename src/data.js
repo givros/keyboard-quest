@@ -85,6 +85,10 @@
       id: "formula",
       art: ["@", "#", "€", "=", "+", ":", "/", "_", ".", "-", "{", "}"],
     },
+    {
+      id: "rpg",
+      art: ["@", "#", "€", "{", "}", "PNJ", "↵", "Z", "Q", "S", "D", "✓"],
+    },
   ];
 
   CQ.symbolSets = {
@@ -116,6 +120,45 @@
       { symbol: "?", combo: "Maj + ,", modifier: "Maj" },
       { symbol: "!", combo: "Maj + 8", modifier: "Maj" },
       { symbol: "/", combo: "Maj + :", modifier: "Maj" },
+    ],
+  };
+
+  CQ.rpgQuests = {
+    fr: [
+      { id: "mail", x: 8, y: 5, icon: "@", npc: "Messager Pixel", title: "Le portail @", prompt: "Le portail du collège réclame le symbole arobase.", answer: "@", type: "text" },
+      { id: "tag", x: 15, y: 7, icon: "#", npc: "Archiviste Hashtag", title: "Le mur des hashtags", prompt: "Inscris le symbole qui lance un mot-clé.", answer: "#", type: "text" },
+      { id: "euro", x: 27, y: 7, icon: "€", npc: "Marchande d'euros", title: "La boutique en euros", prompt: "La caisse magique attend le signe de la monnaie européenne.", answer: "€", type: "text" },
+      { id: "braces", x: 32, y: 10, icon: "{}", npc: "Forgeron AltGr", title: "La forge des accolades", prompt: "Reproduis le couple d'accolades.", answer: "{}", type: "text" },
+      { id: "brackets", x: 12, y: 14, icon: "[]", npc: "Gardienne des tableaux", title: "La salle des crochets", prompt: "Ouvre et ferme un tableau avec les crochets.", answer: "[]", type: "text" },
+      { id: "bar", x: 22, y: 14, icon: "|", npc: "Oracle logique", title: "Le pont logique", prompt: "Tape la barre verticale qui sépare deux choix.", answer: "|", type: "text" },
+      { id: "slash", x: 35, y: 16, icon: "\\", npc: "Exploratrice système", title: "Le chemin inverse", prompt: "Tape la barre oblique inverse.", answer: "\\", type: "text" },
+      { id: "accents", x: 7, y: 19, icon: "é", npc: "Scribe des accents", title: "Le manuscrit accentué", prompt: "Écris ces accents dans l'ordre.", answer: "éèàç", type: "text" },
+      { id: "shortcut", x: 18, y: 21, icon: "Ctrl", npc: "Maître Annulation", title: "Le raccourci oublié", prompt: "Lance le raccourci pour annuler.", answer: "Ctrl+Z", type: "combo" },
+      { id: "final", x: 31, y: 22, icon: "★", npc: "Gardienne finale", title: "Le grand examen clavier", prompt: "Mélange final : arobase, hashtag, euro, point d'interrogation.", answer: "@#€?", type: "text" },
+    ],
+    en: [
+      { id: "mail", x: 8, y: 5, icon: "@", npc: "Pixel Messenger", title: "The @ Gate", prompt: "The school portal asks for the at sign.", answer: "@", type: "text" },
+      { id: "tag", x: 15, y: 7, icon: "#", npc: "Hashtag Archivist", title: "The Hashtag Wall", prompt: "Type the symbol that starts a keyword.", answer: "#", type: "text" },
+      { id: "euro", x: 27, y: 7, icon: "€", npc: "Euro Merchant", title: "The Euro Shop", prompt: "The magic register expects the European currency sign.", answer: "€", type: "text" },
+      { id: "braces", x: 32, y: 10, icon: "{}", npc: "AltGr Smith", title: "The Brace Forge", prompt: "Reproduce the pair of braces.", answer: "{}", type: "text" },
+      { id: "brackets", x: 12, y: 14, icon: "[]", npc: "Array Guardian", title: "The Bracket Hall", prompt: "Open and close an array with brackets.", answer: "[]", type: "text" },
+      { id: "bar", x: 22, y: 14, icon: "|", npc: "Logic Oracle", title: "The Logic Bridge", prompt: "Type the vertical bar that separates two choices.", answer: "|", type: "text" },
+      { id: "slash", x: 35, y: 16, icon: "\\", npc: "System Explorer", title: "The Reverse Path", prompt: "Type the backslash.", answer: "\\", type: "text" },
+      { id: "accents", x: 7, y: 19, icon: "é", npc: "Accent Scribe", title: "The Accent Manuscript", prompt: "Type these accents in order.", answer: "éèàç", type: "text" },
+      { id: "shortcut", x: 18, y: 21, icon: "Ctrl", npc: "Undo Master", title: "The Forgotten Shortcut", prompt: "Trigger the shortcut for undo.", answer: "Ctrl+Z", type: "combo" },
+      { id: "final", x: 31, y: 22, icon: "★", npc: "Final Guardian", title: "The Grand Keyboard Trial", prompt: "Final mix: at sign, hashtag, euro, question mark.", answer: "@#€?", type: "text" },
+    ],
+    es: [
+      { id: "mail", x: 8, y: 5, icon: "@", npc: "Mensajero Pixel", title: "El portal @", prompt: "El portal del colegio pide la arroba.", answer: "@", type: "text" },
+      { id: "tag", x: 15, y: 7, icon: "#", npc: "Archivista Hashtag", title: "El muro de hashtags", prompt: "Escribe el símbolo que inicia una palabra clave.", answer: "#", type: "text" },
+      { id: "euro", x: 27, y: 7, icon: "€", npc: "Mercader de euros", title: "La tienda en euros", prompt: "La caja mágica espera el signo de moneda europea.", answer: "€", type: "text" },
+      { id: "braces", x: 32, y: 10, icon: "{}", npc: "Herrero AltGr", title: "La forja de llaves", prompt: "Reproduce la pareja de llaves.", answer: "{}", type: "text" },
+      { id: "brackets", x: 12, y: 14, icon: "[]", npc: "Guardiana de tablas", title: "La sala de corchetes", prompt: "Abre y cierra una tabla con corchetes.", answer: "[]", type: "text" },
+      { id: "bar", x: 22, y: 14, icon: "|", npc: "Oráculo lógico", title: "El puente lógico", prompt: "Escribe la barra vertical que separa dos opciones.", answer: "|", type: "text" },
+      { id: "slash", x: 35, y: 16, icon: "\\", npc: "Exploradora del sistema", title: "El camino inverso", prompt: "Escribe la barra inversa.", answer: "\\", type: "text" },
+      { id: "accents", x: 7, y: 19, icon: "é", npc: "Escriba de acentos", title: "El manuscrito acentuado", prompt: "Escribe estos acentos en orden.", answer: "éèàç", type: "text" },
+      { id: "shortcut", x: 18, y: 21, icon: "Ctrl", npc: "Maestro Deshacer", title: "El atajo olvidado", prompt: "Activa el atajo para deshacer.", answer: "Ctrl+Z", type: "combo" },
+      { id: "final", x: 31, y: 22, icon: "★", npc: "Guardiana final", title: "El gran examen de teclado", prompt: "Mezcla final: arroba, hashtag, euro, signo de interrogación.", answer: "@#€?", type: "text" },
     ],
   };
 
@@ -216,6 +259,12 @@
           summary: "Répare des adresses, hashtags et formules en tapant le symbole manquant.",
           tag: "@ # €",
         },
+        rpg: {
+          title: "Aventure clavier",
+          mode: "RPG",
+          summary: "Explore une cité top-down, parle aux PNJ et termine 10 quêtes de clavier.",
+          tag: "quête",
+        },
       },
       meters: {
         time: "Temps",
@@ -224,6 +273,7 @@
         charges: "Charges",
         sequences: "Suites",
         repairs: "Réparations",
+        quests: "Quêtes",
       },
       meteor: {
         line: "ligne de concentration",
@@ -280,6 +330,20 @@
         timeUp: "L'atelier de correction ferme.",
         success: "Les lignes sont réparées.",
         mission: "Tape le symbole qui remplace le carré.",
+      },
+      rpg: {
+        timeUp: "La cloche sonne avant la fin de l'aventure.",
+        success: "Toutes les quêtes clavier sont validées.",
+        moveHint: "Déplace-toi avec les flèches ou ZQSD.",
+        interactHint: "Entrée près d'un PNJ pour lancer une quête.",
+        completed: "Quête terminée",
+        alreadyDone: "Cette quête est déjà validée.",
+        answer: "Réponse",
+        comboAnswer: "Raccourci attendu",
+        enterValidate: "Entrée pour valider. Échap pour fermer.",
+        questDone: "{count}/10 quêtes terminées",
+        nearby: "Parle à {name}",
+        noQuest: "Explore la cité et cherche les symboles.",
       },
     },
     en: {
@@ -378,6 +442,12 @@
           summary: "Repair emails, hashtags and formulas by typing the missing symbol.",
           tag: "@ # €",
         },
+        rpg: {
+          title: "Keyboard Adventure",
+          mode: "RPG",
+          summary: "Explore a top-down city, talk to NPCs, and complete 10 keyboard quests.",
+          tag: "quest",
+        },
       },
       meters: {
         time: "Time",
@@ -386,6 +456,7 @@
         charges: "Charges",
         sequences: "Sequences",
         repairs: "Repairs",
+        quests: "Quests",
       },
       meteor: {
         line: "focus line",
@@ -442,6 +513,20 @@
         timeUp: "The repair workshop is closing.",
         success: "The lines are repaired.",
         mission: "Type the symbol that replaces the square.",
+      },
+      rpg: {
+        timeUp: "The bell rings before the adventure is complete.",
+        success: "All keyboard quests are complete.",
+        moveHint: "Move with arrow keys or ZQSD.",
+        interactHint: "Press Enter near an NPC to start a quest.",
+        completed: "Quest complete",
+        alreadyDone: "This quest is already complete.",
+        answer: "Answer",
+        comboAnswer: "Expected shortcut",
+        enterValidate: "Enter to validate. Escape to close.",
+        questDone: "{count}/10 quests complete",
+        nearby: "Talk to {name}",
+        noQuest: "Explore the city and look for symbols.",
       },
     },
     es: {
@@ -540,6 +625,12 @@
           summary: "Repara correos, hashtags y fórmulas escribiendo el símbolo que falta.",
           tag: "@ # €",
         },
+        rpg: {
+          title: "Aventura de teclado",
+          mode: "RPG",
+          summary: "Explora una ciudad top-down, habla con PNJ y completa 10 misiones de teclado.",
+          tag: "misión",
+        },
       },
       meters: {
         time: "Tiempo",
@@ -548,6 +639,7 @@
         charges: "Cargas",
         sequences: "Secuencias",
         repairs: "Reparaciones",
+        quests: "Misiones",
       },
       meteor: {
         line: "línea de concentración",
@@ -604,6 +696,20 @@
         timeUp: "El taller de reparación cierra.",
         success: "Las líneas están reparadas.",
         mission: "Escribe el símbolo que sustituye al cuadrado.",
+      },
+      rpg: {
+        timeUp: "Suena la campana antes de terminar la aventura.",
+        success: "Todas las misiones de teclado están completas.",
+        moveHint: "Muévete con flechas o ZQSD.",
+        interactHint: "Pulsa Enter cerca de un PNJ para iniciar una misión.",
+        completed: "Misión completada",
+        alreadyDone: "Esta misión ya está validada.",
+        answer: "Respuesta",
+        comboAnswer: "Atajo esperado",
+        enterValidate: "Enter para validar. Escape para cerrar.",
+        questDone: "{count}/10 misiones completadas",
+        nearby: "Habla con {name}",
+        noQuest: "Explora la ciudad y busca símbolos.",
       },
     },
   };
