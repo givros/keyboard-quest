@@ -102,7 +102,14 @@
       };
       const ids = plans[this.grade]?.[this.difficulty] || plans["5e"].calme;
       const byId = new Map(quests.map((quest) => [quest.id, quest]));
-      return ids.map((id) => byId.get(id)).filter(Boolean).map((quest) => ({ ...quest, done: false }));
+      return ids.map((id) => byId.get(id)).filter(Boolean).map((quest) => this.randomizeQuest({ ...quest, done: false }));
+    }
+
+    randomizeQuest(quest) {
+      const variants = CQ.rpgQuestVariants?.[this.language]?.[quest.id] || [];
+      if (!variants.length) return quest;
+      const variant = variants[Math.floor(Math.random() * variants.length)];
+      return { ...quest, ...variant };
     }
 
     buildTerrain() {

@@ -1692,4 +1692,282 @@
       },
     },
   };
+
+  function pushUnique(target, items, keyOf) {
+    const seen = new Set(target.map(keyOf));
+    items.forEach((item) => {
+      const key = keyOf(item);
+      if (!seen.has(key)) {
+        target.push(item);
+        seen.add(key);
+      }
+    });
+  }
+
+  function extendGradeData(language, grade, addition) {
+    const target = CQ.localizedGradeData[language]?.[grade];
+    if (!target) return;
+    if (addition.extraKeys) pushUnique(target.extraKeys, addition.extraKeys, String);
+    if (addition.words) pushUnique(target.words, addition.words, String);
+    if (addition.shortcuts) pushUnique(target.shortcuts, addition.shortcuts, (item) => item.combo);
+    if (addition.formulas) pushUnique(target.formulas, addition.formulas, (item) => `${item.text}:${item.symbol}`);
+  }
+
+  extendGradeData("fr", "5e", {
+    extraKeys: ["!", ":", "'", "0", "6", "7", "8", "9"],
+    words: [
+      "océan",
+      "boussole",
+      "symétrie",
+      "latitude",
+      "chapitre",
+      "Le schéma résume la leçon.",
+      "Un exemple précis aide la réponse.",
+      "La phrase commence par une majuscule.",
+      "Le groupe compare deux résultats.",
+      "Je vérifie le signe avant de finir.",
+    ],
+    shortcuts: [
+      { combo: "Ctrl+P", action: "imprimer" },
+      { combo: "Ctrl+O", action: "ouvrir" },
+      { combo: "Ctrl+N", action: "nouveau document" },
+    ],
+    formulas: [
+      { text: "prenom.nom□college.fr", symbol: "@" },
+      { text: "□histoire", symbol: "#" },
+      { text: "total : 15□", symbol: "€" },
+      { text: "page□12", symbol: "/" },
+      { text: "equipe□bleue", symbol: "_" },
+      { text: "phrase terminee□", symbol: "." },
+    ],
+  });
+
+  extendGradeData("fr", "4e", {
+    extraKeys: ["<", ">", "+", "=", "*", "%", "0", "'", "\""],
+    words: [
+      "démonstration",
+      "parallélogramme",
+      "statistique",
+      "concentration",
+      "La variable change selon la situation.",
+      "Le raisonnement s'appuie sur une preuve.",
+      "Une fonction associe une valeur à une autre.",
+      "La conclusion répond clairement au problème.",
+      "L'algorithme répète les étapes nécessaires.",
+      "Le résultat dépend des données choisies.",
+    ],
+    shortcuts: [
+      { combo: "Ctrl+P", action: "imprimer" },
+      { combo: "Ctrl+O", action: "ouvrir" },
+      { combo: "Ctrl+N", action: "nouveau document" },
+      { combo: "Ctrl+L", action: "sélectionner la barre d'adresse" },
+      { combo: "Ctrl+H", action: "historique" },
+      { combo: "Ctrl+K", action: "recherche rapide" },
+    ],
+    formulas: [
+      { text: "contact□classe.fr", symbol: "@" },
+      { text: "□proportionnalite", symbol: "#" },
+      { text: "achat = 25□", symbol: "€" },
+      { text: "liste□4]", symbol: "[" },
+      { text: "liste[4□", symbol: "]" },
+      { text: "style □ couleur: bleu }", symbol: "{" },
+      { text: "style { couleur: bleu □", symbol: "}" },
+      { text: "vrai □ faux", symbol: "|" },
+    ],
+  });
+
+  extendGradeData("en", "5e", {
+    extraKeys: ["!", ":", "0", "6", "7", "8", "9", "-"],
+    words: [
+      "compass",
+      "symmetry",
+      "latitude",
+      "chapter",
+      "diagram",
+      "The diagram sums up the lesson.",
+      "A clear example helps the answer.",
+      "The sentence starts with a capital.",
+      "The group compares two results.",
+      "I check the sign before finishing.",
+    ],
+    shortcuts: [
+      { combo: "Ctrl+P", action: "print" },
+      { combo: "Ctrl+O", action: "open" },
+      { combo: "Ctrl+N", action: "new document" },
+    ],
+    formulas: [
+      { text: "first.last□school.org", symbol: "@" },
+      { text: "□history", symbol: "#" },
+      { text: "total: 15□", symbol: "€" },
+      { text: "page□12", symbol: "/" },
+      { text: "team□blue", symbol: "_" },
+      { text: "sentence done□", symbol: "." },
+    ],
+  });
+
+  extendGradeData("en", "4e", {
+    extraKeys: ["<", ">", "+", "=", "*", "%", "0", "\""],
+    words: [
+      "demonstration",
+      "parallelogram",
+      "statistics",
+      "concentration",
+      "The variable changes with the situation.",
+      "The reasoning relies on evidence.",
+      "A function links one value to another.",
+      "The conclusion answers the problem clearly.",
+      "The algorithm repeats the needed steps.",
+      "The result depends on the chosen data.",
+    ],
+    shortcuts: [
+      { combo: "Ctrl+P", action: "print" },
+      { combo: "Ctrl+O", action: "open" },
+      { combo: "Ctrl+N", action: "new document" },
+      { combo: "Ctrl+L", action: "select address bar" },
+      { combo: "Ctrl+H", action: "history" },
+      { combo: "Ctrl+K", action: "quick search" },
+    ],
+    formulas: [
+      { text: "contact□class.org", symbol: "@" },
+      { text: "□proportionality", symbol: "#" },
+      { text: "purchase = 25□", symbol: "€" },
+      { text: "list□4]", symbol: "[" },
+      { text: "list[4□", symbol: "]" },
+      { text: "style □ color: blue }", symbol: "{" },
+      { text: "style { color: blue □", symbol: "}" },
+      { text: "true □ false", symbol: "|" },
+    ],
+  });
+
+  extendGradeData("es", "5e", {
+    extraKeys: ["!", ":", "0", "6", "7", "8", "9", "-"],
+    words: [
+      "brújula",
+      "simetría",
+      "latitud",
+      "capítulo",
+      "diagrama",
+      "El esquema resume la lección.",
+      "Un ejemplo claro ayuda la respuesta.",
+      "La frase empieza con mayúscula.",
+      "El grupo compara dos resultados.",
+      "Reviso el signo antes de terminar.",
+    ],
+    shortcuts: [
+      { combo: "Ctrl+P", action: "imprimir" },
+      { combo: "Ctrl+O", action: "abrir" },
+      { combo: "Ctrl+N", action: "nuevo documento" },
+    ],
+    formulas: [
+      { text: "nombre.apellido□colegio.es", symbol: "@" },
+      { text: "□historia", symbol: "#" },
+      { text: "total: 15□", symbol: "€" },
+      { text: "pagina□12", symbol: "/" },
+      { text: "equipo□azul", symbol: "_" },
+      { text: "frase terminada□", symbol: "." },
+    ],
+  });
+
+  extendGradeData("es", "4e", {
+    extraKeys: ["<", ">", "+", "=", "*", "%", "0", "\""],
+    words: [
+      "demostración",
+      "paralelogramo",
+      "estadística",
+      "concentración",
+      "La variable cambia según la situación.",
+      "El razonamiento se apoya en pruebas.",
+      "Una función asocia un valor con otro.",
+      "La conclusión responde al problema con claridad.",
+      "El algoritmo repite los pasos necesarios.",
+      "El resultado depende de los datos elegidos.",
+    ],
+    shortcuts: [
+      { combo: "Ctrl+P", action: "imprimir" },
+      { combo: "Ctrl+O", action: "abrir" },
+      { combo: "Ctrl+N", action: "nuevo documento" },
+      { combo: "Ctrl+L", action: "seleccionar barra de dirección" },
+      { combo: "Ctrl+H", action: "historial" },
+      { combo: "Ctrl+K", action: "búsqueda rápida" },
+    ],
+    formulas: [
+      { text: "contacto□clase.es", symbol: "@" },
+      { text: "□proporcionalidad", symbol: "#" },
+      { text: "compra = 25□", symbol: "€" },
+      { text: "lista□4]", symbol: "[" },
+      { text: "lista[4□", symbol: "]" },
+      { text: "estilo □ color: azul }", symbol: "{" },
+      { text: "estilo { color: azul □", symbol: "}" },
+      { text: "verdadero □ falso", symbol: "|" },
+    ],
+  });
+
+  CQ.rpgQuestVariants = {
+    fr: {
+      mail: [
+        { prompt: "Le portail du collège réclame le symbole arobase.", answer: "@" },
+        { prompt: "Complète une adresse en tapant seulement l'arobase.", answer: "@" },
+      ],
+      tag: [
+        { prompt: "Inscris le symbole qui lance un mot-clé.", answer: "#" },
+        { prompt: "Le mur attend le signe placé devant un hashtag.", answer: "#" },
+      ],
+      euro: [
+        { prompt: "La caisse magique attend le signe de la monnaie européenne.", answer: "€" },
+        { prompt: "Tape le symbole utilisé pour écrire un prix en euros.", answer: "€" },
+      ],
+      accents: [
+        { prompt: "Tape seulement ç.", answer: "ç" },
+        { prompt: "Le scribe demande la cédille seule.", answer: "ç" },
+      ],
+      final: [
+        { prompt: "Mélange final : arobase, hashtag, euro, point d'interrogation.", answer: "@#€?" },
+        { prompt: "Mélange final : hashtag, arobase, euro, point d'exclamation.", answer: "#@€!" },
+      ],
+    },
+    en: {
+      mail: [
+        { prompt: "The school portal asks for the at sign.", answer: "@" },
+        { prompt: "Complete an email address by typing only the at sign.", answer: "@" },
+      ],
+      tag: [
+        { prompt: "Type the symbol that starts a keyword.", answer: "#" },
+        { prompt: "The wall expects the sign before a hashtag.", answer: "#" },
+      ],
+      euro: [
+        { prompt: "The magic register expects the European currency sign.", answer: "€" },
+        { prompt: "Type the symbol used to write a price in euros.", answer: "€" },
+      ],
+      accents: [
+        { prompt: "Type only ç.", answer: "ç" },
+        { prompt: "The scribe asks for the cedilla alone.", answer: "ç" },
+      ],
+      final: [
+        { prompt: "Final mix: at sign, hashtag, euro, question mark.", answer: "@#€?" },
+        { prompt: "Final mix: hashtag, at sign, euro, exclamation mark.", answer: "#@€!" },
+      ],
+    },
+    es: {
+      mail: [
+        { prompt: "El portal del colegio pide la arroba.", answer: "@" },
+        { prompt: "Completa un correo escribiendo solo la arroba.", answer: "@" },
+      ],
+      tag: [
+        { prompt: "Escribe el símbolo que inicia una palabra clave.", answer: "#" },
+        { prompt: "El muro espera el signo de un hashtag.", answer: "#" },
+      ],
+      euro: [
+        { prompt: "La caja mágica espera el signo de moneda europea.", answer: "€" },
+        { prompt: "Escribe el símbolo usado para un precio en euros.", answer: "€" },
+      ],
+      accents: [
+        { prompt: "Escribe solo ç.", answer: "ç" },
+        { prompt: "El escriba pide únicamente la cedilla.", answer: "ç" },
+      ],
+      final: [
+        { prompt: "Mezcla final: arroba, hashtag, euro, signo de interrogación.", answer: "@#€?" },
+        { prompt: "Mezcla final: hashtag, arroba, euro, signo de exclamación.", answer: "#@€!" },
+      ],
+    },
+  };
 })(window.CQ = window.CQ || {});

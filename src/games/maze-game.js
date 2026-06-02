@@ -51,7 +51,7 @@
         [16, 10],
       ];
       const pool = shuffle(this.tokenPool()).slice(0, this.settings.tokens);
-      return spots.slice(0, this.settings.tokens).map(([x, y], index) => ({
+      return shuffle(spots).slice(0, this.settings.tokens).map(([x, y], index) => ({
         x,
         y,
         label: pool[index],

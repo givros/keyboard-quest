@@ -1,5 +1,5 @@
 (function registerMeteorGame(CQ) {
-  const { compareChar, printableKey, randomOf } = CQ.utils;
+  const { compareChar, printableKey, randomOf, shuffle } = CQ.utils;
   const { drawKeycap, drawStageBackground } = CQ.drawing;
   const { width: W, height: H } = CQ.stage;
 
@@ -12,7 +12,8 @@
       this.spawnTimer = 0;
       this.items = [];
       this.flash = 0;
-      this.pool = this.createPool();
+      this.pool = shuffle(this.createPool());
+      this.recentLabels = [];
     }
 
     createPool() {
@@ -63,7 +64,7 @@
     }
 
     spawn() {
-      const label = randomOf(this.pool);
+      const label = this.nextLabel();
       const columns = 10;
       const column = Math.floor(Math.random() * columns);
       const x = 70 + column * ((W - 140) / (columns - 1)) + (Math.random() - 0.5) * 26;
@@ -79,6 +80,14 @@
         spinSpeed: (Math.random() - 0.5) * 0.9,
         color,
       });
+    }
+
+    nextLabel() {
+      const candidates = this.pool.filter((label) => !this.recentLabels.includes(label));
+      const label = randomOf(candidates.length ? candidates : this.pool);
+      this.recentLabels.push(label);
+      this.recentLabels = this.recentLabels.slice(-Math.min(5, Math.ceil(this.pool.length / 2)));
+      return label;
     }
 
     handleKeyDown(event) {

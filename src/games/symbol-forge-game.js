@@ -19,7 +19,11 @@
     }
 
     refillQueue() {
-      while (this.queue.length < 5) this.queue.push(randomOf(this.pool));
+      while (this.queue.length < 5) {
+        const previous = this.queue[this.queue.length - 1] || this.current;
+        const candidates = this.pool.filter((item) => item.symbol !== previous?.symbol);
+        this.queue.push(randomOf(candidates.length ? candidates : this.pool));
+      }
     }
 
     nextSymbol() {

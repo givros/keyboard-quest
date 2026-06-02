@@ -27,7 +27,13 @@
 
     beginRound() {
       const length = this.sequenceLength();
-      this.sequence = Array.from({ length }, () => randomOf(this.pool));
+      const nextSequence = [];
+      for (let index = 0; index < length; index += 1) {
+        const previous = nextSequence[index - 1];
+        const candidates = this.pool.filter((item) => item.symbol !== previous?.symbol);
+        nextSequence.push(randomOf(candidates.length ? candidates : this.pool));
+      }
+      this.sequence = nextSequence;
       this.cursor = 0;
       this.state = "preview";
       this.previewLeft = 1.15 + length * 0.32;

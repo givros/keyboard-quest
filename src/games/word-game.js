@@ -30,8 +30,8 @@
       }
 
       if (this.difficulty === "rythme") {
-        const sentenceCount = this.grade === "4e" ? 2 : 1;
-        return [...termItems, ...sentenceItems.slice(0, sentenceCount)].filter(Boolean);
+        const sentenceCount = this.grade === "4e" ? 4 : 3;
+        return [...termItems, ...shuffle(sentenceItems).slice(0, sentenceCount)].filter(Boolean);
       }
 
       return [...sentenceItems, ...longTerms, ...termItems].filter(Boolean);
