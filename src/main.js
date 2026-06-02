@@ -4,9 +4,14 @@
   const { clamp, formatPercent, loadJson, saveJson } = CQ.utils;
 
   const els = {
+    landing: document.querySelector("#landingScreen"),
     home: document.querySelector("#homeScreen"),
     play: document.querySelector("#playScreen"),
+    scores: document.querySelector("#scoreScreen"),
     gameGrid: document.querySelector("#gameGrid"),
+    playerForm: document.querySelector("#playerForm"),
+    playerName: document.querySelector("#playerName"),
+    landingScoreStatus: document.querySelector("#landingScoreStatus"),
     gameTitle: document.querySelector("#gameTitle"),
     gameModeLabel: document.querySelector("#gameModeLabel"),
     backToHome: document.querySelector("#backToHome"),
@@ -16,6 +21,7 @@
     resultPanel: document.querySelector("#resultPanel"),
     resultTitle: document.querySelector("#resultTitle"),
     resultText: document.querySelector("#resultText"),
+    resultAwardText: document.querySelector("#resultAwardText"),
     hudScore: document.querySelector("#hudScore"),
     hudCombo: document.querySelector("#hudCombo"),
     hudAccuracy: document.querySelector("#hudAccuracy"),
@@ -27,6 +33,9 @@
     resetProgress: document.querySelector("#resetProgress"),
     soundToggle: document.querySelector("#soundToggle"),
     navHome: document.querySelector("[data-nav-home]"),
+    scoreHome: document.querySelector("#scoreHome"),
+    scoreStatus: document.querySelector("#scoreStatus"),
+    scoreTableBody: document.querySelector("#scoreTableBody"),
     mobileKeyboard: document.querySelector("#mobileKeyboard"),
   };
 
@@ -52,6 +61,8 @@
     running: false,
     scores: loadJson(CQ.STORAGE_KEY, {}),
     lastResult: null,
+    leaderboard: [],
+    scoreStatus: "local",
   };
 
   const virtualKeyboardState = {
@@ -116,6 +127,45 @@
     return CQ.i18n.t(path, values, app.language);
   }
 
+  function currentPlayer() {
+    return CQ.scoreService.getPlayer();
+  }
+
+  function hasPlayerName() {
+    return Boolean(currentPlayer().nickname);
+  }
+
+  function currentLeaderboardEntry() {
+    const player = currentPlayer();
+    return app.leaderboard.find((entry) => entry.id === player.id);
+  }
+
+  function playerTotal() {
+    return Number(currentLeaderboardEntry()?.total) || 0;
+  }
+
+  function formatTime(timestamp) {
+    if (!timestamp) return t("leaderboard.never");
+    return new Intl.DateTimeFormat(app.language, {
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(new Date(timestamp));
+  }
+
+  function formatDateTime(timestamp) {
+    if (!timestamp) return t("leaderboard.never");
+    return new Intl.DateTimeFormat(app.language, {
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(new Date(timestamp));
+  }
+
+  function scoreStatusText() {
+    return app.scoreStatus === "live" ? t("leaderboard.live") : t("leaderboard.local");
+  }
+
   function scoreKey(gameId = app.gameId) {
     return `${gameId}:${app.grade}:${app.difficulty}`;
   }
@@ -166,14 +216,20 @@
   }
 
   function updateBestPill() {
+    if (hasPlayerName()) {
+      els.bestScorePill.textContent = t("score.player", { name: currentPlayer().nickname, score: playerTotal() });
+      return;
+    }
     const values = Object.values(app.scores);
     const best = values.length ? Math.max(...values) : 0;
     els.bestScorePill.textContent = t("score.best", { score: best });
   }
 
   function setScreen(screen) {
+    els.landing.classList.toggle("screen-active", screen === "landing");
     els.home.classList.toggle("screen-active", screen === "home");
     els.play.classList.toggle("screen-active", screen === "play");
+    els.scores.classList.toggle("screen-active", screen === "scores");
     updateVirtualKeyboardVisibility();
   }
 
@@ -190,6 +246,11 @@
   }
 
   function startGame(gameId) {
+    if (!hasPlayerName()) {
+      setScreen("landing");
+      els.playerName.focus();
+      return;
+    }
     const definition = gameDefinition(gameId);
     const createGame = gameFactories[gameId];
     if (!definition || !createGame) return;
@@ -201,6 +262,7 @@
     app.lastTime = performance.now();
 
     els.resultPanel.classList.add("hidden");
+    els.resultAwardText.textContent = "";
     updatePlayHeader();
     setScreen("play");
     canvas.focus();
@@ -252,6 +314,73 @@
     });
   }
 
+  function renderScoreStatus() {
+    const statusText = scoreStatusText();
+    els.landingScoreStatus.textContent = statusText;
+    els.scoreStatus.textContent = statusText;
+  }
+
+  function renderLeaderboard(entries = app.leaderboard) {
+    els.scoreTableBody.innerHTML = "";
+    if (!entries.length) {
+      const row = document.createElement("tr");
+      const cell = document.createElement("td");
+      cell.colSpan = 5;
+      cell.textContent = t("leaderboard.empty");
+      row.appendChild(cell);
+      els.scoreTableBody.appendChild(row);
+      return;
+    }
+
+    entries.forEach((entry, index) => {
+      const row = document.createElement("tr");
+      const rank = document.createElement("td");
+      const name = document.createElement("td");
+      const points = document.createElement("td");
+      const lastGame = document.createElement("td");
+      const updated = document.createElement("td");
+
+      rank.className = "score-rank";
+      rank.textContent = `#${index + 1}`;
+      name.textContent = entry.nickname || "???";
+      points.textContent = String(Number(entry.total) || 0);
+      lastGame.textContent = entry.lastGame || "-";
+      updated.textContent = formatDateTime(entry.updatedAt);
+
+      row.append(rank, name, points, lastGame, updated);
+      els.scoreTableBody.appendChild(row);
+    });
+  }
+
+  async function awardLeaderboardPoints() {
+    if (!app.lastResult) return;
+    const { gameId, success } = app.lastResult;
+    if (!success) {
+      els.resultAwardText.textContent = t("results.awardFailed");
+      return;
+    }
+
+    const definition = gameDefinition(gameId);
+    els.resultAwardText.textContent = t("results.awardPending");
+    try {
+      const award = await CQ.scoreService.submitAward({
+        success,
+        gameId,
+        gameTitle: definition.title,
+        grade: app.grade,
+        difficulty: app.difficulty,
+      });
+      els.resultAwardText.textContent = award.awarded
+        ? t("results.awardSuccess", { points: award.points, time: formatTime(award.nextAvailableAt) })
+        : t("results.awardCooldown", { time: formatTime(award.nextAvailableAt) });
+      app.leaderboard = CQ.scoreService.leaderboard();
+      renderLeaderboard();
+      updateBestPill();
+    } catch {
+      els.resultAwardText.textContent = t("leaderboard.local");
+    }
+  }
+
   function endGame() {
     stopLoop();
     const game = app.game;
@@ -264,6 +393,7 @@
     };
     setBestScore(app.gameId, game.score);
     renderResult();
+    awardLeaderboardPoints();
     els.resultPanel.classList.remove("hidden");
     renderGameCards();
     updateVirtualKeyboardVisibility();
@@ -271,7 +401,8 @@
 
   function goHome() {
     stopLoop();
-    setScreen("home");
+    if (window.location.hash === "#scores") history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    setScreen(hasPlayerName() ? "home" : "landing");
     renderGameCards();
   }
 
@@ -287,6 +418,9 @@
     document.querySelectorAll("[data-i18n-title]").forEach((node) => {
       node.setAttribute("title", t(node.dataset.i18nTitle));
     });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach((node) => {
+      node.setAttribute("placeholder", t(node.dataset.i18nPlaceholder));
+    });
     document.querySelectorAll("[data-difficulty]").forEach((button) => {
       button.textContent = t(`difficulties.${button.dataset.difficulty}`);
     });
@@ -296,6 +430,8 @@
     updateBestPill();
     updatePlayHeader();
     renderResult();
+    renderScoreStatus();
+    renderLeaderboard();
   }
 
   function isLikelyMobilePortrait() {
@@ -459,6 +595,48 @@
     window.addEventListener("orientationchange", updateVirtualKeyboardVisibility);
   }
 
+  function routeFromHash() {
+    if (window.location.hash === "#scores") {
+      stopLoop();
+      setScreen("scores");
+      renderLeaderboard();
+      return;
+    }
+    setScreen(hasPlayerName() ? "home" : "landing");
+  }
+
+  function bindPlayerForm() {
+    els.playerName.value = currentPlayer().nickname || "";
+    els.playerForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!CQ.scoreService.setPlayerName(els.playerName.value)) {
+        els.landingScoreStatus.textContent = t("landing.required");
+        els.playerName.focus();
+        return;
+      }
+      app.leaderboard = CQ.scoreService.leaderboard();
+      updateBestPill();
+      renderLeaderboard();
+      renderGameCards();
+      setScreen("home");
+    });
+  }
+
+  function initScoreService() {
+    CQ.scoreService.init({
+      onEntries(entries) {
+        app.leaderboard = entries;
+        updateBestPill();
+        renderLeaderboard(entries);
+      },
+      onStatus(status) {
+        app.scoreStatus = status;
+        renderScoreStatus();
+      },
+    });
+    app.leaderboard = CQ.scoreService.leaderboard();
+  }
+
   function bindSegmentedControls() {
     document.querySelectorAll("[data-grade]").forEach((button) => {
       button.addEventListener("click", () => {
@@ -503,6 +681,7 @@
   function bindNavigation() {
     els.backToHome.addEventListener("click", goHome);
     els.resultHome.addEventListener("click", goHome);
+    els.scoreHome.addEventListener("click", goHome);
     els.restartGame.addEventListener("click", () => startGame(app.gameId));
     els.playAgain.addEventListener("click", () => startGame(app.gameId));
     els.resetProgress.addEventListener("click", () => {
@@ -519,12 +698,16 @@
       event.preventDefault();
       goHome();
     });
+    window.addEventListener("hashchange", routeFromHash);
   }
 
+  initScoreService();
+  bindPlayerForm();
   bindSegmentedControls();
   bindGameInput();
   bindNavigation();
   bindVirtualKeyboard();
   applyLanguage();
   renderGameCards();
+  routeFromHash();
 })(window.CQ = window.CQ || {});

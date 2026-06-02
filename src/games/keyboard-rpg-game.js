@@ -6,6 +6,64 @@
   const TILE = 32;
   const MAP_W = 42;
   const MAP_H = 28;
+  const TERRAIN = {
+    grass: 0,
+    path: 1,
+    water: 2,
+    tree: 3,
+    flower: 4,
+    school: 5,
+    shop: 6,
+    tower: 7,
+    library: 8,
+    door: 9,
+    quest: 10,
+    done: 11,
+    sign: 12,
+    bridge: 13,
+    hedge: 14,
+    portal: 15,
+  };
+  const PLAYER_ROWS = {
+    down: 0,
+    left: 1,
+    right: 2,
+    up: 3,
+  };
+  const RPG_SHEETS = {
+    terrain: loadSheet("assets/rpg/terrain/sheet-transparent.png", 4, 4),
+    player: loadSheet("assets/rpg/player/sheet-transparent.png", 4, 4),
+    npcs: loadSheet("assets/rpg/npcs/sheet-transparent.png", 4, 4),
+  };
+
+  function loadSheet(src, cols, rows) {
+    const image = new Image();
+    image.src = src;
+    return { image, cols, rows };
+  }
+
+  function sheetReady(sheet) {
+    return sheet.image.complete && sheet.image.naturalWidth > 0;
+  }
+
+  function drawSheetFrame(context, sheet, index, x, y, width, height, anchor = "topleft") {
+    if (!sheetReady(sheet)) return false;
+    const sourceWidth = sheet.image.naturalWidth / sheet.cols;
+    const sourceHeight = sheet.image.naturalHeight / sheet.rows;
+    const sourceX = (index % sheet.cols) * sourceWidth;
+    const sourceY = Math.floor(index / sheet.cols) * sourceHeight;
+    let dx = x;
+    let dy = y;
+    if (anchor === "center") {
+      dx -= width / 2;
+      dy -= height / 2;
+    } else if (anchor === "feet") {
+      dx -= width / 2;
+      dy -= height;
+    }
+    context.drawImage(sheet.image, sourceX, sourceY, sourceWidth, sourceHeight, dx, dy, width, height);
+    return true;
+  }
 
   class KeyboardRpgGame extends CQ.SessionGame {
     constructor(options) {
@@ -14,6 +72,7 @@
       this.timeLeft = this.timeLimit;
       this.player = { x: 8, y: 6, facing: "down", step: 0 };
       this.blocked = new Set();
+      this.buildings = [];
       this.terrain = this.buildTerrain();
       this.quests = (CQ.rpgQuests[this.language] || CQ.rpgQuests.fr).map((quest) => ({ ...quest, done: false }));
       this.activeQuest = null;
@@ -47,17 +106,21 @@
 
     setTile(terrain, x, y, type) {
       terrain[y][x] = type;
-      if (["tree", "water", "school", "shop", "tower", "library"].includes(type)) this.blocked.add(`${x},${y}`);
+      if (["tree", "water", "hedge"].includes(type)) this.blocked.add(`${x},${y}`);
     }
 
     addBuilding(terrain, x, y, width, height, type) {
       for (let yy = y; yy < y + height; yy += 1) {
-        for (let xx = x; xx < x + width; xx += 1) this.setTile(terrain, xx, yy, type);
+        for (let xx = x; xx < x + width; xx += 1) {
+          this.setTile(terrain, xx, yy, "grass");
+          this.blocked.add(`${xx},${yy}`);
+        }
       }
       const doorX = x + Math.floor(width / 2);
       const doorY = y + height - 1;
       terrain[doorY][doorX] = "door";
       this.blocked.delete(`${doorX},${doorY}`);
+      this.buildings.push({ x, y, width, height, type });
     }
 
     update(dt) {
@@ -217,6 +280,7 @@
       context.save();
       context.translate(-cam.x, -cam.y);
       this.drawMap(context);
+      this.drawBuildings(context);
       this.drawQuests(context);
       this.drawPlayer(context);
       context.restore();
@@ -234,78 +298,42 @@
     drawTile(context, x, y, type) {
       const px = x * TILE;
       const py = y * TILE;
-      const colors = {
-        grass: "#7fb46f",
-        path: "#dfc782",
-        water: "#4d91b8",
-        tree: "#295b3b",
-        flower: "#8fc7a3",
-        school: "#8d6b58",
-        shop: "#ba7f52",
-        tower: "#756391",
-        library: "#6c8365",
-        door: "#d6b15f",
-      };
-      context.fillStyle = colors[type] || colors.grass;
-      context.fillRect(px, py, TILE, TILE);
-      context.strokeStyle = "rgba(24,33,43,0.08)";
-      context.strokeRect(px, py, TILE, TILE);
+      const base = type === "path" || type === "door" ? TERRAIN.path : type === "water" ? TERRAIN.water : TERRAIN.grass;
+      drawSheetFrame(context, RPG_SHEETS.terrain, base, px, py, TILE, TILE);
       if (type === "tree") {
-        context.fillStyle = "#1e4230";
-        context.fillRect(px + 7, py + 7, 18, 18);
-      } else if (["school", "shop", "tower", "library"].includes(type)) {
-        context.fillStyle = "rgba(255,253,248,0.18)";
-        context.fillRect(px + 4, py + 5, 24, 9);
+        drawSheetFrame(context, RPG_SHEETS.terrain, TERRAIN.tree, px + TILE / 2, py + TILE + 5, 46, 52, "feet");
       } else if (type === "flower") {
-        context.fillStyle = "#e87861";
-        context.fillRect(px + 12, py + 12, 8, 8);
+        drawSheetFrame(context, RPG_SHEETS.terrain, TERRAIN.flower, px, py, TILE, TILE);
+      } else if (type === "door") {
+        drawSheetFrame(context, RPG_SHEETS.terrain, TERRAIN.door, px + TILE / 2, py + TILE + 7, 44, 52, "feet");
+      }
+    }
+
+    drawBuildings(context) {
+      const sorted = [...this.buildings].sort((a, b) => a.y + a.height - (b.y + b.height));
+      for (const building of sorted) {
+        const px = building.x * TILE;
+        const py = building.y * TILE - 18;
+        const frame = TERRAIN[building.type] ?? TERRAIN.school;
+        drawSheetFrame(context, RPG_SHEETS.terrain, frame, px, py, building.width * TILE, building.height * TILE + 26);
       }
     }
 
     drawQuests(context) {
-      for (const quest of this.quests) {
+      this.quests.forEach((quest, index) => {
         const px = quest.x * TILE + TILE / 2;
         const py = quest.y * TILE + TILE / 2;
-        context.save();
-        context.translate(px, py);
-        context.fillStyle = quest.done ? "#8fc7a3" : "#e7c66f";
-        context.strokeStyle = "#18212b";
-        context.lineWidth = 3;
-        context.beginPath();
-        context.arc(0, 0, 14, 0, Math.PI * 2);
-        context.fill();
-        context.stroke();
-        context.fillStyle = "#18212b";
-        context.font = quest.icon.length > 2 ? "900 10px Inter, sans-serif" : "900 15px Inter, sans-serif";
-        context.textAlign = "center";
-        context.textBaseline = "middle";
-        context.fillText(quest.done ? "✓" : quest.icon, 0, 1);
-        context.restore();
-      }
+        drawSheetFrame(context, RPG_SHEETS.npcs, index % 16, px, py + 18, 48, 58, "feet");
+        drawSheetFrame(context, RPG_SHEETS.terrain, quest.done ? TERRAIN.done : TERRAIN.quest, px + 16, py - 20, 28, 28, "center");
+      });
     }
 
     drawPlayer(context) {
       const px = this.player.x * TILE + TILE / 2;
       const py = this.player.y * TILE + TILE / 2;
-      context.save();
-      context.translate(px, py);
-      context.fillStyle = "rgba(24,33,43,0.28)";
-      context.beginPath();
-      context.ellipse(0, 13, 12, 5, 0, 0, Math.PI * 2);
-      context.fill();
-      context.fillStyle = "#d95842";
-      context.fillRect(-9, -6, 18, 18);
-      context.fillStyle = "#f7d8a8";
-      context.fillRect(-7, -20, 14, 14);
-      context.fillStyle = "#26333f";
-      context.fillRect(-9, -22, 18, 5);
-      context.fillStyle = "#fffdf8";
-      context.fillRect(-5, -15, 3, 3);
-      context.fillRect(2, -15, 3, 3);
-      context.fillStyle = "#18212b";
-      context.fillRect(-8, 12, 6, 8 + (this.player.step % 2));
-      context.fillRect(2, 12, 6, 8 + ((this.player.step + 1) % 2));
-      context.restore();
+      const row = PLAYER_ROWS[this.player.facing] || PLAYER_ROWS.down;
+      const frame = row * 4 + this.player.step;
+      drawSheetFrame(context, RPG_SHEETS.player, frame, px, py + 24, 46, 58, "feet");
     }
 
     drawOverlay(context) {

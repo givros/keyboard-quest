@@ -203,6 +203,57 @@ p {
   line-height: 1.6;
 }
 
+.landing-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 390px);
+  gap: 28px;
+  align-items: center;
+  min-height: calc(100vh - 112px);
+}
+
+.player-panel,
+.leaderboard-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.player-panel {
+  display: grid;
+  gap: 14px;
+  padding: 22px;
+}
+
+.player-panel input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(24, 33, 43, 0.22);
+  border-radius: var(--radius);
+  background: #fffaf0;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 850;
+}
+
+.player-panel input:focus {
+  border-color: var(--teal);
+  outline: 3px solid rgba(22, 124, 128, 0.2);
+}
+
+.score-status,
+.award-line {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.award-line {
+  color: var(--teal-dark);
+}
+
 .quick-panel {
   align-self: center;
   display: grid;
@@ -525,6 +576,69 @@ p {
   display: none;
 }
 
+.scoreboard-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.scoreboard-head h1 {
+  margin-bottom: 8px;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  line-height: 1;
+}
+
+.scoreboard-head p:last-child {
+  max-width: 620px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.leaderboard-panel {
+  overflow-x: auto;
+}
+
+.leaderboard-panel .score-status {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(24, 33, 43, 0.1);
+}
+
+.score-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+}
+
+.score-table th,
+.score-table td {
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(24, 33, 43, 0.1);
+  text-align: left;
+}
+
+.score-table th {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.score-table td {
+  font-weight: 820;
+}
+
+.score-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.score-table .score-rank {
+  width: 72px;
+  color: var(--teal-dark);
+  font-weight: 950;
+}
+
 body.has-mobile-keyboard {
   padding-bottom: min(45vh, 340px);
 }
@@ -615,6 +729,7 @@ body.has-mobile-keyboard {
 
 @media (max-width: 980px) {
   .intro-band,
+  .landing-layout,
   .play-layout {
     grid-template-columns: 1fr;
   }
@@ -651,7 +766,8 @@ body.has-mobile-keyboard {
   }
 
   .section-head,
-  .play-header {
+  .play-header,
+  .scoreboard-head {
     align-items: stretch;
     grid-template-columns: 1fr;
     flex-direction: column;
