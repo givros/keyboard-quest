@@ -251,9 +251,11 @@
 
     document.querySelectorAll("[data-language]").forEach((button) => {
       button.addEventListener("click", () => {
+        const shouldRestartCurrentGame = app.running && app.gameId && els.play.classList.contains("screen-active");
         app.language = button.dataset.language;
         applyLanguage();
         renderGameCards();
+        if (shouldRestartCurrentGame) startGame(app.gameId);
       });
     });
   }

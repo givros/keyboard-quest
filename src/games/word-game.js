@@ -105,7 +105,7 @@
         meterLabel: this.t("meters.progress"),
         meterValue: `${this.completed}/${this.target}`,
         meterRatio: this.completed / this.target,
-        mission: `<strong>${Math.ceil(Math.max(0, this.timeLeft))} s</strong><br>${this.t("word.mission")}`,
+        mission: `<strong>${Math.ceil(Math.max(0, this.timeLeft))} s</strong> <br> ${this.t("word.mission")}`,
       };
     }
   }

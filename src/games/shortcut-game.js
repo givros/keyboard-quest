@@ -84,7 +84,7 @@
         meterLabel: this.t("meters.time"),
         meterValue: `${Math.ceil(Math.max(0, this.timeLeft))} s`,
         meterRatio: this.timeLeft / this.timeLimit,
-        mission: `<strong>${this.current.action}</strong><br>${this.current.combo.replaceAll("+", " + ")}`,
+        mission: `<strong>${this.current.action}</strong> <br> ${this.current.combo.replaceAll("+", " + ")}`,
       };
     }
   }

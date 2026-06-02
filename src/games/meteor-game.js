@@ -115,7 +115,7 @@
         meterLabel: this.t("meters.time"),
         meterValue: `${Math.ceil(Math.max(0, this.timeLeft))} s`,
         meterRatio: this.timeLeft / this.timeLimit,
-        mission: `<strong>${this.t("meteor.livesCount", { count: this.lives })}</strong><br>${this.t("meteor.mission")}`,
+        mission: `<strong>${this.t("meteor.livesCount", { count: this.lives })}</strong> <br> ${this.t("meteor.mission")}`,
       };
     }
   }

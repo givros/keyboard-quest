@@ -187,8 +187,8 @@
         meterValue: `${this.tokens.length - left}/${this.tokens.length}`,
         meterRatio: (this.tokens.length - left) / this.tokens.length,
         mission: token
-          ? `<strong>${this.t("maze.beacon", { label: token.label })}</strong><br>${this.t("maze.activate", { seconds: Math.ceil(Math.max(0, this.timeLeft)) })}`
-          : `<strong>${this.t("maze.remaining", { count: left })}</strong><br>${this.t("maze.move", { seconds: Math.ceil(Math.max(0, this.timeLeft)) })}`,
+          ? `<strong>${this.t("maze.beacon", { label: token.label })}</strong> <br> ${this.t("maze.activate", { seconds: Math.ceil(Math.max(0, this.timeLeft)) })}`
+          : `<strong>${this.t("maze.remaining", { count: left })}</strong> <br> ${this.t("maze.move", { seconds: Math.ceil(Math.max(0, this.timeLeft)) })}`,
       };
     }
   }
