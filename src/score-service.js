@@ -1,9 +1,9 @@
 (function registerScoreService(CQ) {
   const { loadJson, saveJson } = CQ.utils;
   const POINTS_BY_DIFFICULTY = {
-    calme: 2,
-    rythme: 5,
-    defi: 12,
+    calme: 3,
+    rythme: 7,
+    defi: 16,
   };
 
   function cleanNickname(value) {

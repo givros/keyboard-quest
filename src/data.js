@@ -1970,4 +1970,285 @@
       ],
     },
   };
+
+  CQ.gradeScoreTargets = {
+    "5e": 160,
+    "4e": 205,
+  };
+
+  CQ.gameCards.push(
+    {
+      id: "duel",
+      art: ["Ctrl", "C", "Ctrl", "V", "Tab", "Entrée", "Esc", "Ctrl", "S", "Shift", "Tab", "✓"],
+    },
+    {
+      id: "shop",
+      art: ["@", "#", "€", "_", "-", "{", "}", "[", "]", "|", "\\", "client"],
+    },
+    {
+      id: "flash",
+      art: ["lis", "cache", "tape", "é", "ç", "?", "!", ".", "@", "#", "€", "✓"],
+    },
+    {
+      id: "tower",
+      art: ["A", "Z", "@", "#", "€", "[]", "{}", "?!", "_", "-", "base", "✓"],
+    },
+    {
+      id: "coordinates",
+      art: ["A1", "B4", "(3;7)", "x=4", "y=2", ";", "(", ")", "=", "map", "→", "✓"],
+    },
+    {
+      id: "repair",
+      art: ["□", "ç", "@", "#", "€", "?", "/", "-", "{", "}", "fix", "✓"],
+    },
+    {
+      id: "relay",
+      art: ["run", "A", "Z", "@", "#", "Ctrl", "C", "Tab", "€", "porte", "vite", "✓"],
+    },
+    {
+      id: "boss",
+      art: ["@", "#", "€", "Ctrl", "Tab", "mémo", "A1", "{}", "[]", "?!", "Boss", "✓"],
+    },
+  );
+
+  Object.assign(CQ.gameRewardBonuses, {
+    meteors: 1,
+    words: 2,
+    typing: 8,
+    shortcuts: 3,
+    maze: 3,
+    symbols: 4,
+    cipher: 5,
+    formula: 5,
+    rpg: 9,
+    duel: 5,
+    shop: 5,
+    flash: 6,
+    tower: 6,
+    coordinates: 4,
+    repair: 5,
+    relay: 5,
+    boss: 12,
+  });
+
+  function extendTranslations(language, patch) {
+    const target = CQ.translations[language];
+    if (!target) return;
+    Object.keys(patch).forEach((section) => {
+      target[section] = target[section] || {};
+      Object.assign(target[section], patch[section]);
+    });
+  }
+
+  extendTranslations("fr", {
+    games: {
+      duel: {
+        title: "Duel de raccourcis",
+        mode: "Réflexe méthode",
+        summary: "Un adversaire lance des actions : bloque-les avec le bon raccourci avant l'impact.",
+        tag: "Ctrl",
+      },
+      shop: {
+        title: "Boutique AltGr",
+        mode: "Symboles utiles",
+        summary: "Complète les commandes des clients avec @, #, €, accolades et autres touches rares.",
+        tag: "AltGr",
+      },
+      flash: {
+        title: "Dictée flash",
+        mode: "Mémoire",
+        summary: "Lis une ligne très vite, puis retape-la quand elle disparaît.",
+        tag: "mémo",
+      },
+      tower: {
+        title: "Tour clavier",
+        mode: "Défense",
+        summary: "Des vagues avancent vers la base : tape la bonne étiquette pour les arrêter.",
+        tag: "stratégie",
+      },
+      coordinates: {
+        title: "Carte aux coordonnées",
+        mode: "Repérage",
+        summary: "Tape les coordonnées exactes pour guider le personnage de case en case.",
+        tag: "coord.",
+      },
+      repair: {
+        title: "Réparation de message",
+        mode: "Correction",
+        summary: "Repère le caractère manquant dans une phrase et saisis la correction.",
+        tag: "texte",
+      },
+      relay: {
+        title: "Course relais",
+        mode: "Vitesse ciblée",
+        summary: "Passe les portes avec les bonnes touches avant que le coureur n'arrive dessus.",
+        tag: "course",
+      },
+      boss: {
+        title: "Boss final clavier",
+        mode: "Mix complet",
+        summary: "Symboles, raccourcis, mémoire et saisie rapide dans une épreuve plus longue.",
+        tag: "boss",
+      },
+    },
+    meters: {
+      duels: "Duels",
+      orders: "Commandes",
+      defenses: "Défenses",
+      maps: "Cartes",
+      gates: "Portes",
+      phases: "Phases",
+    },
+    duel: {
+      attack: "Action entrante",
+      prompt: "Exécute le raccourci avant l'impact.",
+      guard: "Garde",
+      tooSlow: "Trop lent",
+      lost: "La garde est brisée.",
+      timeUp: "Le duel s'arrête.",
+      blocked: "Bloqué",
+      received: "Reçu : {combo}",
+      success: "Le duel est gagné.",
+      mission: "Réponds dans {seconds} s avec le bon raccourci.",
+    },
+    shop: {
+      single: "Le client demande {symbol}",
+      customer: "Commande client",
+      hint: "Indice :",
+      timeUp: "La boutique ferme.",
+      success: "Les commandes sont servies.",
+      mission: "Tape le caractère attendu avant le départ du client. Patience : {seconds} s",
+    },
+    flash: {
+      look: "Lis maintenant",
+      type: "Retape de mémoire",
+      timeUp: "La mémoire flash s'éteint.",
+      success: "Les lignes sont mémorisées.",
+      mission: "Observe, puis reproduis exactement la ligne cachée.",
+    },
+    tower: {
+      base: "BASE",
+      lives: "Base",
+      wait: "Prépare-toi",
+      lost: "La base est submergée.",
+      timeUp: "La vague se disperse.",
+      success: "La base tient bon.",
+      mission: "Tape l'étiquette la plus proche de la base.",
+    },
+    coordinates: {
+      target: "Objectif : {label}",
+      timeUp: "La carte se referme.",
+      success: "Le trajet est validé.",
+      mission: "Recopie la coordonnée demandée sans espace.",
+    },
+    repair: {
+      title: "Message à réparer",
+      symbolHint: "symbole manquant",
+      timeUp: "Le message reste incomplet.",
+      success: "Les messages sont réparés.",
+      mission: "Tape uniquement le caractère manquant.",
+    },
+    relay: {
+      title: "Course relais clavier",
+      key: "touche directe",
+      lives: "Essais",
+      timeUp: "Le relais est terminé.",
+      lost: "Trop de portes ratées.",
+      success: "Le relais est réussi.",
+      mission: "Valide la porte avant que le coureur ne la touche.",
+    },
+    boss: {
+      copy: "Recopie exactement",
+      memory: "Mémorise la suite",
+      comboHint: "Raccourci attendu",
+      lives: "Garde",
+      preview: "Observe avant de répondre.",
+      mission: "Réponds sans erreur : une faute coûte une garde.",
+      timeUp: "Le boss tient encore.",
+      lost: "Le boss gagne cette manche.",
+      success: "Le boss final est vaincu.",
+      types: {
+        symbol: "Symbole",
+        text: "Saisie",
+        combo: "Raccourci",
+        memory: "Mémoire",
+      },
+    },
+  });
+
+  extendTranslations("en", {
+    games: {
+      duel: { title: "Shortcut Duel", mode: "Method reflex", summary: "An opponent launches actions: block them with the right shortcut before impact.", tag: "Ctrl" },
+      shop: { title: "AltGr Shop", mode: "Useful symbols", summary: "Complete customer orders with @, #, €, braces and other rare keys.", tag: "AltGr" },
+      flash: { title: "Flash Dictation", mode: "Memory", summary: "Read a line quickly, then type it back when it disappears.", tag: "memo" },
+      tower: { title: "Keyboard Tower", mode: "Defense", summary: "Waves move toward the base: type the right label to stop them.", tag: "strategy" },
+      coordinates: { title: "Coordinate Map", mode: "Location", summary: "Type exact coordinates to guide the character from tile to tile.", tag: "coord." },
+      repair: { title: "Message Repair", mode: "Correction", summary: "Find the missing character in a sentence and type the correction.", tag: "text" },
+      relay: { title: "Relay Race", mode: "Target speed", summary: "Pass gates with the right keys before the runner reaches them.", tag: "race" },
+      boss: { title: "Keyboard Final Boss", mode: "Full mix", summary: "Symbols, shortcuts, memory and fast typing in a longer challenge.", tag: "boss" },
+    },
+    meters: { duels: "Duels", orders: "Orders", defenses: "Defenses", maps: "Maps", gates: "Gates", phases: "Phases" },
+    duel: {
+      attack: "Incoming action", prompt: "Perform the shortcut before impact.", guard: "Guard", tooSlow: "Too slow", lost: "Your guard broke.", timeUp: "The duel stops.", blocked: "Blocked", received: "Received: {combo}", success: "The duel is won.", mission: "Answer in {seconds} s with the right shortcut.",
+    },
+    shop: {
+      single: "The customer asks for {symbol}", customer: "Customer order", hint: "Hint:", timeUp: "The shop closes.", success: "The orders are served.", mission: "Type the expected character before the customer leaves. Patience: {seconds} s",
+    },
+    flash: {
+      look: "Read now", type: "Type from memory", timeUp: "Flash memory fades.", success: "The lines are memorized.", mission: "Watch, then reproduce the hidden line exactly.",
+    },
+    tower: {
+      base: "BASE", lives: "Base", wait: "Get ready", lost: "The base is overwhelmed.", timeUp: "The wave disperses.", success: "The base holds.", mission: "Type the label closest to the base.",
+    },
+    coordinates: {
+      target: "Target: {label}", timeUp: "The map closes.", success: "The route is validated.", mission: "Copy the requested coordinate with no spaces.",
+    },
+    repair: {
+      title: "Message to repair", symbolHint: "missing symbol", timeUp: "The message stays incomplete.", success: "The messages are repaired.", mission: "Type only the missing character.",
+    },
+    relay: {
+      title: "Keyboard Relay Race", key: "direct key", lives: "Tries", timeUp: "The relay is over.", lost: "Too many gates missed.", success: "The relay is complete.", mission: "Validate the gate before the runner touches it.",
+    },
+    boss: {
+      copy: "Copy exactly", memory: "Memorize the sequence", comboHint: "Expected shortcut", lives: "Guard", preview: "Watch before answering.", mission: "Answer without mistakes: one error costs one guard.", timeUp: "The boss still stands.", lost: "The boss wins this round.", success: "The final boss is defeated.", types: { symbol: "Symbol", text: "Typing", combo: "Shortcut", memory: "Memory" },
+    },
+  });
+
+  extendTranslations("es", {
+    games: {
+      duel: { title: "Duelo de atajos", mode: "Reflejo método", summary: "Un adversario lanza acciones: bloquéalas con el atajo correcto.", tag: "Ctrl" },
+      shop: { title: "Tienda AltGr", mode: "Símbolos útiles", summary: "Completa pedidos con @, #, €, llaves y otras teclas raras.", tag: "AltGr" },
+      flash: { title: "Dictado flash", mode: "Memoria", summary: "Lee una línea rápido y escríbela cuando desaparece.", tag: "memo" },
+      tower: { title: "Torre teclado", mode: "Defensa", summary: "Las oleadas avanzan hacia la base: escribe la etiqueta correcta.", tag: "estrategia" },
+      coordinates: { title: "Mapa de coordenadas", mode: "Ubicación", summary: "Escribe coordenadas exactas para guiar al personaje.", tag: "coord." },
+      repair: { title: "Reparación de mensaje", mode: "Corrección", summary: "Encuentra el carácter que falta y escribe la corrección.", tag: "texto" },
+      relay: { title: "Carrera de relevos", mode: "Velocidad precisa", summary: "Pasa puertas con las teclas correctas antes de llegar.", tag: "carrera" },
+      boss: { title: "Boss final teclado", mode: "Mezcla completa", summary: "Símbolos, atajos, memoria y escritura rápida en un reto largo.", tag: "boss" },
+    },
+    meters: { duels: "Duelos", orders: "Pedidos", defenses: "Defensas", maps: "Mapas", gates: "Puertas", phases: "Fases" },
+    duel: {
+      attack: "Acción entrante", prompt: "Haz el atajo antes del impacto.", guard: "Guardia", tooSlow: "Demasiado lento", lost: "La guardia se rompe.", timeUp: "El duelo termina.", blocked: "Bloqueado", received: "Recibido: {combo}", success: "El duelo está ganado.", mission: "Responde en {seconds} s con el atajo correcto.",
+    },
+    shop: {
+      single: "El cliente pide {symbol}", customer: "Pedido cliente", hint: "Pista:", timeUp: "La tienda cierra.", success: "Los pedidos están servidos.", mission: "Escribe el carácter esperado antes de que el cliente se vaya. Paciencia: {seconds} s",
+    },
+    flash: {
+      look: "Lee ahora", type: "Escribe de memoria", timeUp: "La memoria flash se apaga.", success: "Las líneas están memorizadas.", mission: "Observa y reproduce exactamente la línea oculta.",
+    },
+    tower: {
+      base: "BASE", lives: "Base", wait: "Prepárate", lost: "La base está superada.", timeUp: "La oleada se dispersa.", success: "La base resiste.", mission: "Escribe la etiqueta más cercana a la base.",
+    },
+    coordinates: {
+      target: "Objetivo: {label}", timeUp: "El mapa se cierra.", success: "La ruta está validada.", mission: "Copia la coordenada pedida sin espacios.",
+    },
+    repair: {
+      title: "Mensaje para reparar", symbolHint: "símbolo que falta", timeUp: "El mensaje queda incompleto.", success: "Los mensajes están reparados.", mission: "Escribe solo el carácter que falta.",
+    },
+    relay: {
+      title: "Carrera de relevos teclado", key: "tecla directa", lives: "Intentos", timeUp: "El relevo ha terminado.", lost: "Demasiadas puertas falladas.", success: "El relevo está logrado.", mission: "Valida la puerta antes de que el corredor la toque.",
+    },
+    boss: {
+      copy: "Copia exactamente", memory: "Memoriza la secuencia", comboHint: "Atajo esperado", lives: "Guardia", preview: "Observa antes de responder.", mission: "Responde sin errores: un fallo cuesta una guardia.", timeUp: "El boss aún resiste.", lost: "El boss gana esta ronda.", success: "El boss final está vencido.", types: { symbol: "Símbolo", text: "Escritura", combo: "Atajo", memory: "Memoria" },
+    },
+  });
 })(window.CQ = window.CQ || {});

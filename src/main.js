@@ -52,6 +52,14 @@
     cipher: (options) => new CQ.CipherGame(options),
     formula: (options) => new CQ.FormulaFixGame(options),
     rpg: (options) => new CQ.KeyboardRpgGame(options),
+    duel: (options) => new CQ.ShortcutDuelGame(options),
+    shop: (options) => new CQ.AltgrShopGame(options),
+    flash: (options) => new CQ.FlashDictationGame(options),
+    tower: (options) => new CQ.TowerDefenseGame(options),
+    coordinates: (options) => new CQ.CoordinateMapGame(options),
+    repair: (options) => new CQ.TextRepairGame(options),
+    relay: (options) => new CQ.RelayRaceGame(options),
+    boss: (options) => new CQ.FinalBossGame(options),
   };
 
   const app = {
@@ -101,6 +109,7 @@
     { keys: ["a", "z", "e", "r", "t", "y", "u", "i", "o", "p"] },
     { keys: ["q", "s", "d", "f", "g", "h", "j", "k", "l", "m"] },
     { keys: ["w", "x", "c", "v", "b", "n", "é", "è", "à", "ç"] },
+    { keys: ["á", "í", "ó", "ú", "ñ", "¿", "¡", "â", "ê", "î"] },
     { keys: ["@", "#", "€", "_", "-", "?", "!", ".", ",", ";"] },
     { keys: [":", "/", "\\", "|", "{", "}", "[", "]", "~", "^"] },
     { keys: ["'", '"', "(", ")", "+", "=", "<", ">", "*", "%"] },
