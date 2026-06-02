@@ -198,7 +198,7 @@
         title: "Comprendre le clavier, pas seulement aller vite.",
         keyboard: "Chaque mini-jeu fait travailler une zone du clavier : lettres, accents, symboles, raccourcis et touches combinées.",
         points: "Pour gagner des points de classement, il faut réussir le défi choisi.",
-        cooldown: "Quand un défi a déjà donné des points, le même jeu au même niveau et à la même intensité ne rapporte plus avant le délai indiqué.",
+        cooldown: "Quand un défi a déjà donné des points, le même jeu au même niveau et à la même intensité ne rapporte plus avant le délai indiqué. En mode Défi, un échec retire le nombre de points prévu.",
         close: "J'ai compris",
       },
       controls: {
@@ -223,7 +223,9 @@
         live: "Scores live",
         local: "Scores locaux",
         pointsBadge: "Gain : +{points} pt(s)",
+        defiPointsBadge: "Gain : +{points} · Échec : -{points}",
         cooldownBadge: "Gain bloqué jusqu'à {time}",
+        defiCooldownBadge: "Gain bloqué jusqu'à {time} · Échec : -{points}",
       },
       difficulties: {
         calme: "Calme",
@@ -239,6 +241,7 @@
         awardSuccess: "+{points} point(s) de classement. Prochain gain possible pour ce défi à {time}.",
         awardCooldown: "Score déjà gagné récemment pour ce défi. Prochain gain possible à {time}.",
         awardFailed: "Pas de point de classement : il faut réussir la mission.",
+        penalty: "Malus Défi : -{points} point(s) de classement.",
       },
       leaderboard: {
         eyebrow: "Classement live",
@@ -425,7 +428,7 @@
         title: "Understand the keyboard, not just speed up.",
         keyboard: "Each mini-game trains a keyboard area: letters, accents, symbols, shortcuts, and combined keys.",
         points: "To earn leaderboard points, you must complete the selected challenge.",
-        cooldown: "When a challenge has already awarded points, the same game at the same level and intensity cannot award more before the displayed delay.",
+        cooldown: "When a challenge has already awarded points, the same game at the same level and intensity cannot award more before the displayed delay. In Challenge mode, failing removes the planned points.",
         close: "Got it",
       },
       controls: {
@@ -450,7 +453,9 @@
         live: "Live scores",
         local: "Local scores",
         pointsBadge: "Reward: +{points} pt(s)",
+        defiPointsBadge: "Reward: +{points} · Fail: -{points}",
         cooldownBadge: "Reward locked until {time}",
+        defiCooldownBadge: "Reward locked until {time} · Fail: -{points}",
       },
       difficulties: {
         calme: "Calm",
@@ -466,6 +471,7 @@
         awardSuccess: "+{points} leaderboard point(s). Next point for this challenge after {time}.",
         awardCooldown: "This challenge already gave points recently. Next point after {time}.",
         awardFailed: "No leaderboard point: complete the mission first.",
+        penalty: "Challenge penalty: -{points} leaderboard point(s).",
       },
       leaderboard: {
         eyebrow: "Live ranking",
@@ -652,7 +658,7 @@
         title: "Entender el teclado, no solo ir rápido.",
         keyboard: "Cada mini juego entrena una zona del teclado: letras, acentos, símbolos, atajos y teclas combinadas.",
         points: "Para ganar puntos de clasificación, debes completar el reto elegido.",
-        cooldown: "Cuando un reto ya dio puntos, el mismo juego con el mismo nivel e intensidad no vuelve a dar puntos antes del plazo indicado.",
+        cooldown: "Cuando un reto ya dio puntos, el mismo juego con el mismo nivel e intensidad no vuelve a dar puntos antes del plazo indicado. En modo Reto, fallar quita los puntos previstos.",
         close: "Entendido",
       },
       controls: {
@@ -677,7 +683,9 @@
         live: "Puntuaciones live",
         local: "Puntuaciones locales",
         pointsBadge: "Recompensa: +{points} pt(s)",
+        defiPointsBadge: "Recompensa: +{points} · Fallo: -{points}",
         cooldownBadge: "Recompensa bloqueada hasta {time}",
+        defiCooldownBadge: "Recompensa bloqueada hasta {time} · Fallo: -{points}",
       },
       difficulties: {
         calme: "Tranquilo",
@@ -693,6 +701,7 @@
         awardSuccess: "+{points} punto(s) de clasificación. Próximo punto para este reto después de {time}.",
         awardCooldown: "Este reto ya dio puntos recientemente. Próximo punto después de {time}.",
         awardFailed: "Sin punto de clasificación: primero completa la misión.",
+        penalty: "Malus Reto: -{points} punto(s) de clasificación.",
       },
       leaderboard: {
         eyebrow: "Clasificación live",

@@ -325,16 +325,29 @@
         return;
       }
 
-      if (payload.type !== "award" || !payload.award) return;
+      if (!["award", "penalty"].includes(payload.type) || !payload.award) return;
       const award = payload.award;
       const entry = this.ensureRelayEntry(playerId, nickname, payload.at);
       const key = `${award.gameId}:${award.grade}:${award.difficulty}`;
       const at = Number(payload.at) || Date.now();
       const cooldowns = entry.cooldowns || {};
+      const points = pointsFor({ difficulty: award.difficulty, grade: award.grade });
+
+      if (payload.type === "penalty") {
+        this.entriesById[playerId] = {
+          ...entry,
+          nickname,
+          total: (Number(entry.total) || 0) - points,
+          updatedAt: at,
+          lastGame: String(award.gameTitle || award.gameId || "").slice(0, 64),
+          cooldowns,
+        };
+        return;
+      }
+
       const nextAvailableAt = Number(cooldowns[key]) || 0;
       if (at < nextAvailableAt) return;
 
-      const points = pointsFor({ difficulty: award.difficulty, grade: award.grade });
       this.entriesById[playerId] = {
         ...entry,
         nickname,
@@ -389,8 +402,11 @@
     },
 
     async submitAward(payload) {
-      if (!payload?.success) return { awarded: false, points: 0, reason: "failed" };
       if (!this.player.nickname) return { awarded: false, points: 0, reason: "missingPlayer" };
+      if (!payload?.success) {
+        if (payload?.difficulty !== "defi") return { awarded: false, points: 0, reason: "failed" };
+        return this.submitPenalty(payload);
+      }
       const award = {
         ...payload,
         points: pointsFor(payload),
@@ -407,6 +423,22 @@
         }
       }
       return this.submitLocalAward(award);
+    },
+
+    submitPenalty(payload) {
+      const penalty = {
+        ...payload,
+        points: pointsFor(payload),
+        now: Date.now(),
+      };
+      if (this.relay) {
+        return this.submitRelayPenalty(penalty).catch((error) => {
+          console.warn("Live score penalty unavailable, using local scores.", error);
+          this.useLocalScores("relayError");
+          return this.submitLocalPenalty(penalty);
+        });
+      }
+      return this.submitLocalPenalty(penalty);
     },
 
     submitLocalAward(award) {
@@ -442,6 +474,27 @@
         points: award.points,
         reason: "awarded",
         nextAvailableAt: nextCooldown,
+      };
+    },
+
+    submitLocalPenalty(penalty) {
+      this.ensureActiveEntry();
+      const entry = this.entriesById[this.player.id];
+      this.entriesById[this.player.id] = {
+        ...entry,
+        nickname: this.player.nickname,
+        total: (Number(entry.total) || 0) - penalty.points,
+        updatedAt: penalty.now,
+        lastGame: penalty.gameTitle || penalty.gameId,
+        cooldowns: entry.cooldowns || {},
+      };
+      this.saveActiveEntries();
+      this.emitEntries();
+      return {
+        awarded: false,
+        penalized: true,
+        points: penalty.points,
+        reason: "penalty",
       };
     },
 
@@ -486,6 +539,38 @@
         points: award.points,
         reason: "awarded",
         nextAvailableAt: award.now + award.cooldownMs,
+      };
+    },
+
+    async submitRelayPenalty(penalty) {
+      this.ensureActiveEntry();
+      const payload = {
+        app: "keyboard-quest",
+        version: 1,
+        type: "penalty",
+        eventId: createEventId(this.player.id),
+        room: this.room,
+        at: penalty.now,
+        player: {
+          id: this.player.id,
+          nickname: this.player.nickname,
+        },
+        award: {
+          gameId: penalty.gameId,
+          gameTitle: penalty.gameTitle,
+          grade: penalty.grade,
+          difficulty: penalty.difficulty,
+        },
+      };
+      await this.publishRelayPayload(payload);
+      this.applyRelayPayload(payload);
+      this.saveActiveEntries();
+      this.emitEntries();
+      return {
+        awarded: false,
+        penalized: true,
+        points: penalty.points,
+        reason: "penalty",
       };
     },
   };

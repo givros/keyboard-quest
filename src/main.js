@@ -224,9 +224,13 @@
       const points = pointsForDifficulty();
       const availability = CQ.scoreService.awardAvailability({ gameId: game.id, grade: app.grade, difficulty: app.difficulty });
       const rewardClass = availability.available ? "card-reward" : "card-reward card-reward-warning";
-      const rewardText = availability.available
-        ? t("score.pointsBadge", { points })
-        : t("score.cooldownBadge", { time: formatTime(availability.nextAvailableAt) });
+      const rewardText = app.difficulty === "defi"
+        ? availability.available
+          ? t("score.defiPointsBadge", { points })
+          : t("score.defiCooldownBadge", { points, time: formatTime(availability.nextAvailableAt) })
+        : availability.available
+          ? t("score.pointsBadge", { points })
+          : t("score.cooldownBadge", { time: formatTime(availability.nextAvailableAt) });
       card.innerHTML = `
         <div class="card-art" aria-hidden="true">
           ${game.art.map((key) => `<span class="mini-key">${key}</span>`).join("")}
@@ -398,10 +402,6 @@
   async function awardLeaderboardPoints() {
     if (!app.lastResult) return;
     const { gameId, success } = app.lastResult;
-    if (!success) {
-      els.resultAwardText.textContent = t("results.awardFailed");
-      return;
-    }
 
     const definition = gameDefinition(gameId);
     els.resultAwardText.textContent = t("results.awardPending");
@@ -413,9 +413,15 @@
         grade: app.grade,
         difficulty: app.difficulty,
       });
-      els.resultAwardText.textContent = award.awarded
-        ? t("results.awardSuccess", { points: award.points, time: formatTime(award.nextAvailableAt) })
-        : t("results.awardCooldown", { time: formatTime(award.nextAvailableAt) });
+      if (award.penalized) {
+        els.resultAwardText.textContent = t("results.penalty", { points: award.points });
+      } else if (award.awarded) {
+        els.resultAwardText.textContent = t("results.awardSuccess", { points: award.points, time: formatTime(award.nextAvailableAt) });
+      } else if (award.reason === "cooldown") {
+        els.resultAwardText.textContent = t("results.awardCooldown", { time: formatTime(award.nextAvailableAt) });
+      } else {
+        els.resultAwardText.textContent = t("results.awardFailed");
+      }
       app.leaderboard = CQ.scoreService.leaderboard();
       renderLeaderboard();
       updateBestPill();
