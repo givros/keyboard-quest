@@ -123,16 +123,20 @@
       context.fillStyle = "#18212b";
       context.font = "900 34px Inter, sans-serif";
       if (this.state === "preview") {
-        wrapText(context, this.current, 126, 192, W - 252, 44);
+        context.textAlign = "center";
+        wrapText(context, this.current, W / 2, 192, W - 252, 44);
       } else {
+        context.textAlign = "center";
         context.fillStyle = "#65717e";
         context.font = "900 58px Inter, sans-serif";
         context.fillText("••••••", W / 2, 210);
         context.fillStyle = "#167c80";
         context.font = "900 28px Inter, sans-serif";
+        context.textAlign = "left";
         wrapText(context, this.buffer || "…", 126, 296, W - 252, 38);
       }
 
+      context.textAlign = "center";
       drawKeycap(context, W / 2 - 90, 344, 180, 46, this.state === "preview" ? `${Math.ceil(this.previewLeft)} s` : `${this.bufferChars().length}/${this.textChars().length}`, "#e7c66f");
       context.fillStyle = "rgba(255,253,248,0.86)";
       context.font = "850 20px Inter, sans-serif";
