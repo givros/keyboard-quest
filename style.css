@@ -766,7 +766,7 @@ p {
 }
 
 body.has-mobile-keyboard {
-  padding-bottom: min(45vh, 340px);
+  padding-bottom: min(38vh, 320px);
 }
 
 .mobile-keyboard {
@@ -781,7 +781,7 @@ body.has-mobile-keyboard {
   z-index: 40;
   display: grid;
   gap: 7px;
-  max-height: 46vh;
+  max-height: min(36vh, 310px);
   padding: 9px max(10px, env(safe-area-inset-right)) calc(9px + env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
   border-top: 1px solid rgba(24, 33, 43, 0.2);
   background: rgba(255, 253, 248, 0.97);

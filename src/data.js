@@ -1995,7 +1995,7 @@
     },
     {
       id: "coordinates",
-      art: ["A1", "B4", "(3;7)", "x=4", "y=2", ";", "(", ")", "=", "map", "→", "✓"],
+      art: ["A", "1", "B", "4", "(", "3", ";", "7", "x", "=", "y", "2"],
     },
     {
       id: "repair",
@@ -2069,7 +2069,7 @@
       coordinates: {
         title: "Carte aux coordonnées",
         mode: "Repérage",
-        summary: "Tape les coordonnées exactes pour guider le personnage de case en case.",
+        summary: "Compose les coordonnées caractère par caractère pour guider le personnage.",
         tag: "coord.",
       },
       repair: {
@@ -2136,10 +2136,11 @@
       mission: "Tape l'étiquette la plus proche de la base.",
     },
     coordinates: {
-      target: "Objectif : {label}",
+      target: "Case : {label}",
+      typeSequence: "Tape les caractères dans l'ordre",
       timeUp: "La carte se referme.",
       success: "Le trajet est validé.",
-      mission: "Recopie la coordonnée demandée sans espace.",
+      mission: "Ce n'est pas une seule touche : tape chaque caractère de la coordonnée, dans l'ordre.",
     },
     repair: {
       title: "Message à réparer",
@@ -2182,7 +2183,7 @@
       shop: { title: "AltGr Shop", mode: "Useful symbols", summary: "Complete customer orders with @, #, €, braces and other rare keys.", tag: "AltGr" },
       flash: { title: "Flash Dictation", mode: "Memory", summary: "Read a line quickly, then type it back when it disappears.", tag: "memo" },
       tower: { title: "Keyboard Tower", mode: "Defense", summary: "Waves move toward the base: type the right label to stop them.", tag: "strategy" },
-      coordinates: { title: "Coordinate Map", mode: "Location", summary: "Type exact coordinates to guide the character from tile to tile.", tag: "coord." },
+      coordinates: { title: "Coordinate Map", mode: "Location", summary: "Build coordinates character by character to guide the character.", tag: "coord." },
       repair: { title: "Message Repair", mode: "Correction", summary: "Find the missing character in a sentence and type the correction.", tag: "text" },
       relay: { title: "Relay Race", mode: "Target speed", summary: "Pass gates with the right keys before the runner reaches them.", tag: "race" },
       boss: { title: "Keyboard Final Boss", mode: "Full mix", summary: "Symbols, shortcuts, memory and fast typing in a longer challenge.", tag: "boss" },
@@ -2201,7 +2202,7 @@
       base: "BASE", lives: "Base", wait: "Get ready", lost: "The base is overwhelmed.", timeUp: "The wave disperses.", success: "The base holds.", mission: "Type the label closest to the base.",
     },
     coordinates: {
-      target: "Target: {label}", timeUp: "The map closes.", success: "The route is validated.", mission: "Copy the requested coordinate with no spaces.",
+      target: "Tile: {label}", typeSequence: "Type the characters in order", timeUp: "The map closes.", success: "The route is validated.", mission: "It is not one key: type each coordinate character in order.",
     },
     repair: {
       title: "Message to repair", symbolHint: "missing symbol", timeUp: "The message stays incomplete.", success: "The messages are repaired.", mission: "Type only the missing character.",
@@ -2220,7 +2221,7 @@
       shop: { title: "Tienda AltGr", mode: "Símbolos útiles", summary: "Completa pedidos con @, #, €, llaves y otras teclas raras.", tag: "AltGr" },
       flash: { title: "Dictado flash", mode: "Memoria", summary: "Lee una línea rápido y escríbela cuando desaparece.", tag: "memo" },
       tower: { title: "Torre teclado", mode: "Defensa", summary: "Las oleadas avanzan hacia la base: escribe la etiqueta correcta.", tag: "estrategia" },
-      coordinates: { title: "Mapa de coordenadas", mode: "Ubicación", summary: "Escribe coordenadas exactas para guiar al personaje.", tag: "coord." },
+      coordinates: { title: "Mapa de coordenadas", mode: "Ubicación", summary: "Compón coordenadas carácter por carácter para guiar al personaje.", tag: "coord." },
       repair: { title: "Reparación de mensaje", mode: "Corrección", summary: "Encuentra el carácter que falta y escribe la corrección.", tag: "texto" },
       relay: { title: "Carrera de relevos", mode: "Velocidad precisa", summary: "Pasa puertas con las teclas correctas antes de llegar.", tag: "carrera" },
       boss: { title: "Boss final teclado", mode: "Mezcla completa", summary: "Símbolos, atajos, memoria y escritura rápida en un reto largo.", tag: "boss" },
@@ -2239,7 +2240,7 @@
       base: "BASE", lives: "Base", wait: "Prepárate", lost: "La base está superada.", timeUp: "La oleada se dispersa.", success: "La base resiste.", mission: "Escribe la etiqueta más cercana a la base.",
     },
     coordinates: {
-      target: "Objetivo: {label}", timeUp: "El mapa se cierra.", success: "La ruta está validada.", mission: "Copia la coordenada pedida sin espacios.",
+      target: "Casilla: {label}", typeSequence: "Escribe los caracteres en orden", timeUp: "El mapa se cierra.", success: "La ruta está validada.", mission: "No es una sola tecla: escribe cada carácter de la coordenada en orden.",
     },
     repair: {
       title: "Mensaje para reparar", symbolHint: "símbolo que falta", timeUp: "El mensaje queda incompleto.", success: "Los mensajes están reparados.", mission: "Escribe solo el carácter que falta.",

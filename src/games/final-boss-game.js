@@ -168,12 +168,40 @@
       }
     }
 
+    drawTarget(context, label, hidden) {
+      const x = 134;
+      const y = 218;
+      const width = W - 268;
+      const height = 94;
+      drawRoundRect(context, x, y, width, height, 10);
+      context.fillStyle = this.state === "preview" ? "#fff4cf" : "#f6efe1";
+      context.fill();
+      context.strokeStyle = "rgba(24,33,43,0.24)";
+      context.lineWidth = 3;
+      context.stroke();
+
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.fillStyle = "#18212b";
+      const visibleLabel = hidden ? "••••" : label;
+      const size = visibleLabel.length > 34 ? 20 : visibleLabel.length > 22 ? 24 : visibleLabel.length > 12 ? 30 : 38;
+      context.font = `900 ${size}px Inter, sans-serif`;
+      if (visibleLabel.length > 28) {
+        context.textAlign = "left";
+        context.textBaseline = "alphabetic";
+        wrapText(context, visibleLabel, x + 24, y + 40, width - 48, 28);
+      } else {
+        context.fillText(visibleLabel, W / 2, y + height / 2);
+      }
+      context.textBaseline = "alphabetic";
+    }
+
     render(context) {
       drawStageBackground(context, "plum");
       context.save();
       context.translate(Math.sin(this.flash * 80) * 8, 0);
 
-      drawRoundRect(context, 68, 62, W - 136, 360, 10);
+      drawRoundRect(context, 68, 56, W - 136, 388, 10);
       context.fillStyle = "rgba(255,253,248,0.94)";
       context.fill();
       context.strokeStyle = this.flash ? "#e87861" : "#18212b";
@@ -186,16 +214,17 @@
       context.fillText(this.t(`boss.types.${this.current.type}`), W / 2, 108);
 
       context.fillStyle = "#18212b";
-      context.font = "900 30px Inter, sans-serif";
-      wrapText(context, this.current.prompt, 126, 158, W - 252, 40);
+      context.font = "900 25px Inter, sans-serif";
+      context.textAlign = "left";
+      wrapText(context, this.current.prompt, 126, 154, W - 252, 32);
 
       const hidden = this.current.type === "memory" && this.state === "input";
       const label = hidden ? "••••" : this.current.label;
-      drawKeycap(context, W / 2 - 165, 244, 330, 74, label, this.state === "preview" ? "#e7c66f" : "#f6efe1");
+      this.drawTarget(context, label, hidden);
 
       context.fillStyle = this.flash ? "#d95842" : "#167c80";
       context.font = "900 24px Inter, sans-serif";
-      context.fillText(this.current.type === "combo" ? this.t("boss.comboHint") : this.buffer || "…", W / 2, 364);
+      context.fillText(this.current.type === "combo" ? this.t("boss.comboHint") : this.buffer || "…", W / 2, 366);
 
       context.fillStyle = "rgba(255,253,248,0.88)";
       context.font = "850 20px Inter, sans-serif";

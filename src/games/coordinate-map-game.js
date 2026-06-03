@@ -40,6 +40,10 @@
       return `x=${this.target.x + 1};y=${this.target.y + 1}`;
     }
 
+    targetSequenceLabel() {
+      return Array.from(this.targetLabel()).join("  ");
+    }
+
     expectedChars() {
       return Array.from(this.targetLabel().normalize("NFC"));
     }
@@ -114,7 +118,21 @@
       context.fillStyle = "rgba(255,253,248,0.9)";
       context.font = "900 26px Inter, sans-serif";
       context.fillText(this.t("coordinates.target", { label }), W / 2, 44);
-      drawKeycap(context, W / 2 - 150, H - 108, 300, 58, this.buffer || "…", this.flash ? "#e87861" : "#f6efe1");
+
+      const chars = Array.from(label);
+      const keyWidth = Math.min(64, Math.max(42, (W - 220) / Math.max(chars.length, 1) - 8));
+      const totalWidth = chars.length * keyWidth + (chars.length - 1) * 8;
+      let keyX = W / 2 - totalWidth / 2;
+      context.fillStyle = "rgba(255,253,248,0.86)";
+      context.font = "850 18px Inter, sans-serif";
+      context.fillText(this.t("coordinates.typeSequence"), W / 2, H - 132);
+      chars.forEach((char, index) => {
+        const typed = Array.from(this.buffer)[index];
+        const fill = typed ? "#8fc7a3" : "#f6efe1";
+        drawKeycap(context, keyX, H - 116, keyWidth, 48, typed || char, fill);
+        keyX += keyWidth + 8;
+      });
+
       context.fillStyle = "rgba(255,253,248,0.86)";
       context.font = "850 20px Inter, sans-serif";
       context.fillText(`${this.completed}/${this.goal}`, W / 2, H - 36);
@@ -129,7 +147,7 @@
         meterLabel: this.t("meters.maps"),
         meterValue: `${this.completed}/${this.goal}`,
         meterRatio: this.completed / this.goal,
-        mission: `<strong>${this.targetLabel()}</strong><br>${this.t("coordinates.mission")}`,
+        mission: `<strong>${this.targetSequenceLabel()}</strong><br>${this.t("coordinates.mission")}`,
       };
     }
   }

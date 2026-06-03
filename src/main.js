@@ -526,7 +526,7 @@
 
   function updateVirtualKeyboardVisibility() {
     if (!els.mobileKeyboard) return;
-    const showKeyboard = els.play.classList.contains("screen-active") && app.running && isLikelyMobilePortrait();
+    const showKeyboard = els.play.classList.contains("screen-active") && app.running;
     els.mobileKeyboard.classList.toggle("mobile-keyboard-active", showKeyboard);
     els.mobileKeyboard.setAttribute("aria-hidden", String(!showKeyboard));
     document.body.classList.toggle("has-mobile-keyboard", showKeyboard);
