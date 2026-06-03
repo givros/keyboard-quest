@@ -398,14 +398,6 @@
     els.scoreStatus.textContent = `${statusText} · ${gradingScaleText()}`;
   }
 
-  function syncRoomInUrl(room) {
-    const cleanRoom = String(room || "").replace(/\D/g, "").slice(0, 8);
-    const url = new URL(window.location.href);
-    if (cleanRoom) url.searchParams.set("room", cleanRoom);
-    else url.searchParams.delete("room");
-    history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
-  }
-
   function renderLeaderboard(entries = app.leaderboard) {
     els.scoreTable?.classList.toggle("score-grades-hidden", app.scoreGradesHidden);
     if (els.toggleScoreGrades) {
@@ -753,7 +745,6 @@
     els.playerForm.addEventListener("submit", (event) => {
       event.preventDefault();
       CQ.scoreService.setRoom(els.scoreRoom.value);
-      syncRoomInUrl(CQ.scoreService.getRoom());
       if (!CQ.scoreService.setPlayerName(els.playerName.value)) {
         els.landingScoreStatus.textContent = t("landing.required");
         els.playerName.focus();
@@ -781,7 +772,6 @@
       },
     });
     app.leaderboard = CQ.scoreService.leaderboard();
-    syncRoomInUrl(CQ.scoreService.getRoom());
   }
 
   function bindSegmentedControls() {

@@ -290,17 +290,12 @@
       try {
         await this.loadRelayCache();
         this.emitEntries();
+        this.emitStatus("relay");
+        this.watchRelay();
+        if (this.player.nickname) await this.publishProfile();
       } catch (error) {
-        console.warn("Live score history unavailable, continuing with live sync.", error);
-      }
-
-      const watching = this.watchRelay();
-      this.emitStatus(watching ? "relay" : "relayError");
-      if (this.player.nickname) {
-        this.publishProfile().catch((error) => {
-          console.warn("Live score profile sync unavailable.", error);
-          this.emitStatus("relayError");
-        });
+        console.warn("Live score relay unavailable, using local scores.", error);
+        this.useLocalScores("relayError");
       }
     },
 
@@ -320,8 +315,8 @@
     },
 
     watchRelay() {
-      if (!window.EventSource || !this.relay) return false;
-      const source = new EventSource(`${this.relay.baseUrl}/${this.relay.topic}/sse`);
+      if (!window.EventSource || !this.relay) return;
+      const source = new EventSource(`${this.relay.baseUrl}/${this.relay.topic}/sse?since=all`);
       this.relay.eventSource = source;
       source.onopen = () => this.emitStatus("relay");
       source.onmessage = (event) => {
@@ -336,7 +331,6 @@
       source.onerror = () => {
         this.emitStatus("relayError");
       };
-      return true;
     },
 
     consumeRelayEnvelope(envelope) {
