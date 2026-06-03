@@ -2041,6 +2041,10 @@
   }
 
   extendTranslations("fr", {
+    keyboard: {
+      show: "Afficher le clavier",
+      hide: "Réduire le clavier",
+    },
     games: {
       duel: {
         title: "Duel de raccourcis",
@@ -2178,6 +2182,10 @@
   });
 
   extendTranslations("en", {
+    keyboard: {
+      show: "Show keyboard",
+      hide: "Collapse keyboard",
+    },
     games: {
       duel: { title: "Shortcut Duel", mode: "Method reflex", summary: "An opponent launches actions: block them with the right shortcut before impact.", tag: "Ctrl" },
       shop: { title: "AltGr Shop", mode: "Useful symbols", summary: "Complete customer orders with @, #, €, braces and other rare keys.", tag: "AltGr" },
@@ -2216,6 +2224,10 @@
   });
 
   extendTranslations("es", {
+    keyboard: {
+      show: "Mostrar teclado",
+      hide: "Reducir teclado",
+    },
     games: {
       duel: { title: "Duelo de atajos", mode: "Reflejo método", summary: "Un adversario lanza acciones: bloquéalas con el atajo correcto.", tag: "Ctrl" },
       shop: { title: "Tienda AltGr", mode: "Símbolos útiles", summary: "Completa pedidos con @, #, €, llaves y otras teclas raras.", tag: "AltGr" },

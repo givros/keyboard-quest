@@ -81,6 +81,7 @@
     ctrl: false,
     shift: false,
     altgr: false,
+    open: false,
   };
 
   const virtualKeyboardRows = [
@@ -328,6 +329,8 @@
     app.gameId = gameId;
     app.game = createGame({ grade: app.grade, difficulty: app.difficulty, language: app.language });
     app.running = true;
+    virtualKeyboardState.open = false;
+    resetVirtualModifiers();
     app.lastResult = null;
     app.lastTime = performance.now();
 
@@ -343,6 +346,8 @@
     if (app.frameId) cancelAnimationFrame(app.frameId);
     app.frameId = 0;
     app.running = false;
+    virtualKeyboardState.open = false;
+    resetVirtualModifiers();
     updateVirtualKeyboardVisibility();
   }
 
@@ -511,6 +516,7 @@
     updateBestPill();
     updatePlayHeader();
     renderDifficultyRewards();
+    updateVirtualKeyboardToggle();
     renderResult();
     renderScoreStatus();
     renderLeaderboard();
@@ -528,8 +534,11 @@
     if (!els.mobileKeyboard) return;
     const showKeyboard = els.play.classList.contains("screen-active") && app.running;
     els.mobileKeyboard.classList.toggle("mobile-keyboard-active", showKeyboard);
+    els.mobileKeyboard.classList.toggle("mobile-keyboard-open", showKeyboard && virtualKeyboardState.open);
     els.mobileKeyboard.setAttribute("aria-hidden", String(!showKeyboard));
     document.body.classList.toggle("has-mobile-keyboard", showKeyboard);
+    document.body.classList.toggle("virtual-keyboard-open", showKeyboard && virtualKeyboardState.open);
+    updateVirtualKeyboardToggle();
   }
 
   function virtualKeyType(key) {
@@ -564,6 +573,26 @@
     virtualKeyboardState.shift = false;
     virtualKeyboardState.altgr = false;
     updateVirtualModifiers();
+  }
+
+  function toggleVirtualKeyboardOpen() {
+    virtualKeyboardState.open = !virtualKeyboardState.open;
+    updateVirtualKeyboardVisibility();
+    try {
+      canvas.focus({ preventScroll: true });
+    } catch {
+      canvas.focus();
+    }
+  }
+
+  function updateVirtualKeyboardToggle() {
+    if (!els.mobileKeyboard) return;
+    const button = els.mobileKeyboard.querySelector("[data-virtual-keyboard-toggle]");
+    if (!button) return;
+    const label = virtualKeyboardState.open ? t("keyboard.hide") : t("keyboard.show");
+    button.textContent = label;
+    button.setAttribute("aria-label", label);
+    button.setAttribute("aria-expanded", String(virtualKeyboardState.open));
   }
 
   function toggleVirtualModifier(modifier) {
@@ -661,13 +690,27 @@
   function renderVirtualKeyboard() {
     if (!els.mobileKeyboard) return;
     els.mobileKeyboard.innerHTML = "";
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "mobile-keyboard-toggle";
+    toggle.dataset.virtualKeyboardToggle = "true";
+    toggle.addEventListener("click", (event) => {
+      event.preventDefault();
+      toggleVirtualKeyboardOpen();
+    });
+    els.mobileKeyboard.appendChild(toggle);
+
+    const keyPanel = document.createElement("div");
+    keyPanel.className = "mobile-keyboard-keys";
     for (const rowDefinition of virtualKeyboardRows) {
       const row = document.createElement("div");
       row.className = ["mobile-keyboard-row", rowDefinition.className || ""].filter(Boolean).join(" ");
       for (const key of rowDefinition.keys) row.appendChild(createVirtualKey(key));
-      els.mobileKeyboard.appendChild(row);
+      keyPanel.appendChild(row);
     }
+    els.mobileKeyboard.appendChild(keyPanel);
     updateVirtualModifiers();
+    updateVirtualKeyboardToggle();
     updateVirtualKeyboardVisibility();
   }
 
