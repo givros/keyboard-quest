@@ -169,18 +169,21 @@
               <h1 id="scoreTitle" data-i18n="leaderboard.title">Scores des joueurs</h1>
               <p data-i18n="leaderboard.description">Tableau classé automatiquement du plus grand score au plus petit.</p>
             </div>
-            <button class="text-button" type="button" id="scoreHome" data-i18n="actions.homeShort">Accueil</button>
+            <div class="scoreboard-actions">
+              <button class="text-button" type="button" id="toggleScoreGrades" aria-pressed="false" data-i18n="leaderboard.hideGrades">Cacher note et mention</button>
+              <button class="text-button" type="button" id="scoreHome" data-i18n="actions.homeShort">Accueil</button>
+            </div>
           </div>
           <div class="leaderboard-panel">
             <div class="score-status" id="scoreStatus"></div>
-            <table class="score-table">
+            <table class="score-table" id="scoreTable">
               <thead>
                 <tr>
                   <th data-i18n="leaderboard.rank">Rang</th>
                   <th data-i18n="leaderboard.player">Pseudo</th>
                   <th data-i18n="leaderboard.points">Points</th>
-                  <th data-i18n="leaderboard.note">Note /20</th>
-                  <th data-i18n="leaderboard.mention">Mention</th>
+                  <th class="score-grade-column" data-i18n="leaderboard.note">Note /20</th>
+                  <th class="score-grade-column" data-i18n="leaderboard.mention">Mention</th>
                   <th data-i18n="leaderboard.lastGame">Dernier jeu</th>
                   <th data-i18n="leaderboard.updated">Mise à jour</th>
                 </tr>

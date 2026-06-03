@@ -669,6 +669,13 @@ p {
   margin-bottom: 18px;
 }
 
+.scoreboard-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .scoreboard-head h1 {
   margin-bottom: 8px;
   font-size: clamp(2rem, 5vw, 3.6rem);
@@ -694,6 +701,14 @@ p {
   width: 100%;
   min-width: 940px;
   border-collapse: collapse;
+}
+
+.score-table.score-grades-hidden {
+  min-width: 720px;
+}
+
+.score-table.score-grades-hidden .score-grade-column {
+  display: none;
 }
 
 .score-table th,
@@ -942,6 +957,14 @@ body.has-mobile-keyboard.virtual-keyboard-open {
     grid-template-columns: 1fr;
     flex-direction: column;
     gap: 10px;
+  }
+
+  .scoreboard-actions {
+    justify-content: stretch;
+  }
+
+  .scoreboard-actions .text-button {
+    flex: 1 1 180px;
   }
 
   .game-grid,

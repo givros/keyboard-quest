@@ -37,6 +37,8 @@
     soundToggle: document.querySelector("#soundToggle"),
     navHome: document.querySelector("[data-nav-home]"),
     scoreHome: document.querySelector("#scoreHome"),
+    toggleScoreGrades: document.querySelector("#toggleScoreGrades"),
+    scoreTable: document.querySelector("#scoreTable"),
     scoreStatus: document.querySelector("#scoreStatus"),
     scoreTableBody: document.querySelector("#scoreTableBody"),
     mobileKeyboard: document.querySelector("#mobileKeyboard"),
@@ -75,6 +77,7 @@
     lastResult: null,
     leaderboard: [],
     scoreStatus: "local",
+    scoreGradesHidden: false,
   };
 
   const virtualKeyboardState = {
@@ -396,11 +399,17 @@
   }
 
   function renderLeaderboard(entries = app.leaderboard) {
+    els.scoreTable?.classList.toggle("score-grades-hidden", app.scoreGradesHidden);
+    if (els.toggleScoreGrades) {
+      els.toggleScoreGrades.textContent = app.scoreGradesHidden ? t("leaderboard.showGrades") : t("leaderboard.hideGrades");
+      els.toggleScoreGrades.setAttribute("aria-pressed", String(app.scoreGradesHidden));
+    }
+
     els.scoreTableBody.innerHTML = "";
     if (!entries.length) {
       const row = document.createElement("tr");
       const cell = document.createElement("td");
-      cell.colSpan = 7;
+      cell.colSpan = app.scoreGradesHidden ? 5 : 7;
       cell.textContent = t("leaderboard.empty");
       row.appendChild(cell);
       els.scoreTableBody.appendChild(row);
@@ -420,8 +429,8 @@
       const report = CQ.scoreService.gradeReport(total, app.grade);
 
       rank.className = "score-rank";
-      note.className = "score-note";
-      mention.className = `score-mention score-mention-${report.mention}`;
+      note.className = "score-note score-grade-column";
+      mention.className = `score-mention score-grade-column score-mention-${report.mention}`;
       rank.textContent = `#${index + 1}`;
       name.textContent = entry.nickname || "???";
       points.textContent = String(total);
@@ -812,6 +821,10 @@
     els.backToHome.addEventListener("click", goHome);
     els.resultHome.addEventListener("click", goHome);
     els.scoreHome.addEventListener("click", goHome);
+    els.toggleScoreGrades?.addEventListener("click", () => {
+      app.scoreGradesHidden = !app.scoreGradesHidden;
+      renderLeaderboard();
+    });
     els.restartGame.addEventListener("click", () => startGame(app.gameId));
     els.playAgain.addEventListener("click", () => startGame(app.gameId));
     els.onboardingClose?.addEventListener("click", closeOnboardingModal);
