@@ -46,17 +46,52 @@
         [2, 9],
         [13, 9],
         [4, 1],
-        [14, 1],
         [6, 7],
-        [16, 10],
+        [1, 10],
+        [8, 8],
+        [11, 1],
+        [16, 6],
+        [14, 7],
+        [16, 8],
       ];
+      const validSpots = this.validTokenSpots(spots);
       const pool = shuffle(this.tokenPool()).slice(0, this.settings.tokens);
-      return shuffle(spots).slice(0, this.settings.tokens).map(([x, y], index) => ({
+      return shuffle(validSpots).slice(0, this.settings.tokens).map(([x, y], index) => ({
         x,
         y,
         label: pool[index],
         done: false,
       }));
+    }
+
+    distanceFromStart() {
+      const start = { x: 1, y: 1 };
+      const queue = [start];
+      const distances = new Map([[`${start.x},${start.y}`, 0]]);
+
+      for (let index = 0; index < queue.length; index += 1) {
+        const cell = queue[index];
+        const distance = distances.get(`${cell.x},${cell.y}`);
+        [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => {
+          const x = cell.x + dx;
+          const y = cell.y + dy;
+          const key = `${x},${y}`;
+          if (this.map[y]?.[x] === "#" || distances.has(key)) return;
+          distances.set(key, distance + 1);
+          queue.push({ x, y });
+        });
+      }
+
+      return distances;
+    }
+
+    validTokenSpots(spots) {
+      const distances = this.distanceFromStart();
+      const exitDistance = distances.get(`${this.exit.x},${this.exit.y}`) ?? Number.POSITIVE_INFINITY;
+      return spots.filter(([x, y]) => {
+        const distance = distances.get(`${x},${y}`);
+        return this.map[y]?.[x] !== "#" && Number.isFinite(distance) && distance > 0 && distance < exitDistance;
+      });
     }
 
     tokenPool() {
@@ -75,8 +110,10 @@
         pool = [...symbols, ...extras, ...keys.slice(0, this.grade === "4e" ? 8 : 5)];
       }
 
-      const unique = [...new Set(pool)].filter(Boolean);
-      return unique.length >= this.settings.tokens ? unique : [...new Set([...unique, ...keys, ...extras])].filter(Boolean);
+      const movementKeys = new Set(["z", "q", "s", "d"]);
+      const clean = (items) => [...new Set(items)].filter((item) => item && !movementKeys.has(String(item).toLocaleLowerCase("fr-FR")));
+      const unique = clean(pool);
+      return unique.length >= this.settings.tokens ? unique : clean([...unique, ...keys, ...extras, ...symbols]);
     }
 
     update(dt) {
@@ -139,7 +176,14 @@
       this.score += 1;
       if (nx === this.exit.x && ny === this.exit.y) {
         const allDone = this.tokens.every((token) => token.done);
-        this.finish(allDone, allDone ? this.t("maze.exitSuccess") : this.t("maze.missingBeacons"));
+        if (allDone) {
+          this.finish(true, this.t("maze.exitSuccess"));
+        } else {
+          this.player.x -= dx;
+          this.player.y -= dy;
+          this.addMiss();
+          this.bump = 0.18;
+        }
       }
     }
 
