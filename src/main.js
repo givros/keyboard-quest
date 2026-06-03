@@ -295,6 +295,27 @@
     updateVirtualKeyboardVisibility();
   }
 
+  function isScoresPath() {
+    return /\/scores\.html$/i.test(window.location.pathname);
+  }
+
+  function replaceRouteFile(fileName) {
+    const url = new URL(window.location.href);
+    const directory = url.pathname.replace(/[^/]*$/, "");
+    url.pathname = `${directory}${fileName}`;
+    url.search = "";
+    url.hash = "";
+    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+  }
+
+  function showScoreRouteUrl() {
+    if (!isScoresPath()) replaceRouteFile("scores.html");
+  }
+
+  function showHomeRouteUrl() {
+    if (isScoresPath() || window.location.hash === "#scores") replaceRouteFile("index.html");
+  }
+
   function openOnboardingModal() {
     if (!els.onboardingModal) return;
     els.onboardingModal.classList.remove("hidden");
@@ -512,7 +533,7 @@
 
   function goHome() {
     stopLoop();
-    if (window.location.hash === "#scores") history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    showHomeRouteUrl();
     setScreen(hasPlayerName() ? "home" : "landing");
     renderGameCards();
   }
@@ -746,8 +767,9 @@
   }
 
   function routeFromHash() {
-    if (window.location.hash === "#scores") {
+    if (window.location.hash === "#scores" || isScoresPath()) {
       stopLoop();
+      showScoreRouteUrl();
       setScreen("scores");
       renderLeaderboard();
       return;
