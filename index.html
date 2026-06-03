@@ -67,8 +67,6 @@
             <form class="player-panel" id="playerForm">
               <label class="control-label" for="playerName" data-i18n="landing.label">Pseudo</label>
               <input id="playerName" name="playerName" type="text" autocomplete="nickname" maxlength="18" required placeholder="Ex : NeoClavier" data-i18n-placeholder="landing.placeholder" />
-              <label class="control-label" for="scoreRoom" data-i18n="landing.roomLabel">Room</label>
-              <input id="scoreRoom" name="scoreRoom" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="8" placeholder="Ex : 4821" data-i18n-placeholder="landing.roomPlaceholder" />
               <button class="primary-button" type="submit" data-i18n="landing.start">Commencer</button>
               <p class="score-status" id="landingScoreStatus"></p>
             </form>
@@ -175,6 +173,13 @@
             </div>
           </div>
           <div class="leaderboard-panel">
+            <div class="score-sync-panel">
+              <div>
+                <span class="control-label" data-i18n="leaderboard.syncLabel">Room unique</span>
+                <p data-i18n="leaderboard.syncHelp">Tous les joueurs publient automatiquement ici. La page scores.html affiche ce tableau.</p>
+              </div>
+              <button class="text-button danger-button" type="button" id="clearScoreRoom" data-i18n="leaderboard.clearRoom">Vider la room</button>
+            </div>
             <div class="score-status" id="scoreStatus"></div>
             <table class="score-table" id="scoreTable">
               <thead>

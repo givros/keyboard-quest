@@ -1,15 +1,16 @@
-# Scores live sans serveur local
+# Scores live avec room unique
 
 Le projet reste utilisable directement depuis `index.html` et depuis GitHub Pages.
 
-Pour synchroniser les scores sans lancer Node et sans compte :
+Fonctionnement actuel :
 
-1. Choisis un numero de room, par exemple `4821`.
-2. Les eleves ouvrent `index.html?room=4821`.
-3. La page de gestion des scores s'ouvre avec `scores.html?room=4821`.
+1. Les eleves ouvrent `index.html`.
+2. Ils entrent seulement leur pseudo.
+3. La page de gestion des scores s'ouvre avec `scores.html`.
+4. Tous les scores utilisent la meme room unique configuree dans `src/score-config.js`.
 
-Les pages publient et lisent de petits evenements de score via le relais public `ntfy.sh`. Si le relais est indisponible, l'application repasse en score local et les jeux continuent de fonctionner.
+Les pages publient et lisent de petits evenements de score via le relais public `ntfy.sh`. L'application garde aussi une verification reguliere en arriere-plan afin que le tableau se mette a jour meme si le flux direct est temporairement instable.
 
-Sans `room`, aucun score n'est envoye : le classement reste local au navigateur.
+Le bouton `Vider la room` sur la page score publie un evenement de reset. Les anciens scores de la room sont alors ignores, y compris apres un rafraichissement de page.
 
-Le numero de room n'est pas un mot de passe. Pour eviter les collisions avec une autre classe, choisis un numero assez long, par exemple `482193`.
+Si le relais est indisponible, les jeux continuent de fonctionner avec des scores locaux.

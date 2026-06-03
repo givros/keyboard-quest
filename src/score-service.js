@@ -92,13 +92,12 @@
     };
   }
 
-  function roomFromUrl() {
-    const params = new URLSearchParams(window.location.search);
-    return cleanRoom(params.get("room") || params.get("classe") || params.get("class"));
+  function defaultRoom() {
+    return cleanRoom(CQ.scoreConfig?.relay?.room || CQ.DEFAULT_SCORE_ROOM || "1") || "1";
   }
 
   function loadRoom() {
-    return roomFromUrl() || cleanRoom(loadJson(CQ.SCORE_ROOM_STORAGE_KEY, ""));
+    return defaultRoom();
   }
 
   function relayEnabled(config) {
@@ -116,6 +115,14 @@
 
   function roomCacheKey(room) {
     return `${CQ.SCORE_STORAGE_KEY}:room:${room}`;
+  }
+
+  function roomEventsKey(room) {
+    return `${CQ.SCORE_STORAGE_KEY}:events:${room}`;
+  }
+
+  function roomMetaKey(room) {
+    return `${CQ.SCORE_STORAGE_KEY}:meta:${room}`;
   }
 
   async function fetchWithTimeout(url, options = {}, timeoutMs = 2500) {
@@ -139,6 +146,8 @@
     entriesById: loadJson(CQ.SCORE_STORAGE_KEY, {}),
     status: "local",
     relay: null,
+    relayPollTimer: 0,
+    lastResetAt: 0,
     seenEvents: new Set(),
     entryListeners: [],
     statusListeners: [],
@@ -191,7 +200,7 @@
     },
 
     setRoom(room) {
-      const nextRoom = cleanRoom(room);
+      const nextRoom = defaultRoom();
       this.room = nextRoom;
       saveJson(CQ.SCORE_ROOM_STORAGE_KEY, nextRoom);
       if (!nextRoom || !relayEnabled(CQ.scoreConfig)) {
@@ -211,8 +220,8 @@
       this.emitEntries();
       if (this.relay) {
         this.publishProfile().catch((error) => {
-          console.warn("Live score profile sync unavailable, using local scores.", error);
-          this.useLocalScores("relayError");
+          console.warn("Live score profile sync unavailable.", error);
+          this.emitStatus("relayError");
         });
       }
       return true;
@@ -240,6 +249,32 @@
       saveJson(this.activeStorageKey(), this.entriesById);
     },
 
+    activeEventsKey() {
+      return this.room ? roomEventsKey(this.room) : `${CQ.SCORE_STORAGE_KEY}:events:local`;
+    },
+
+    loadSeenEvents(room) {
+      const saved = loadJson(roomEventsKey(room), []);
+      this.seenEvents = new Set(Array.isArray(saved) ? saved.slice(-1200) : []);
+    },
+
+    saveSeenEvents() {
+      const events = Array.from(this.seenEvents).slice(-1200);
+      saveJson(this.activeEventsKey(), events);
+    },
+
+    loadRoomMeta(room) {
+      const meta = loadJson(roomMetaKey(room), {});
+      this.lastResetAt = Number(meta.lastResetAt) || 0;
+    },
+
+    saveRoomMeta() {
+      if (!this.room) return;
+      saveJson(roomMetaKey(this.room), {
+        lastResetAt: this.lastResetAt,
+      });
+    },
+
     ensureActiveEntry() {
       if (!this.player.nickname) return null;
       const current = this.entriesById[this.player.id] || {};
@@ -256,6 +291,8 @@
 
     disconnectRelay() {
       if (this.relay?.eventSource) this.relay.eventSource.close();
+      if (this.relayPollTimer) window.clearInterval(this.relayPollTimer);
+      this.relayPollTimer = 0;
       this.relay = null;
       this.seenEvents = new Set();
     },
@@ -279,29 +316,40 @@
       this.room = clean;
       saveJson(CQ.SCORE_ROOM_STORAGE_KEY, clean);
       this.entriesById = loadJson(roomCacheKey(clean), {});
+      this.loadRoomMeta(clean);
       this.relay = {
         baseUrl: relayBaseUrl(CQ.scoreConfig),
         topic: relayTopic(CQ.scoreConfig, clean),
         eventSource: null,
+        lastEnvelopeId: "",
       };
+      this.loadSeenEvents(clean);
       this.emitEntries();
       this.emitStatus("relayConnecting");
 
       try {
         await this.loadRelayCache();
         this.emitEntries();
-        this.emitStatus("relay");
-        this.watchRelay();
-        if (this.player.nickname) await this.publishProfile();
       } catch (error) {
-        console.warn("Live score relay unavailable, using local scores.", error);
-        this.useLocalScores("relayError");
+        console.warn("Live score history unavailable.", error);
+      }
+
+      this.watchRelay();
+      this.startRelayPolling();
+
+      if (this.player.nickname) {
+        this.publishProfile().catch((error) => {
+          console.warn("Live score profile sync unavailable.", error);
+          this.emitStatus("relayError");
+          this.startRelayPolling();
+        });
       }
     },
 
     async loadRelayCache() {
       if (!this.relay) return;
-      const response = await fetchWithTimeout(`${this.relay.baseUrl}/${this.relay.topic}/json?poll=1&since=all`);
+      const since = encodeURIComponent(this.relay.lastEnvelopeId || "all");
+      const response = await fetchWithTimeout(`${this.relay.baseUrl}/${this.relay.topic}/json?poll=1&since=${since}`);
       const text = await response.text();
       text.split("\n").forEach((line) => {
         if (!line.trim()) return;
@@ -312,17 +360,25 @@
         }
       });
       this.saveActiveEntries();
+      this.saveSeenEvents();
     },
 
     watchRelay() {
-      if (!window.EventSource || !this.relay) return;
-      const source = new EventSource(`${this.relay.baseUrl}/${this.relay.topic}/sse?since=all`);
+      if (!window.EventSource || !this.relay) {
+        this.emitStatus("relayError");
+        return false;
+      }
+      const since = encodeURIComponent(this.relay.lastEnvelopeId || "all");
+      const source = new EventSource(`${this.relay.baseUrl}/${this.relay.topic}/sse?since=${since}`);
       this.relay.eventSource = source;
-      source.onopen = () => this.emitStatus("relay");
+      source.onopen = () => {
+        this.emitStatus("relay");
+      };
       source.onmessage = (event) => {
         try {
           this.consumeRelayEnvelope(JSON.parse(event.data));
           this.saveActiveEntries();
+          this.saveSeenEvents();
           this.emitEntries();
         } catch (error) {
           console.warn("Invalid live score event.", error);
@@ -330,10 +386,37 @@
       };
       source.onerror = () => {
         this.emitStatus("relayError");
+        this.startRelayPolling();
       };
+      return true;
+    },
+
+    startRelayPolling() {
+      if (!this.relay || this.relayPollTimer) return;
+      const poll = () => {
+        if (!this.relay) return;
+        this.loadRelayCache()
+          .then(() => {
+            this.emitEntries();
+            this.emitStatus("relay");
+          })
+          .catch((error) => {
+            console.warn("Live score polling unavailable.", error);
+            this.emitStatus("relayError");
+          });
+      };
+      this.relayPollTimer = window.setInterval(poll, 7000);
+      poll();
+    },
+
+    stopRelayPolling() {
+      if (!this.relayPollTimer) return;
+      window.clearInterval(this.relayPollTimer);
+      this.relayPollTimer = 0;
     },
 
     consumeRelayEnvelope(envelope) {
+      if (this.relay && envelope?.id) this.relay.lastEnvelopeId = String(envelope.id);
       if (envelope?.event !== "message" || !envelope.message) return;
       let payload;
       try {
@@ -347,22 +430,41 @@
     applyRelayPayload(payload) {
       if (payload?.app !== "keyboard-quest" || payload.room !== this.room || !payload.eventId) return;
       if (this.seenEvents.has(payload.eventId)) return;
-      this.seenEvents.add(payload.eventId);
+
+      if (payload.type === "reset") {
+        this.seenEvents.add(payload.eventId);
+        this.saveSeenEvents();
+        const at = Number(payload.at) || Date.now();
+        if (at >= this.lastResetAt) {
+          this.lastResetAt = at;
+          this.entriesById = {};
+          this.saveRoomMeta();
+          this.saveActiveEntries();
+        }
+        return;
+      }
 
       const playerId = String(payload.player?.id || "").slice(0, 90);
       const nickname = cleanNickname(payload.player?.nickname);
       if (!playerId || !nickname) return;
+      const at = Number(payload.at) || Date.now();
+      if (at <= this.lastResetAt) {
+        this.seenEvents.add(payload.eventId);
+        this.saveSeenEvents();
+        return;
+      }
+      this.seenEvents.add(payload.eventId);
+      this.saveSeenEvents();
 
       if (payload.type === "profile") {
-        this.ensureRelayEntry(playerId, nickname, payload.at);
+        this.ensureRelayEntry(playerId, nickname, at);
         return;
       }
 
       if (!["award", "penalty"].includes(payload.type) || !payload.award) return;
       const award = payload.award;
-      const entry = this.ensureRelayEntry(playerId, nickname, payload.at);
+      const entry = this.ensureRelayEntry(playerId, nickname, at);
       const key = `${award.gameId}:${award.grade}:${award.difficulty}`;
-      const at = Number(payload.at) || Date.now();
       const cooldowns = entry.cooldowns || {};
       const points = pointsFor({ difficulty: award.difficulty, grade: award.grade, gameId: award.gameId });
 
@@ -434,6 +536,39 @@
       this.emitEntries();
     },
 
+    async clearRoom() {
+      const room = this.room || defaultRoom();
+      if (!this.relay && relayEnabled(CQ.scoreConfig)) await this.connectRelay(room);
+      const payload = {
+        app: "keyboard-quest",
+        version: 1,
+        type: "reset",
+        eventId: createEventId(this.player.id),
+        room,
+        at: Date.now(),
+      };
+
+      if (this.relay) {
+        try {
+          await this.publishRelayPayload(payload);
+          this.applyRelayPayload(payload);
+          this.saveActiveEntries();
+          this.emitEntries();
+          this.emitStatus("relay");
+          return { cleared: true, live: true };
+        } catch (error) {
+          console.warn("Live score reset unavailable.", error);
+          this.emitStatus("relayError");
+          this.startRelayPolling();
+        }
+      }
+
+      this.applyRelayPayload(payload);
+      this.saveActiveEntries();
+      this.emitEntries();
+      return { cleared: true, live: false };
+    },
+
     async submitAward(payload) {
       if (!this.player.nickname) return { awarded: false, points: 0, reason: "missingPlayer" };
       if (!payload?.success) {
@@ -451,8 +586,9 @@
         try {
           return await this.submitRelayAward(award);
         } catch (error) {
-          console.warn("Live score award unavailable, using local scores.", error);
-          this.useLocalScores("relayError");
+          console.warn("Live score award unavailable.", error);
+          this.emitStatus("relayError");
+          this.startRelayPolling();
         }
       }
       return this.submitLocalAward(award);
@@ -466,8 +602,9 @@
       };
       if (this.relay) {
         return this.submitRelayPenalty(penalty).catch((error) => {
-          console.warn("Live score penalty unavailable, using local scores.", error);
-          this.useLocalScores("relayError");
+          console.warn("Live score penalty unavailable.", error);
+          this.emitStatus("relayError");
+          this.startRelayPolling();
           return this.submitLocalPenalty(penalty);
         });
       }

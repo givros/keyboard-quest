@@ -11,7 +11,7 @@
     gameGrid: document.querySelector("#gameGrid"),
     playerForm: document.querySelector("#playerForm"),
     playerName: document.querySelector("#playerName"),
-    scoreRoom: document.querySelector("#scoreRoom"),
+    clearScoreRoom: document.querySelector("#clearScoreRoom"),
     landingScoreStatus: document.querySelector("#landingScoreStatus"),
     onboardingModal: document.querySelector("#onboardingModal"),
     onboardingClose: document.querySelector("#onboardingClose"),
@@ -476,6 +476,22 @@
     }
   }
 
+  async function clearScoreRoom() {
+    if (!els.clearScoreRoom) return;
+    els.clearScoreRoom.disabled = true;
+    els.scoreStatus.textContent = t("leaderboard.clearing");
+    try {
+      await CQ.scoreService.clearRoom();
+      app.leaderboard = CQ.scoreService.leaderboard();
+      renderLeaderboard();
+      updateBestPill();
+      renderGameCards();
+      renderScoreStatus();
+    } finally {
+      els.clearScoreRoom.disabled = false;
+    }
+  }
+
   function endGame() {
     stopLoop();
     const game = app.game;
@@ -741,10 +757,8 @@
 
   function bindPlayerForm() {
     els.playerName.value = currentPlayer().nickname || "";
-    els.scoreRoom.value = CQ.scoreService.getRoom() || "";
     els.playerForm.addEventListener("submit", (event) => {
       event.preventDefault();
-      CQ.scoreService.setRoom(els.scoreRoom.value);
       if (!CQ.scoreService.setPlayerName(els.playerName.value)) {
         els.landingScoreStatus.textContent = t("landing.required");
         els.playerName.focus();
@@ -825,6 +839,7 @@
       app.scoreGradesHidden = !app.scoreGradesHidden;
       renderLeaderboard();
     });
+    els.clearScoreRoom?.addEventListener("click", clearScoreRoom);
     els.restartGame.addEventListener("click", () => startGame(app.gameId));
     els.playAgain.addEventListener("click", () => startGame(app.gameId));
     els.onboardingClose?.addEventListener("click", closeOnboardingModal);

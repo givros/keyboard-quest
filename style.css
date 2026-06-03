@@ -692,6 +692,40 @@ p {
   overflow-x: auto;
 }
 
+.score-sync-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(24, 33, 43, 0.1);
+}
+
+.score-sync-panel .control-label,
+.score-sync-panel p {
+  margin: 0;
+}
+
+.score-sync-panel p {
+  color: var(--muted);
+  font-weight: 760;
+  line-height: 1.4;
+}
+
+.danger-button {
+  background: rgba(217, 88, 66, 0.13);
+  color: #8c301f;
+}
+
+.danger-button:hover {
+  background: rgba(217, 88, 66, 0.22);
+}
+
+.danger-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
 .leaderboard-panel .score-status {
   padding: 14px 16px;
   border-bottom: 1px solid rgba(24, 33, 43, 0.1);
@@ -965,6 +999,11 @@ body.has-mobile-keyboard.virtual-keyboard-open {
 
   .scoreboard-actions .text-button {
     flex: 1 1 180px;
+  }
+
+  .score-sync-panel {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .game-grid,
