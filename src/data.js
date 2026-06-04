@@ -1749,9 +1749,9 @@
       "Je vérifie le signe avant de finir.",
     ],
     shortcuts: [
-      { combo: "Ctrl+P", action: "imprimer" },
-      { combo: "Ctrl+O", action: "ouvrir" },
-      { combo: "Ctrl+N", action: "nouveau document" },
+      { combo: "Ctrl+Enter", action: "valider rapidement" },
+      { combo: "Ctrl+Backspace", action: "effacer le mot precedent" },
+      { combo: "Shift+Enter", action: "retour a la ligne" },
     ],
     formulas: [
       { text: "prenom.nom□college.fr", symbol: "@" },
@@ -1778,12 +1778,10 @@
       "Le résultat dépend des données choisies.",
     ],
     shortcuts: [
-      { combo: "Ctrl+P", action: "imprimer" },
-      { combo: "Ctrl+O", action: "ouvrir" },
-      { combo: "Ctrl+N", action: "nouveau document" },
-      { combo: "Ctrl+L", action: "sélectionner la barre d'adresse" },
-      { combo: "Ctrl+H", action: "historique" },
-      { combo: "Ctrl+K", action: "recherche rapide" },
+      { combo: "Ctrl+Enter", action: "valider rapidement" },
+      { combo: "Ctrl+Backspace", action: "effacer le mot precedent" },
+      { combo: "Shift+Enter", action: "retour a la ligne" },
+      { combo: "Ctrl+Shift+Z", action: "retablir autrement" },
     ],
     formulas: [
       { text: "contact□classe.fr", symbol: "@" },
@@ -1812,9 +1810,9 @@
       "I check the sign before finishing.",
     ],
     shortcuts: [
-      { combo: "Ctrl+P", action: "print" },
-      { combo: "Ctrl+O", action: "open" },
-      { combo: "Ctrl+N", action: "new document" },
+      { combo: "Ctrl+Enter", action: "quick confirm" },
+      { combo: "Ctrl+Backspace", action: "delete previous word" },
+      { combo: "Shift+Enter", action: "line break" },
     ],
     formulas: [
       { text: "first.last□school.org", symbol: "@" },
@@ -1841,12 +1839,10 @@
       "The result depends on the chosen data.",
     ],
     shortcuts: [
-      { combo: "Ctrl+P", action: "print" },
-      { combo: "Ctrl+O", action: "open" },
-      { combo: "Ctrl+N", action: "new document" },
-      { combo: "Ctrl+L", action: "select address bar" },
-      { combo: "Ctrl+H", action: "history" },
-      { combo: "Ctrl+K", action: "quick search" },
+      { combo: "Ctrl+Enter", action: "quick confirm" },
+      { combo: "Ctrl+Backspace", action: "delete previous word" },
+      { combo: "Shift+Enter", action: "line break" },
+      { combo: "Ctrl+Shift+Z", action: "alternate redo" },
     ],
     formulas: [
       { text: "contact□class.org", symbol: "@" },
@@ -1875,9 +1871,9 @@
       "Reviso el signo antes de terminar.",
     ],
     shortcuts: [
-      { combo: "Ctrl+P", action: "imprimir" },
-      { combo: "Ctrl+O", action: "abrir" },
-      { combo: "Ctrl+N", action: "nuevo documento" },
+      { combo: "Ctrl+Enter", action: "validar rapido" },
+      { combo: "Ctrl+Backspace", action: "borrar palabra anterior" },
+      { combo: "Shift+Enter", action: "salto de linea" },
     ],
     formulas: [
       { text: "nombre.apellido□colegio.es", symbol: "@" },
@@ -1904,12 +1900,10 @@
       "El resultado depende de los datos elegidos.",
     ],
     shortcuts: [
-      { combo: "Ctrl+P", action: "imprimir" },
-      { combo: "Ctrl+O", action: "abrir" },
-      { combo: "Ctrl+N", action: "nuevo documento" },
-      { combo: "Ctrl+L", action: "seleccionar barra de dirección" },
-      { combo: "Ctrl+H", action: "historial" },
-      { combo: "Ctrl+K", action: "búsqueda rápida" },
+      { combo: "Ctrl+Enter", action: "validar rapido" },
+      { combo: "Ctrl+Backspace", action: "borrar palabra anterior" },
+      { combo: "Shift+Enter", action: "salto de linea" },
+      { combo: "Ctrl+Shift+Z", action: "rehacer alternativo" },
     ],
     formulas: [
       { text: "contacto□clase.es", symbol: "@" },

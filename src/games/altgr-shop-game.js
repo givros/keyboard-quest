@@ -1,6 +1,6 @@
 (function registerAltgrShopGame(CQ) {
   const { clamp, compareChar, printableKey, randomOf, shuffle } = CQ.utils;
-  const { drawKeycap, drawRoundRect, drawStageBackground, wrapText } = CQ.drawing;
+  const { drawCenteredWrappedText, drawKeycap, drawRoundRect, drawStageBackground } = CQ.drawing;
   const { width: W, height: H } = CQ.stage;
 
   class AltgrShopGame extends CQ.SessionGame {
@@ -147,7 +147,7 @@
 
       context.fillStyle = "#18212b";
       context.font = "900 34px Inter, sans-serif";
-      wrapText(context, this.current.display, 138, 188, W - 276, 42);
+      drawCenteredWrappedText(context, this.current.display, W / 2, 188, W - 276, 42);
 
       drawKeycap(context, W / 2 - 72, 270, 144, 76, this.buffer || "…", this.flash ? "#e87861" : "#e7c66f");
       context.fillStyle = "#65717e";

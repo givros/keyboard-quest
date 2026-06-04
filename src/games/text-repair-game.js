@@ -1,6 +1,6 @@
 (function registerTextRepairGame(CQ) {
   const { compareChar, printableKey, shuffle } = CQ.utils;
-  const { drawKeycap, drawRoundRect, drawStageBackground, wrapText } = CQ.drawing;
+  const { drawCenteredWrappedText, drawKeycap, drawRoundRect, drawStageBackground } = CQ.drawing;
   const { width: W, height: H } = CQ.stage;
 
   class TextRepairGame extends CQ.SessionGame {
@@ -118,7 +118,7 @@
 
       context.fillStyle = "#18212b";
       context.font = "900 36px Inter, sans-serif";
-      wrapText(context, this.current.text, 126, 206, W - 252, 46);
+      drawCenteredWrappedText(context, this.current.text, W / 2, 206, W - 252, 46);
 
       drawKeycap(context, W / 2 - 86, 288, 172, 64, this.buffer || "□", this.flash ? "#e87861" : "#e7c66f");
       context.fillStyle = "#65717e";

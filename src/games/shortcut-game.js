@@ -1,6 +1,6 @@
 (function registerShortcutGame(CQ) {
   const { canonicalCombo, shuffle } = CQ.utils;
-  const { drawKeycap, drawStageBackground } = CQ.drawing;
+  const { drawCenteredWrappedText, drawKeycap, drawStageBackground } = CQ.drawing;
   const { width: W, height: H } = CQ.stage;
 
   class ShortcutGame extends CQ.SessionGame {
@@ -69,7 +69,7 @@
       context.textAlign = "center";
       context.fillStyle = "rgba(255,253,248,0.9)";
       context.font = "850 24px Inter, sans-serif";
-      context.fillText(this.current.action, W / 2, 108);
+      drawCenteredWrappedText(context, this.current.action, W / 2, 98, W - 170, 30);
 
       const parts = this.current.combo.split("+");
       const totalWidth = parts.reduce((sum, part) => sum + Math.max(76, part.length * 21 + 28), 0) + (parts.length - 1) * 16;
@@ -83,7 +83,7 @@
       context.font = "900 32px Inter, sans-serif";
       context.fillStyle = this.feedback === "correct" ? "#8fc7a3" : this.feedback ? "#e87861" : "#fffdf8";
       const message = this.feedback === "correct" ? this.t("shortcut.correct") : this.feedback ? this.t("shortcut.received", { combo: this.feedback }) : this.t("shortcut.yourTurn");
-      context.fillText(message, W / 2, 336);
+      drawCenteredWrappedText(context, message, W / 2, 336, W - 150, 38);
 
       context.fillStyle = "rgba(255,253,248,0.82)";
       context.font = "850 20px Inter, sans-serif";

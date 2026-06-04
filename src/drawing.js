@@ -94,6 +94,35 @@
     context.fillText(line, x, yy);
   }
 
+  function wrappedLines(context, text, maxWidth) {
+    const words = String(text || "").split(" ");
+    const lines = [];
+    let line = "";
+    for (let i = 0; i < words.length; i += 1) {
+      const word = words[i];
+      const testLine = line ? `${line} ${word}` : word;
+      if (context.measureText(testLine).width > maxWidth && line) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = testLine;
+      }
+    }
+    if (line) lines.push(line);
+    return lines;
+  }
+
+  function drawCenteredWrappedText(context, text, centerX, y, maxWidth, lineHeight) {
+    const lines = wrappedLines(context, text, maxWidth);
+    context.save();
+    context.textAlign = "center";
+    lines.forEach((line, index) => {
+      context.fillText(line, centerX, y + index * lineHeight);
+    });
+    context.restore();
+    return lines.length;
+  }
+
   CQ.stage = {
     width: STAGE_WIDTH,
     height: STAGE_HEIGHT,
@@ -103,5 +132,6 @@
     drawKeycap,
     drawStageBackground,
     wrapText,
+    drawCenteredWrappedText,
   };
 })(window.CQ = window.CQ || {});

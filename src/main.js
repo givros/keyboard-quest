@@ -845,6 +845,14 @@
   }
 
   function bindGameInput() {
+    document.addEventListener("keydown", (event) => {
+      const gameActive = els.play.classList.contains("screen-active") && app.game && app.running;
+      if (!gameActive || event.getModifierState?.("AltGraph")) return;
+      if (event.ctrlKey || event.metaKey || event.altKey || event.key === "Tab" || event.key === "Backspace") {
+        event.preventDefault();
+      }
+    }, { capture: true });
+
     canvas.addEventListener("keydown", (event) => {
       if (app.game && app.running) app.game.handleKeyDown(event);
     });

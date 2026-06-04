@@ -80,6 +80,7 @@
     }
 
     drawFormula(context) {
+      context.save();
       const parts = this.current.text.split("□");
       const before = parts[0] || "";
       const after = parts.slice(1).join("□");
@@ -97,6 +98,7 @@
       drawKeycap(context, x + 4, y - 44, 48, 50, "□", this.flash ? "#e87861" : "#e7c66f");
       x += squareWidth;
       context.fillText(after, x, y);
+      context.restore();
     }
 
     render(context) {
@@ -120,6 +122,7 @@
       const meta = this.symbolMeta(this.current.symbol);
       context.fillStyle = "#18212b";
       context.font = "900 24px Inter, sans-serif";
+      context.textAlign = "center";
       context.fillText(`${meta.symbol} · ${meta.combo}`, W / 2, 316);
 
       context.fillStyle = "rgba(255,253,248,0.88)";

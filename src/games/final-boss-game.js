@@ -1,6 +1,6 @@
 (function registerFinalBossGame(CQ) {
   const { canonicalCombo, compareChar, printableKey, randomOf, shuffle } = CQ.utils;
-  const { drawKeycap, drawRoundRect, drawStageBackground, wrapText } = CQ.drawing;
+  const { drawCenteredWrappedText, drawKeycap, drawRoundRect, drawStageBackground, wrapText } = CQ.drawing;
   const { width: W, height: H } = CQ.stage;
 
   class FinalBossGame extends CQ.SessionGame {
@@ -97,8 +97,12 @@
 
     selectShortcuts() {
       const all = this.content.shortcuts || [];
+      const browserReservedCombo = (combo) => {
+        const parts = String(combo || "").split("+");
+        return parts[0] === "Ctrl" && ["N", "P", "O", "L", "H", "K"].includes(parts.at(-1));
+      };
       if (this.difficulty === "calme") return all.filter((item) => ["Ctrl+C", "Ctrl+V", "Ctrl+Z", "Ctrl+S", "Tab", "Enter", "Escape"].includes(item.combo)) || all;
-      if (this.difficulty === "rythme") return all.filter((item) => !["Ctrl+L", "Ctrl+H", "Ctrl+K"].includes(item.combo)) || all;
+      if (this.difficulty === "rythme") return all.filter((item) => !browserReservedCombo(item.combo)) || all;
       return all.length ? all : [{ combo: "Ctrl+C", action: "copy" }];
     }
 
@@ -169,6 +173,7 @@
     }
 
     drawTarget(context, label, hidden) {
+      context.save();
       const x = 134;
       const y = 218;
       const width = W - 268;
@@ -187,13 +192,13 @@
       const size = visibleLabel.length > 34 ? 20 : visibleLabel.length > 22 ? 24 : visibleLabel.length > 12 ? 30 : 38;
       context.font = `900 ${size}px Inter, sans-serif`;
       if (visibleLabel.length > 28) {
-        context.textAlign = "left";
         context.textBaseline = "alphabetic";
-        wrapText(context, visibleLabel, x + 24, y + 40, width - 48, 28);
+        drawCenteredWrappedText(context, visibleLabel, W / 2, y + 40, width - 48, 28);
       } else {
         context.fillText(visibleLabel, W / 2, y + height / 2);
       }
       context.textBaseline = "alphabetic";
+      context.restore();
     }
 
     render(context) {
@@ -215,8 +220,7 @@
 
       context.fillStyle = "#18212b";
       context.font = "900 25px Inter, sans-serif";
-      context.textAlign = "left";
-      wrapText(context, this.current.prompt, 126, 154, W - 252, 32);
+      drawCenteredWrappedText(context, this.current.prompt, W / 2, 154, W - 252, 32);
 
       const hidden = this.current.type === "memory" && this.state === "input";
       const label = hidden ? "••••" : this.current.label;
@@ -224,10 +228,12 @@
 
       context.fillStyle = this.flash ? "#d95842" : "#167c80";
       context.font = "900 24px Inter, sans-serif";
+      context.textAlign = "center";
       context.fillText(this.current.type === "combo" ? this.t("boss.comboHint") : this.buffer || "…", W / 2, 366);
 
       context.fillStyle = "rgba(255,253,248,0.88)";
       context.font = "850 20px Inter, sans-serif";
+      context.textAlign = "center";
       context.fillText(`${this.t("boss.lives")} ${"■".repeat(Math.max(0, this.lives))} · ${this.completed}/${this.goal}`, W / 2, H - 66);
       context.restore();
     }

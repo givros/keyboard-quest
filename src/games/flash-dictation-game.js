@@ -1,6 +1,6 @@
 (function registerFlashDictationGame(CQ) {
   const { compareChar, printableKey, shuffle } = CQ.utils;
-  const { drawKeycap, drawRoundRect, drawStageBackground, wrapText } = CQ.drawing;
+  const { drawCenteredWrappedText, drawKeycap, drawRoundRect, drawStageBackground, wrapText } = CQ.drawing;
   const { width: W, height: H } = CQ.stage;
 
   class FlashDictationGame extends CQ.SessionGame {
@@ -124,7 +124,7 @@
       context.font = "900 34px Inter, sans-serif";
       if (this.state === "preview") {
         context.textAlign = "center";
-        wrapText(context, this.current, W / 2, 192, W - 252, 44);
+        drawCenteredWrappedText(context, this.current, W / 2, 192, W - 252, 44);
       } else {
         context.textAlign = "center";
         context.fillStyle = "#65717e";

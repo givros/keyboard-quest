@@ -1,6 +1,6 @@
 (function registerShortcutDuelGame(CQ) {
   const { canonicalCombo, randomOf, shuffle } = CQ.utils;
-  const { drawKeycap, drawRoundRect, drawStageBackground } = CQ.drawing;
+  const { drawCenteredWrappedText, drawKeycap, drawRoundRect, drawStageBackground } = CQ.drawing;
   const { width: W, height: H } = CQ.stage;
 
   class ShortcutDuelGame extends CQ.SessionGame {
@@ -34,7 +34,7 @@
     selectDeck() {
       const all = this.content.shortcuts || [];
       const calm = new Set(["Ctrl+C", "Ctrl+V", "Ctrl+Z", "Ctrl+A", "Ctrl+S", "Tab", "Enter", "Escape"]);
-      const rhythm = new Set([...calm, "Ctrl+F", "Ctrl+X", "Ctrl+Y", "Shift+Tab", "Ctrl+P", "Ctrl+O", "Ctrl+N"]);
+      const rhythm = new Set([...calm, "Ctrl+F", "Ctrl+X", "Ctrl+Y", "Shift+Tab", "Ctrl+Enter", "Ctrl+Backspace", "Shift+Enter"]);
       let deck = all;
       if (this.difficulty === "calme") deck = all.filter((item) => calm.has(item.combo));
       else if (this.difficulty === "rythme") deck = all.filter((item) => rhythm.has(item.combo));
@@ -116,7 +116,7 @@
 
       context.fillStyle = "#18212b";
       context.font = "900 30px Inter, sans-serif";
-      context.fillText(this.current.action, W / 2, 164);
+      drawCenteredWrappedText(context, this.current.action, W / 2, 154, W - 210, 34);
 
       const parts = this.current.combo.split("+");
       const totalWidth = parts.reduce((sum, part) => sum + Math.max(76, part.length * 20 + 28), 0) + (parts.length - 1) * 14;
@@ -129,7 +129,7 @@
 
       context.fillStyle = this.feedback === this.t("duel.blocked") ? "#167c80" : this.feedback ? "#d95842" : "#65717e";
       context.font = "850 21px Inter, sans-serif";
-      context.fillText(this.feedback || this.t("duel.prompt"), W / 2, 324);
+      drawCenteredWrappedText(context, this.feedback || this.t("duel.prompt"), W / 2, 318, W - 180, 28);
 
       context.fillStyle = "#18212b";
       context.font = "900 18px Inter, sans-serif";
