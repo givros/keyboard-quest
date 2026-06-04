@@ -57,8 +57,8 @@
   };
 
   CQ.gradeScoreTargets = {
-    "5e": 60,
-    "4e": 75,
+    "5e": 180,
+    "4e": 220,
   };
 
   CQ.gameCards = [
@@ -700,7 +700,7 @@
         choose: "Choisis ton entraînement",
       },
       landing: {
-        eyebrow: "Entrée dans la guilde",
+        eyebrow: "Bienvenue dans la guilde",
         title: "Choisis ton pseudo avant de commencer.",
         description: "Ton pseudo sera utilisé pour le classement. Les points sont gagnés uniquement quand une mission est réussie.",
         label: "Pseudo",
@@ -773,15 +773,15 @@
         updated: "Mise à jour",
         empty: "Aucun score pour l'instant.",
         syncLabel: "Scores Supabase",
-        syncHelp: "Chaque pseudo est enregistre ici, puis les points mettent sa ligne a jour.",
+        syncHelp: "Chaque pseudo est enregistré ici ; les points mettent sa ligne à jour en direct.",
         clearRoom: "Vider les scores",
         clearing: "Vidage des scores...",
-        live: "Supabase actif : scores synchronises en direct.",
-        connecting: "Connexion a Supabase...",
-        relayError: "Synchronisation temporairement indisponible : verification reguliere en cours.",
-        supabaseConnecting: "Connexion a Supabase...",
-        supabaseError: "Supabase temporairement indisponible : nouvelle verification dans quelques secondes.",
-        supabaseMissingConfig: "Supabase n'est pas encore configure : les scores restent locaux.",
+        live: "Supabase actif : scores synchronisés en direct.",
+        connecting: "Connexion à Supabase...",
+        relayError: "Synchronisation temporairement indisponible : vérification régulière en cours.",
+        supabaseConnecting: "Connexion à Supabase...",
+        supabaseError: "Supabase temporairement indisponible : nouvelle vérification dans quelques secondes.",
+        supabaseMissingConfig: "Supabase n'est pas encore configuré : les scores restent locaux.",
         local: "Mode local : les jeux restent disponibles.",
         gradingScale: "Barème 1 h {grade} : {target} pts = 20/20",
         mentions: {
@@ -875,13 +875,13 @@
         item: "Mot {current} / {target}",
         timeUp: "Le temps est écoulé.",
         success: "La série de mots est validée.",
-        enterHint: "Entrée valide aussi une phrase complète",
-        mission: "Respecte les accents, les espaces et la ponctuation.",
+        enterHint: "Validation automatique quand l'élément est recopié.",
+        mission: "Recopie exactement le mot ou le court texte affiché.",
       },
       typing: {
         timeUp: "Le temps est écoulé avant la fin du texte.",
         success: "Les 5 lignes sont tapées dans le temps.",
-        mission: "Tape exactement les 5 lignes. Entrée sert à passer à la ligne.",
+        mission: "Recopie les 5 lignes. Appuie sur Entrée à la fin de chaque ligne.",
         line: "Ligne {current} / {target}",
         wpm: "{wpm} mots/min",
       },
@@ -898,7 +898,7 @@
         exitSuccess: "Sortie atteinte.",
         missingBeacons: "Il reste des bornes à activer.",
         beacon: "Borne {label}",
-        activate: "Active la touche puis file vers la sortie. Temps : {seconds} s",
+        activate: "Sur une borne, appuie sur la touche affichée. Temps : {seconds} s",
         remaining: "{count} bornes restantes",
         move: "Déplacement avec flèches ou ZQSD. Temps : {seconds} s",
       },
@@ -908,7 +908,7 @@
         queue: "file de forge",
         timeUp: "Le temps de forge est écoulé.",
         success: "Les symboles difficiles sont bien forgés.",
-        mission: "Tape le symbole affiché. Aide-toi de la combinaison indiquée : AltGr, Maj ou touche directe.",
+        mission: "Tape le symbole affiché avec la combinaison indiquée : AltGr, Maj ou sans modificateur.",
       },
       cipher: {
         preview: "Observe",
@@ -924,18 +924,18 @@
         placeholder: "symbole manquant",
         timeUp: "L'atelier de correction ferme.",
         success: "Les lignes sont réparées.",
-        mission: "Tape le symbole qui remplace le carré.",
+        mission: "Tape uniquement le symbole manquant à la place du carré.",
       },
       rpg: {
         timeUp: "La cloche sonne avant la fin de l'aventure.",
         success: "Toutes les quêtes clavier sont validées.",
         moveHint: "Déplace-toi avec les flèches ou ZQSD.",
-        interactHint: "Entrée près d'un PNJ pour lancer une quête.",
+        interactHint: "Appuie sur Entrée près d'un PNJ pour lancer une quête.",
         completed: "Quête terminée",
         alreadyDone: "Cette quête est déjà validée.",
         answer: "Réponse",
         comboAnswer: "Raccourci attendu",
-        enterValidate: "Entrée pour valider. Échap pour fermer.",
+        enterValidate: "Appuie sur Entrée pour valider. Échap ferme la quête.",
         questDone: "{count}/{target} quêtes terminées",
         nearby: "Parle à {name}",
         noQuest: "Explore la cité et cherche les symboles.",
@@ -1136,13 +1136,13 @@
         item: "Word {current} / {target}",
         timeUp: "Time is up.",
         success: "The word streak is validated.",
-        enterHint: "Enter also validates a full sentence",
-        mission: "Respect spaces, capitals, and punctuation.",
+        enterHint: "Automatic validation when the item is fully copied.",
+        mission: "Copy the displayed word or short text exactly.",
       },
       typing: {
         timeUp: "Time ran out before the text was complete.",
         success: "The 5 lines were typed in time.",
-        mission: "Type exactly the 5 lines. Enter moves to the next line.",
+        mission: "Copy the 5 lines. Press Enter at the end of each line.",
         line: "Line {current} / {target}",
         wpm: "{wpm} wpm",
       },
@@ -1159,7 +1159,7 @@
         exitSuccess: "Exit reached.",
         missingBeacons: "Some beacons still need activation.",
         beacon: "Beacon {label}",
-        activate: "Activate the key, then head to the exit. Time: {seconds} s",
+        activate: "On a beacon, press the displayed key. Time: {seconds} s",
         remaining: "{count} beacons left",
         move: "Move with arrow keys or ZQSD. Time: {seconds} s",
       },
@@ -1169,7 +1169,7 @@
         queue: "forge queue",
         timeUp: "Forge time is over.",
         success: "The tricky symbols are forged.",
-        mission: "Type the displayed symbol. Use the hint: AltGr, Shift, or direct key.",
+        mission: "Type the displayed symbol with the shown combo: AltGr, Shift, or no modifier.",
       },
       cipher: {
         preview: "Watch",
@@ -1185,7 +1185,7 @@
         placeholder: "missing symbol",
         timeUp: "The repair workshop is closing.",
         success: "The lines are repaired.",
-        mission: "Type the symbol that replaces the square.",
+        mission: "Type only the missing symbol in place of the square.",
       },
       rpg: {
         timeUp: "The bell rings before the adventure is complete.",
@@ -1196,7 +1196,7 @@
         alreadyDone: "This quest is already complete.",
         answer: "Answer",
         comboAnswer: "Expected shortcut",
-        enterValidate: "Enter to validate. Escape to close.",
+        enterValidate: "Press Enter to validate. Escape closes the quest.",
         questDone: "{count}/{target} quests complete",
         nearby: "Talk to {name}",
         noQuest: "Explore the city and look for symbols.",
@@ -1295,7 +1295,7 @@
         updated: "Actualizado",
         empty: "Todavía no hay puntuaciones.",
         syncLabel: "Puntuaciones Supabase",
-        syncHelp: "Cada seudonimo se guarda aqui y los puntos actualizan la misma linea.",
+        syncHelp: "Cada seudónimo se guarda aquí y los puntos actualizan la misma línea.",
         clearRoom: "Vaciar puntuaciones",
         clearing: "Vaciando puntuaciones...",
         live: "Supabase activo: puntuaciones sincronizadas en directo.",
@@ -1397,13 +1397,13 @@
         item: "Palabra {current} / {target}",
         timeUp: "Se acabó el tiempo.",
         success: "La serie de palabras está validada.",
-        enterHint: "Enter también valida una frase completa",
-        mission: "Respeta espacios, acentos y puntuación.",
+        enterHint: "Validación automática cuando el elemento está copiado.",
+        mission: "Copia exactamente la palabra o el texto corto mostrado.",
       },
       typing: {
         timeUp: "Se acabó el tiempo antes de terminar el texto.",
         success: "Las 5 líneas se escribieron a tiempo.",
-        mission: "Escribe exactamente las 5 líneas. Enter pasa a la línea siguiente.",
+        mission: "Copia las 5 líneas. Pulsa Enter al final de cada línea.",
         line: "Línea {current} / {target}",
         wpm: "{wpm} ppm",
       },
@@ -1420,7 +1420,7 @@
         exitSuccess: "Salida alcanzada.",
         missingBeacons: "Quedan balizas por activar.",
         beacon: "Baliza {label}",
-        activate: "Activa la tecla y ve a la salida. Tiempo: {seconds} s",
+        activate: "En una baliza, pulsa la tecla mostrada. Tiempo: {seconds} s",
         remaining: "Quedan {count} balizas",
         move: "Muévete con flechas o ZQSD. Tiempo: {seconds} s",
       },
@@ -1430,7 +1430,7 @@
         queue: "cola de forja",
         timeUp: "Se acabó el tiempo de forja.",
         success: "Los símbolos difíciles están forjados.",
-        mission: "Escribe el símbolo mostrado. Usa la pista: AltGr, Mayús o tecla directa.",
+        mission: "Escribe el símbolo mostrado con la combinación indicada: AltGr, Mayús o sin modificador.",
       },
       cipher: {
         preview: "Observa",
@@ -1446,7 +1446,7 @@
         placeholder: "símbolo que falta",
         timeUp: "El taller de reparación cierra.",
         success: "Las líneas están reparadas.",
-        mission: "Escribe el símbolo que sustituye al cuadrado.",
+        mission: "Escribe solo el símbolo que falta en lugar del cuadrado.",
       },
       rpg: {
         timeUp: "Suena la campana antes de terminar la aventura.",
@@ -1457,7 +1457,7 @@
         alreadyDone: "Esta misión ya está validada.",
         answer: "Respuesta",
         comboAnswer: "Atajo esperado",
-        enterValidate: "Enter para validar. Escape para cerrar.",
+        enterValidate: "Pulsa Enter para validar. Escape cierra la misión.",
         questDone: "{count}/{target} misiones completadas",
         nearby: "Habla con {name}",
         noQuest: "Explora la ciudad y busca símbolos.",
@@ -1750,8 +1750,8 @@
     ],
     shortcuts: [
       { combo: "Ctrl+Enter", action: "valider rapidement" },
-      { combo: "Ctrl+Backspace", action: "effacer le mot precedent" },
-      { combo: "Shift+Enter", action: "retour a la ligne" },
+      { combo: "Ctrl+Backspace", action: "effacer le mot précédent" },
+      { combo: "Shift+Enter", action: "retour à la ligne" },
     ],
     formulas: [
       { text: "prenom.nom□college.fr", symbol: "@" },
@@ -1779,9 +1779,9 @@
     ],
     shortcuts: [
       { combo: "Ctrl+Enter", action: "valider rapidement" },
-      { combo: "Ctrl+Backspace", action: "effacer le mot precedent" },
-      { combo: "Shift+Enter", action: "retour a la ligne" },
-      { combo: "Ctrl+Shift+Z", action: "retablir autrement" },
+      { combo: "Ctrl+Backspace", action: "effacer le mot précédent" },
+      { combo: "Shift+Enter", action: "retour à la ligne" },
+      { combo: "Ctrl+Shift+Z", action: "rétablir autrement" },
     ],
     formulas: [
       { text: "contact□classe.fr", symbol: "@" },
@@ -1986,11 +1986,6 @@
     },
   };
 
-  CQ.gradeScoreTargets = {
-    "5e": 160,
-    "4e": 205,
-  };
-
   CQ.gameCards.push(
     {
       id: "duel",
@@ -2082,7 +2077,7 @@
       tower: {
         title: "Tour clavier",
         mode: "Défense",
-        summary: "Des vagues avancent vers la base : tape la bonne étiquette pour les arrêter.",
+        summary: "Des vagues avancent vers la base : tape le bon code pour les arrêter.",
         tag: "stratégie",
       },
       coordinates: {
@@ -2128,7 +2123,7 @@
       blocked: "Bloqué",
       received: "Reçu : {combo}",
       success: "Le duel est gagné.",
-      mission: "Réponds dans {seconds} s avec le bon raccourci.",
+      mission: "Effectue le raccourci demandé avant la fin des {seconds} s.",
     },
     shop: {
       single: "Le client demande {symbol}",
@@ -2136,14 +2131,14 @@
       hint: "Indice :",
       timeUp: "La boutique ferme.",
       success: "Les commandes sont servies.",
-      mission: "Tape le caractère attendu avant le départ du client. Patience : {seconds} s",
+      mission: "Tape le symbole demandé avant le départ du client. Patience : {seconds} s",
     },
     flash: {
       look: "Lis maintenant",
       type: "Retape de mémoire",
       timeUp: "La mémoire flash s'éteint.",
       success: "Les lignes sont mémorisées.",
-      mission: "Observe, puis reproduis exactement la ligne cachée.",
+      mission: "Lis la ligne, puis recopie-la exactement quand elle disparaît.",
     },
     tower: {
       base: "BASE",
@@ -2152,14 +2147,14 @@
       lost: "La base est submergée.",
       timeUp: "La vague se disperse.",
       success: "La base tient bon.",
-      mission: "Tape l'étiquette la plus proche de la base.",
+      mission: "Tape le code de l'ennemi le plus proche de la base.",
     },
     coordinates: {
       target: "Case : {label}",
-      typeSequence: "Tape les caractères dans l'ordre",
+      typeSequence: "Tape la coordonnée caractère par caractère",
       timeUp: "La carte se referme.",
       success: "Le trajet est validé.",
-      mission: "Ce n'est pas une seule touche : tape chaque caractère de la coordonnée, dans l'ordre.",
+      mission: "La coordonnée n'est pas une touche : tape chaque caractère affiché, dans l'ordre.",
     },
     repair: {
       title: "Message à réparer",
@@ -2170,20 +2165,20 @@
     },
     relay: {
       title: "Course relais clavier",
-      key: "touche directe",
+      key: "sans modificateur",
       lives: "Essais",
       timeUp: "Le relais est terminé.",
       lost: "Trop de portes ratées.",
       success: "Le relais est réussi.",
-      mission: "Valide la porte avant que le coureur ne la touche.",
+      mission: "Appuie sur la touche affichée avant que le coureur atteigne la porte.",
     },
     boss: {
       copy: "Recopie exactement",
       memory: "Mémorise la suite",
       comboHint: "Raccourci attendu",
-      lives: "Garde",
+      lives: "Boucliers",
       preview: "Observe avant de répondre.",
-      mission: "Réponds sans erreur : une faute coûte une garde.",
+      mission: "Réponds sans erreur : une faute retire un bouclier.",
       timeUp: "Le boss tient encore.",
       lost: "Le boss gagne cette manche.",
       success: "Le boss final est vaincu.",
@@ -2213,28 +2208,28 @@
     },
     meters: { duels: "Duels", orders: "Orders", defenses: "Defenses", maps: "Maps", gates: "Gates", phases: "Phases" },
     duel: {
-      attack: "Incoming action", prompt: "Perform the shortcut before impact.", guard: "Guard", tooSlow: "Too slow", lost: "Your guard broke.", timeUp: "The duel stops.", blocked: "Blocked", received: "Received: {combo}", success: "The duel is won.", mission: "Answer in {seconds} s with the right shortcut.",
+      attack: "Incoming action", prompt: "Perform the shortcut before impact.", guard: "Guard", tooSlow: "Too slow", lost: "Your guard broke.", timeUp: "The duel stops.", blocked: "Blocked", received: "Received: {combo}", success: "The duel is won.", mission: "Perform the requested shortcut within {seconds} s.",
     },
     shop: {
-      single: "The customer asks for {symbol}", customer: "Customer order", hint: "Hint:", timeUp: "The shop closes.", success: "The orders are served.", mission: "Type the expected character before the customer leaves. Patience: {seconds} s",
+      single: "The customer asks for {symbol}", customer: "Customer order", hint: "Hint:", timeUp: "The shop closes.", success: "The orders are served.", mission: "Type the requested symbol before the customer leaves. Patience: {seconds} s",
     },
     flash: {
-      look: "Read now", type: "Type from memory", timeUp: "Flash memory fades.", success: "The lines are memorized.", mission: "Watch, then reproduce the hidden line exactly.",
+      look: "Read now", type: "Type from memory", timeUp: "Flash memory fades.", success: "The lines are memorized.", mission: "Read the line, then copy it exactly when it disappears.",
     },
     tower: {
-      base: "BASE", lives: "Base", wait: "Get ready", lost: "The base is overwhelmed.", timeUp: "The wave disperses.", success: "The base holds.", mission: "Type the label closest to the base.",
+      base: "BASE", lives: "Base", wait: "Get ready", lost: "The base is overwhelmed.", timeUp: "The wave disperses.", success: "The base holds.", mission: "Type the code of the enemy closest to the base.",
     },
     coordinates: {
-      target: "Tile: {label}", typeSequence: "Type the characters in order", timeUp: "The map closes.", success: "The route is validated.", mission: "It is not one key: type each coordinate character in order.",
+      target: "Tile: {label}", typeSequence: "Type the coordinate character by character", timeUp: "The map closes.", success: "The route is validated.", mission: "The coordinate is not a key: type each displayed character in order.",
     },
     repair: {
       title: "Message to repair", symbolHint: "missing symbol", timeUp: "The message stays incomplete.", success: "The messages are repaired.", mission: "Type only the missing character.",
     },
     relay: {
-      title: "Keyboard Relay Race", key: "direct key", lives: "Tries", timeUp: "The relay is over.", lost: "Too many gates missed.", success: "The relay is complete.", mission: "Validate the gate before the runner touches it.",
+      title: "Keyboard Relay Race", key: "no modifier", lives: "Tries", timeUp: "The relay is over.", lost: "Too many gates missed.", success: "The relay is complete.", mission: "Press the displayed key before the runner reaches the gate.",
     },
     boss: {
-      copy: "Copy exactly", memory: "Memorize the sequence", comboHint: "Expected shortcut", lives: "Guard", preview: "Watch before answering.", mission: "Answer without mistakes: one error costs one guard.", timeUp: "The boss still stands.", lost: "The boss wins this round.", success: "The final boss is defeated.", types: { symbol: "Symbol", text: "Typing", combo: "Shortcut", memory: "Memory" },
+      copy: "Copy exactly", memory: "Memorize the sequence", comboHint: "Expected shortcut", lives: "Shield", preview: "Watch before answering.", mission: "Answer without mistakes: one error removes one shield.", timeUp: "The boss still stands.", lost: "The boss wins this round.", success: "The final boss is defeated.", types: { symbol: "Symbol", text: "Typing", combo: "Shortcut", memory: "Memory" },
     },
   });
 
@@ -2255,28 +2250,28 @@
     },
     meters: { duels: "Duelos", orders: "Pedidos", defenses: "Defensas", maps: "Mapas", gates: "Puertas", phases: "Fases" },
     duel: {
-      attack: "Acción entrante", prompt: "Haz el atajo antes del impacto.", guard: "Guardia", tooSlow: "Demasiado lento", lost: "La guardia se rompe.", timeUp: "El duelo termina.", blocked: "Bloqueado", received: "Recibido: {combo}", success: "El duelo está ganado.", mission: "Responde en {seconds} s con el atajo correcto.",
+      attack: "Acción entrante", prompt: "Haz el atajo antes del impacto.", guard: "Guardia", tooSlow: "Demasiado lento", lost: "La guardia se rompe.", timeUp: "El duelo termina.", blocked: "Bloqueado", received: "Recibido: {combo}", success: "El duelo está ganado.", mission: "Haz el atajo pedido antes de que acaben los {seconds} s.",
     },
     shop: {
-      single: "El cliente pide {symbol}", customer: "Pedido cliente", hint: "Pista:", timeUp: "La tienda cierra.", success: "Los pedidos están servidos.", mission: "Escribe el carácter esperado antes de que el cliente se vaya. Paciencia: {seconds} s",
+      single: "El cliente pide {symbol}", customer: "Pedido cliente", hint: "Pista:", timeUp: "La tienda cierra.", success: "Los pedidos están servidos.", mission: "Escribe el símbolo pedido antes de que el cliente se vaya. Paciencia: {seconds} s",
     },
     flash: {
-      look: "Lee ahora", type: "Escribe de memoria", timeUp: "La memoria flash se apaga.", success: "Las líneas están memorizadas.", mission: "Observa y reproduce exactamente la línea oculta.",
+      look: "Lee ahora", type: "Escribe de memoria", timeUp: "La memoria flash se apaga.", success: "Las líneas están memorizadas.", mission: "Lee la línea y cópiala exactamente cuando desaparezca.",
     },
     tower: {
-      base: "BASE", lives: "Base", wait: "Prepárate", lost: "La base está superada.", timeUp: "La oleada se dispersa.", success: "La base resiste.", mission: "Escribe la etiqueta más cercana a la base.",
+      base: "BASE", lives: "Base", wait: "Prepárate", lost: "La base está superada.", timeUp: "La oleada se dispersa.", success: "La base resiste.", mission: "Escribe el código del enemigo más cercano a la base.",
     },
     coordinates: {
-      target: "Casilla: {label}", typeSequence: "Escribe los caracteres en orden", timeUp: "El mapa se cierra.", success: "La ruta está validada.", mission: "No es una sola tecla: escribe cada carácter de la coordenada en orden.",
+      target: "Casilla: {label}", typeSequence: "Escribe la coordenada carácter por carácter", timeUp: "El mapa se cierra.", success: "La ruta está validada.", mission: "La coordenada no es una tecla: escribe cada carácter mostrado, en orden.",
     },
     repair: {
       title: "Mensaje para reparar", symbolHint: "símbolo que falta", timeUp: "El mensaje queda incompleto.", success: "Los mensajes están reparados.", mission: "Escribe solo el carácter que falta.",
     },
     relay: {
-      title: "Carrera de relevos teclado", key: "tecla directa", lives: "Intentos", timeUp: "El relevo ha terminado.", lost: "Demasiadas puertas falladas.", success: "El relevo está logrado.", mission: "Valida la puerta antes de que el corredor la toque.",
+      title: "Carrera de relevos teclado", key: "sin modificador", lives: "Intentos", timeUp: "El relevo ha terminado.", lost: "Demasiadas puertas falladas.", success: "El relevo está logrado.", mission: "Pulsa la tecla mostrada antes de que el corredor llegue a la puerta.",
     },
     boss: {
-      copy: "Copia exactamente", memory: "Memoriza la secuencia", comboHint: "Atajo esperado", lives: "Guardia", preview: "Observa antes de responder.", mission: "Responde sin errores: un fallo cuesta una guardia.", timeUp: "El boss aún resiste.", lost: "El boss gana esta ronda.", success: "El boss final está vencido.", types: { symbol: "Símbolo", text: "Escritura", combo: "Atajo", memory: "Memoria" },
+      copy: "Copia exactamente", memory: "Memoriza la secuencia", comboHint: "Atajo esperado", lives: "Escudo", preview: "Observa antes de responder.", mission: "Responde sin errores: un fallo quita un escudo.", timeUp: "El boss aún resiste.", lost: "El boss gana esta ronda.", success: "El boss final está vencido.", types: { symbol: "Símbolo", text: "Escritura", combo: "Atajo", memory: "Memoria" },
     },
   });
 })(window.CQ = window.CQ || {});

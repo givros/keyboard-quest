@@ -1,9 +1,10 @@
 (function registerScoreService(CQ) {
   const { loadJson, saveJson } = CQ.utils;
-  const POINTS_BY_DIFFICULTY = {
-    calme: 3,
-    rythme: 7,
-    defi: 16,
+  const BASE_CHALLENGE_POINTS = 3;
+  const DIFFICULTY_MULTIPLIERS = {
+    calme: 1,
+    rythme: 2,
+    defi: 4,
   };
 
   function cleanNickname(value) {
@@ -73,9 +74,13 @@
     return { note, target, mention, ratio };
   }
 
+  function difficultyMultiplier(difficulty) {
+    return DIFFICULTY_MULTIPLIERS[difficulty] || 1;
+  }
+
   function pointsFor({ difficulty, grade, gameId }) {
-    const base = POINTS_BY_DIFFICULTY[difficulty] || 1;
-    return base + gameRewardBonus(gameId) + (grade === "4e" ? 2 : 0);
+    const base = BASE_CHALLENGE_POINTS + gameRewardBonus(gameId) + (grade === "4e" ? 2 : 0);
+    return Math.round(base * difficultyMultiplier(difficulty));
   }
 
   function loadPlayer() {
@@ -190,7 +195,7 @@
     },
 
     difficultyMultiplier(difficulty) {
-      return POINTS_BY_DIFFICULTY[difficulty] || 1;
+      return difficultyMultiplier(difficulty);
     },
 
     gradeTarget(grade) {
