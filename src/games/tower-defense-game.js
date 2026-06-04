@@ -8,13 +8,12 @@
       super(options);
       this.timeLimit = this.settings.time + 12;
       this.timeLeft = this.timeLimit;
-      this.lives = this.difficulty === "calme" ? 7 : this.difficulty === "rythme" ? 5 : 3;
-      if (this.grade === "4e") this.lives = Math.max(2, this.lives - 1);
+      this.lives = this.difficulty === "calme" ? 7 : this.difficulty === "rythme" ? 6 : 5;
       this.spawnTimer = 0;
       this.enemies = [];
       this.pool = shuffle(this.buildPool());
       this.destroyed = 0;
-      this.goal = (this.difficulty === "calme" ? 12 : this.difficulty === "rythme" ? 20 : 34) + this.settings.tokens;
+      this.goal = (this.difficulty === "calme" ? 10 : this.difficulty === "rythme" ? 16 : 24) + this.settings.tokens;
       this.buffer = "";
       this.flash = 0;
       this.lanes = [106, 178, 250, 322, 394];

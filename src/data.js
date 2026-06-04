@@ -11,25 +11,25 @@
 
   CQ.difficultySettings = {
     calme: {
-      speed: 0.75,
-      spawn: 1.25,
-      time: 82,
+      speed: 0.78,
+      spawn: 1.3,
+      time: 92,
       lives: 7,
       tokens: 5,
     },
     rythme: {
-      speed: 1.12,
-      spawn: 0.75,
-      time: 58,
-      lives: 4,
-      tokens: 8,
+      speed: 0.88,
+      spawn: 1.15,
+      time: 104,
+      lives: 6,
+      tokens: 7,
     },
     defi: {
-      speed: 1.8,
-      spawn: 0.35,
-      time: 36,
-      lives: 2,
-      tokens: 12,
+      speed: 1,
+      spawn: 1,
+      time: 122,
+      lives: 5,
+      tokens: 10,
     },
   };
 
@@ -45,13 +45,13 @@
       meteorExtraPool: 0,
     },
     "4e": {
-      speedMultiplier: 1.18,
-      spawnMultiplier: 0.82,
-      timeMultiplier: 0.9,
-      livesDelta: -1,
-      tokensDelta: 2,
-      wordTargetBonus: 2,
-      shortcutGoalBonus: 3,
+      speedMultiplier: 1,
+      spawnMultiplier: 1,
+      timeMultiplier: 1.08,
+      livesDelta: 0,
+      tokensDelta: 1,
+      wordTargetBonus: 1,
+      shortcutGoalBonus: 1,
       meteorExtraPool: 4,
     },
   };
@@ -72,7 +72,7 @@
     },
     {
       id: "typing",
-      art: ["5", "lignes", "AZ", "é", "@", "#", "€", "{", "}", "Entrée", "vite", "✓"],
+      art: ["5", "lignes", "AZ", "é", "@", "#", "€", "{", "}", "Entrée", "texte", "✓"],
     },
     {
       id: "shortcuts",
@@ -184,7 +184,7 @@
           "Chaque équipe note les idées importantes.",
           "Le symbole @ sert pour une adresse.",
           "Le prix de 12€ apparaît dans l'exercice.",
-          "Je termine vite, mais sans oublier la ponctuation.",
+          "Je termine sans oublier la ponctuation.",
         ],
         defi: [
           "Mission #clavier : écrire cinq lignes sans pause.",
@@ -197,7 +197,7 @@
       "4e": {
         calme: [
           "Un argument solide se construit avec méthode.",
-          "La vitesse dépend du temps et de la distance.",
+          "La distance se calcule avec soin.",
           "Je vérifie les accents avant de valider.",
           "Une formule claire évite les erreurs.",
           "La cinquième ligne conclut le sprint.",
@@ -207,10 +207,10 @@
           "Le bloc { score: 12 } garde une valeur.",
           "La barre | sépare deux choix logiques.",
           "Le chemin C:\\docs demande une barre inverse.",
-          "Je tape vite : @ # € et les crochets restent exacts.",
+          "Je tape juste : @ # € et les crochets restent exacts.",
         ],
         defi: [
-          "Défi final #4e : vitesse, précision et mémoire.",
+          "Défi final #4e : symboles, précision et mémoire.",
           "mail@class.fr coûte 25€ ? réponse immédiate !",
           "tableau[3] = { score: 12 } | bonus",
           "Chemin C:\\docs\\notes puis symbole ~ et ^.",
@@ -222,7 +222,7 @@
       "5e": {
         calme: [
           "The keyboard stays calm and precise.",
-          "I read the line before typing fast.",
+          "I read the line before typing carefully.",
           "Every space counts in the text.",
           "My fingers return to the home row.",
           "The last line completes the sprint.",
@@ -232,7 +232,7 @@
           "Each team writes the important ideas.",
           "The @ symbol is used in an address.",
           "The price shows 12€ in the exercise.",
-          "I finish quickly, but keep punctuation.",
+          "I finish carefully and keep punctuation.",
         ],
         defi: [
           "Mission #keyboard: type five lines nonstop.",
@@ -255,10 +255,10 @@
           "The block { score: 12 } stores a value.",
           "The bar | separates two logical choices.",
           "The path C:\\docs needs a backslash.",
-          "I type fast: @ # € and brackets stay exact.",
+          "I type precisely: @ # € and brackets stay exact.",
         ],
         defi: [
-          "Final #4e challenge: speed, accuracy, memory.",
+          "Final #4e challenge: symbols, accuracy, memory.",
           "mail@class.org costs 25€ ? answer now !",
           "array[3] = { score: 12 } | bonus",
           "Path C:\\docs\\notes then symbols ~ and ^.",
@@ -270,7 +270,7 @@
       "5e": {
         calme: [
           "El teclado queda tranquilo y preciso.",
-          "Leo la línea antes de escribir rápido.",
+          "Leo la línea antes de escribir con cuidado.",
           "Cada espacio cuenta en el texto.",
           "Mis dedos vuelven a la fila inicial.",
           "La última línea valida el sprint.",
@@ -280,7 +280,7 @@
           "Cada equipo anota las ideas importantes.",
           "El símbolo @ sirve para una dirección.",
           "El precio muestra 12€ en el ejercicio.",
-          "Termino rápido, pero cuido la puntuación.",
+          "Termino con cuidado y cuido la puntuación.",
         ],
         defi: [
           "Misión #teclado: escribir cinco líneas sin pausa.",
@@ -293,7 +293,7 @@
       "4e": {
         calme: [
           "Un argumento sólido se construye con método.",
-          "La velocidad depende del tiempo y la distancia.",
+          "La distancia se calcula con cuidado.",
           "Reviso los acentos antes de validar.",
           "Una fórmula clara evita errores.",
           "La quinta línea cierra el sprint.",
@@ -303,10 +303,10 @@
           "El bloque { score: 12 } guarda un valor.",
           "La barra | separa dos opciones lógicas.",
           "La ruta C:\\docs pide una barra inversa.",
-          "Escribo rápido: @ # € y corchetes exactos.",
+          "Escribo con precisión: @ # € y corchetes exactos.",
         ],
         defi: [
-          "Reto final #4e: velocidad, precisión y memoria.",
+          "Reto final #4e: símbolos, precisión y memoria.",
           "mail@clase.es cuesta 25€ ? respuesta ya !",
           "tabla[3] = { score: 12 } | bonus",
           "Ruta C:\\docs\\notas luego símbolos ~ y ^.",
@@ -336,16 +336,16 @@
     "Une adresse test@college.fr reste lisible.",
     "Le total vaut 15€, puis 18€ avec bonus.",
     "Le symbole # classe le mot important.",
-    "Je tape vite ; la virgule reste placée.",
+    "Je tape juste ; la virgule reste placée.",
     "Le point final arrive au bon endroit.",
     "La question ? demande une réponse nette.",
   ]);
   addTypingLines("fr", "5e", "defi", [
-    "Le défi #vitesse mélange @, € et ?.",
+    "Le défi #symboles mélange @, € et ?.",
     "contact@club.fr coûte 9€ aujourd'hui !",
     "Je tape : é, è, à, ç, puis j'avance.",
     "Le code @#€?! doit rester dans l'ordre.",
-    "Mission rapide : zéro faute, cinq lignes.",
+    "Mission précise : zéro faute, cinq lignes.",
     "Le lien aide@cours.fr finit par /docs.",
     "Je note #maths, #info et 12€.",
     "Attention : espaces, accents et symboles !",
@@ -358,14 +358,14 @@
     "Le raisonnement avance sans pause.",
     "Une donnée précise aide le calcul.",
     "La phrase reste claire et complète.",
-    "Je garde vitesse et précision ensemble.",
+    "Je garde accents et précision ensemble.",
   ]);
   addTypingLines("fr", "4e", "rythme", [
     "tableau[2] contient une valeur précise.",
     "objet { note: 14 } reste bien formé.",
     "Le choix a | b demande une lecture nette.",
     "Le chemin C:\\cours\\maths reste exact.",
-    "Le mail prof@college.fr répond vite.",
+    "Le mail prof@college.fr reste exact.",
     "Je combine @, #, €, puis les crochets.",
     "La formule x / y garde ses espaces.",
     "Le bloc { actif: vrai } se referme.",
@@ -374,7 +374,7 @@
     "Défi #4e : @mail.fr, 25€ et tableau[3].",
     "objet { score: 18 } | bonus reste exact.",
     "Chemin C:\\dev\\notes puis test ~ et ^.",
-    "Suite rapide : @ # € { } [ ] | \\.",
+    "Suite complexe : @ # € { } [ ] | \\.",
     "mail@classe.fr ? réponse : oui !",
     "La ligne code[5] = { ok: vrai }.",
     "Je tape \\ puis | sans inverser les deux.",
@@ -397,7 +397,7 @@
     "An address like test@school.org stays clear.",
     "The price is 15€, then 18€ with a bonus.",
     "The # sign marks an important keyword.",
-    "I type fast; the comma stays in place.",
+    "I type precisely; the comma stays in place.",
     "The final period lands correctly.",
     "The question ? asks for a clear answer.",
   ]);
@@ -419,14 +419,14 @@
     "The reasoning moves without a pause.",
     "Precise data helps the calculation.",
     "The sentence stays clear and complete.",
-    "I keep speed and accuracy together.",
+    "I keep accents and accuracy together.",
   ]);
   addTypingLines("en", "4e", "rythme", [
     "array[2] contains a precise value.",
     "object { mark: 14 } stays well formed.",
     "The choice a | b needs clear reading.",
     "The path C:\\class\\maths stays exact.",
-    "The mail teacher@school.org is fast.",
+    "The mail teacher@school.org stays exact.",
     "I combine @, #, €, then brackets.",
     "The formula x / y keeps its spaces.",
     "The block { active: true } closes.",
@@ -458,16 +458,16 @@
     "Una dirección test@colegio.es queda clara.",
     "El total vale 15€, luego 18€ con bonus.",
     "El símbolo # marca una palabra importante.",
-    "Escribo rápido ; la coma queda colocada.",
+    "Escribo con precisión ; la coma queda colocada.",
     "El punto final llega al lugar correcto.",
     "La pregunta ? pide una respuesta clara.",
   ]);
   addTypingLines("es", "5e", "defi", [
-    "El reto #velocidad mezcla @, € y ?.",
+    "El reto #símbolos mezcla @, € y ?.",
     "club@colegio.es cuesta 9€ hoy !",
     "Escribo: á, é, í, ó, ñ y sigo.",
     "El código @#€?! debe quedar ordenado.",
-    "Misión rápida: cero fallos, cinco líneas.",
+    "Misión precisa: cero fallos, cinco líneas.",
     "El enlace ayuda@clase.es termina en /docs.",
     "Anoto #mates, #info y 12€.",
     "Atención: espacios, acentos y símbolos !",
@@ -480,14 +480,14 @@
     "El razonamiento avanza sin pausa.",
     "Un dato preciso ayuda al cálculo.",
     "La frase queda clara y completa.",
-    "Conservo velocidad y precisión juntas.",
+    "Conservo acentos y precisión juntos.",
   ]);
   addTypingLines("es", "4e", "rythme", [
     "tabla[2] contiene un valor preciso.",
     "objeto { nota: 14 } queda bien formado.",
     "La opción a | b exige lectura clara.",
     "La ruta C:\\clase\\mates queda exacta.",
-    "El mail profe@colegio.es responde rápido.",
+    "El mail profe@colegio.es queda exacto.",
     "Combino @, #, €, luego corchetes.",
     "La fórmula x / y conserva espacios.",
     "El bloque { activo: true } se cierra.",
@@ -496,7 +496,7 @@
     "Reto #4e: @mail.es, 25€ y tabla[3].",
     "objeto { score: 18 } | bonus exacto.",
     "Ruta C:\\dev\\notas luego test ~ y ^.",
-    "Secuencia rápida: @ # € { } [ ] | \\.",
+    "Secuencia compleja: @ # € { } [ ] | \\.",
     "mail@clase.es ? respuesta: sí !",
     "La línea code[5] = { ok: true }.",
     "Tecleo \\ luego | sin cambiar el orden.",
@@ -812,14 +812,14 @@
         },
         typing: {
           title: "Sprint 5 lignes",
-          mode: "Vitesse",
-          summary: "Tape un texte de 5 lignes le plus vite possible sans casser la précision.",
-          tag: "vitesse",
+          mode: "Précision",
+          summary: "Recopie un texte de 5 lignes avec accents, symboles et ponctuation.",
+          tag: "texte",
         },
         shortcuts: {
           title: "Raccourcis express",
           mode: "Méthode",
-          summary: "Enchaîne les raccourcis utiles pour travailler plus vite.",
+          summary: "Reconnais les raccourcis utiles et les touches de méthode.",
           tag: "Ctrl",
         },
         maze: {
@@ -956,7 +956,7 @@
       },
       home: {
         eyebrow: "Keyboard training",
-        title: "Short mini-games to build speed and accuracy.",
+        title: "Short mini-games to build keyboard precision.",
         description: "Choose a level, pick a challenge, then play with the keyboard. Scores are saved in this browser.",
         choose: "Choose your training",
       },
@@ -1073,14 +1073,14 @@
         },
         typing: {
           title: "5-Line Sprint",
-          mode: "Speed",
-          summary: "Type a 5-line text as fast as possible without breaking accuracy.",
-          tag: "speed",
+          mode: "Precision",
+          summary: "Copy a 5-line text with accents, symbols, and punctuation.",
+          tag: "text",
         },
         shortcuts: {
           title: "Shortcut Sprint",
           mode: "Method",
-          summary: "Chain useful shortcuts to work faster.",
+          summary: "Recognize useful shortcuts and method keys.",
           tag: "Ctrl",
         },
         maze: {
@@ -1334,14 +1334,14 @@
         },
         typing: {
           title: "Sprint 5 líneas",
-          mode: "Velocidad",
-          summary: "Escribe un texto de 5 líneas lo más rápido posible sin perder precisión.",
-          tag: "velocidad",
+          mode: "Precisión",
+          summary: "Copia un texto de 5 líneas con acentos, símbolos y puntuación.",
+          tag: "texto",
         },
         shortcuts: {
-          title: "Atajos rápidos",
+          title: "Atajos útiles",
           mode: "Método",
-          summary: "Encadena atajos útiles para trabajar más rápido.",
+          summary: "Reconoce atajos útiles y teclas de método.",
           tag: "Ctrl",
         },
         maze: {
@@ -1517,7 +1517,7 @@
           "algorithmique",
           "proportionnalité",
           "coordonnées",
-          "La vitesse dépend de la distance et du temps.",
+          "La distance se déduit du temps et de la mesure.",
           "Un argument solide s'appuie sur des preuves.",
           "L'expérience confirme l'hypothèse.",
           "Le graphique compare deux grandeurs.",
@@ -1681,7 +1681,7 @@
           "algoritmo",
           "proporcionalidad",
           "coordenadas",
-          "La velocidad depende de la distancia y del tiempo.",
+          "La distancia se deduce del tiempo y de la medida.",
           "Un argumento sólido se apoya en pruebas.",
           "El experimento confirma la hipótesis.",
           "El gráfico compara dos magnitudes.",
@@ -1749,7 +1749,7 @@
       "Je vérifie le signe avant de finir.",
     ],
     shortcuts: [
-      { combo: "Ctrl+Enter", action: "valider rapidement" },
+      { combo: "Ctrl+Enter", action: "valider au clavier" },
       { combo: "Ctrl+Backspace", action: "effacer le mot précédent" },
       { combo: "Shift+Enter", action: "retour à la ligne" },
     ],
@@ -1778,7 +1778,7 @@
       "Le résultat dépend des données choisies.",
     ],
     shortcuts: [
-      { combo: "Ctrl+Enter", action: "valider rapidement" },
+      { combo: "Ctrl+Enter", action: "valider au clavier" },
       { combo: "Ctrl+Backspace", action: "effacer le mot précédent" },
       { combo: "Shift+Enter", action: "retour à la ligne" },
       { combo: "Ctrl+Shift+Z", action: "rétablir autrement" },
@@ -2013,7 +2013,7 @@
     },
     {
       id: "relay",
-      art: ["run", "A", "Z", "@", "#", "Ctrl", "C", "Tab", "€", "porte", "vite", "✓"],
+      art: ["run", "A", "Z", "@", "#", "Ctrl", "C", "Tab", "€", "porte", "clavier", "✓"],
     },
     {
       id: "boss",
@@ -2071,7 +2071,7 @@
       flash: {
         title: "Dictée flash",
         mode: "Mémoire",
-        summary: "Lis une ligne très vite, puis retape-la quand elle disparaît.",
+        summary: "Lis une ligne, mémorise ses signes, puis retape-la quand elle disparaît.",
         tag: "mémo",
       },
       tower: {
@@ -2094,14 +2094,14 @@
       },
       relay: {
         title: "Course relais",
-        mode: "Vitesse ciblée",
+        mode: "Touches ciblées",
         summary: "Passe les portes avec les bonnes touches avant que le coureur n'arrive dessus.",
         tag: "course",
       },
       boss: {
         title: "Boss final clavier",
         mode: "Mix complet",
-        summary: "Symboles, raccourcis, mémoire et saisie rapide dans une épreuve plus longue.",
+        summary: "Symboles, raccourcis, mémoire et saisie précise dans une épreuve plus longue.",
         tag: "boss",
       },
     },
@@ -2170,7 +2170,7 @@
       timeUp: "Le relais est terminé.",
       lost: "Trop de portes ratées.",
       success: "Le relais est réussi.",
-      mission: "Appuie sur la touche affichée avant que le coureur atteigne la porte.",
+      mission: "Appuie sur la touche ou le raccourci affiché avant que le coureur atteigne la porte.",
     },
     boss: {
       copy: "Recopie exactement",
@@ -2199,12 +2199,12 @@
     games: {
       duel: { title: "Shortcut Duel", mode: "Method reflex", summary: "An opponent launches actions: block them with the right shortcut before impact.", tag: "Ctrl" },
       shop: { title: "AltGr Shop", mode: "Useful symbols", summary: "Complete customer orders with @, #, €, braces and other rare keys.", tag: "AltGr" },
-      flash: { title: "Flash Dictation", mode: "Memory", summary: "Read a line quickly, then type it back when it disappears.", tag: "memo" },
+      flash: { title: "Flash Dictation", mode: "Memory", summary: "Read a line, memorize its signs, then type it back when it disappears.", tag: "memo" },
       tower: { title: "Keyboard Tower", mode: "Defense", summary: "Waves move toward the base: type the right label to stop them.", tag: "strategy" },
       coordinates: { title: "Coordinate Map", mode: "Location", summary: "Build coordinates character by character to guide the character.", tag: "coord." },
       repair: { title: "Message Repair", mode: "Correction", summary: "Find the missing character in a sentence and type the correction.", tag: "text" },
-      relay: { title: "Relay Race", mode: "Target speed", summary: "Pass gates with the right keys before the runner reaches them.", tag: "race" },
-      boss: { title: "Keyboard Final Boss", mode: "Full mix", summary: "Symbols, shortcuts, memory and fast typing in a longer challenge.", tag: "boss" },
+      relay: { title: "Relay Race", mode: "Target keys", summary: "Pass gates with the right keys before the runner reaches them.", tag: "race" },
+      boss: { title: "Keyboard Final Boss", mode: "Full mix", summary: "Symbols, shortcuts, memory and precise typing in a longer challenge.", tag: "boss" },
     },
     meters: { duels: "Duels", orders: "Orders", defenses: "Defenses", maps: "Maps", gates: "Gates", phases: "Phases" },
     duel: {
@@ -2226,7 +2226,7 @@
       title: "Message to repair", symbolHint: "missing symbol", timeUp: "The message stays incomplete.", success: "The messages are repaired.", mission: "Type only the missing character.",
     },
     relay: {
-      title: "Keyboard Relay Race", key: "no modifier", lives: "Tries", timeUp: "The relay is over.", lost: "Too many gates missed.", success: "The relay is complete.", mission: "Press the displayed key before the runner reaches the gate.",
+      title: "Keyboard Relay Race", key: "no modifier", lives: "Tries", timeUp: "The relay is over.", lost: "Too many gates missed.", success: "The relay is complete.", mission: "Press the displayed key or shortcut before the runner reaches the gate.",
     },
     boss: {
       copy: "Copy exactly", memory: "Memorize the sequence", comboHint: "Expected shortcut", lives: "Shield", preview: "Watch before answering.", mission: "Answer without mistakes: one error removes one shield.", timeUp: "The boss still stands.", lost: "The boss wins this round.", success: "The final boss is defeated.", types: { symbol: "Symbol", text: "Typing", combo: "Shortcut", memory: "Memory" },
@@ -2241,12 +2241,12 @@
     games: {
       duel: { title: "Duelo de atajos", mode: "Reflejo método", summary: "Un adversario lanza acciones: bloquéalas con el atajo correcto.", tag: "Ctrl" },
       shop: { title: "Tienda AltGr", mode: "Símbolos útiles", summary: "Completa pedidos con @, #, €, llaves y otras teclas raras.", tag: "AltGr" },
-      flash: { title: "Dictado flash", mode: "Memoria", summary: "Lee una línea rápido y escríbela cuando desaparece.", tag: "memo" },
+      flash: { title: "Dictado flash", mode: "Memoria", summary: "Lee una línea, memoriza sus signos y escríbela cuando desaparece.", tag: "memo" },
       tower: { title: "Torre teclado", mode: "Defensa", summary: "Las oleadas avanzan hacia la base: escribe la etiqueta correcta.", tag: "estrategia" },
       coordinates: { title: "Mapa de coordenadas", mode: "Ubicación", summary: "Compón coordenadas carácter por carácter para guiar al personaje.", tag: "coord." },
       repair: { title: "Reparación de mensaje", mode: "Corrección", summary: "Encuentra el carácter que falta y escribe la corrección.", tag: "texto" },
-      relay: { title: "Carrera de relevos", mode: "Velocidad precisa", summary: "Pasa puertas con las teclas correctas antes de llegar.", tag: "carrera" },
-      boss: { title: "Boss final teclado", mode: "Mezcla completa", summary: "Símbolos, atajos, memoria y escritura rápida en un reto largo.", tag: "boss" },
+      relay: { title: "Carrera de relevos", mode: "Teclas objetivo", summary: "Pasa puertas con las teclas correctas antes de llegar.", tag: "carrera" },
+      boss: { title: "Boss final teclado", mode: "Mezcla completa", summary: "Símbolos, atajos, memoria y escritura precisa en un reto largo.", tag: "boss" },
     },
     meters: { duels: "Duelos", orders: "Pedidos", defenses: "Defensas", maps: "Mapas", gates: "Puertas", phases: "Fases" },
     duel: {
@@ -2268,7 +2268,7 @@
       title: "Mensaje para reparar", symbolHint: "símbolo que falta", timeUp: "El mensaje queda incompleto.", success: "Los mensajes están reparados.", mission: "Escribe solo el carácter que falta.",
     },
     relay: {
-      title: "Carrera de relevos teclado", key: "sin modificador", lives: "Intentos", timeUp: "El relevo ha terminado.", lost: "Demasiadas puertas falladas.", success: "El relevo está logrado.", mission: "Pulsa la tecla mostrada antes de que el corredor llegue a la puerta.",
+      title: "Carrera de relevos teclado", key: "sin modificador", lives: "Intentos", timeUp: "El relevo ha terminado.", lost: "Demasiadas puertas falladas.", success: "El relevo está logrado.", mission: "Pulsa la tecla o el atajo mostrado antes de que el corredor llegue a la puerta.",
     },
     boss: {
       copy: "Copia exactamente", memory: "Memoriza la secuencia", comboHint: "Atajo esperado", lives: "Escudo", preview: "Observa antes de responder.", mission: "Responde sin errores: un fallo quita un escudo.", timeUp: "El boss aún resiste.", lost: "El boss gana esta ronda.", success: "El boss final está vencido.", types: { symbol: "Símbolo", text: "Escritura", combo: "Atajo", memory: "Memoria" },

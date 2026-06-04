@@ -13,7 +13,7 @@
       this.current = this.orders[this.index % this.orders.length];
       this.buffer = "";
       this.completed = 0;
-      this.goal = (this.difficulty === "calme" ? 7 : this.difficulty === "rythme" ? 12 : 20) + this.settings.wordTargetBonus;
+      this.goal = (this.difficulty === "calme" ? 7 : this.difficulty === "rythme" ? 11 : 16) + this.settings.wordTargetBonus;
       this.patienceLimit = this.buildPatienceLimit();
       this.patience = this.patienceLimit;
       this.flash = 0;
@@ -21,11 +21,11 @@
 
     buildPatienceLimit() {
       const base = {
-        calme: 9,
-        rythme: 6.5,
-        defi: 4.4,
+        calme: 10,
+        rythme: 8.5,
+        defi: 7,
       }[this.difficulty] || 7;
-      return Math.max(3.4, base * (this.grade === "4e" ? 0.88 : 1));
+      return Math.max(5.5, base);
     }
 
     allowedSymbols() {

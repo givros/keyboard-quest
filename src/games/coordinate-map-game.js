@@ -13,7 +13,7 @@
       this.offsetY = 78;
       this.timeLimit = this.settings.time + 16;
       this.timeLeft = this.timeLimit;
-      this.goal = (this.difficulty === "calme" ? 5 : this.difficulty === "rythme" ? 8 : 13) + Math.ceil(this.settings.wordTargetBonus / 2);
+      this.goal = (this.difficulty === "calme" ? 5 : this.difficulty === "rythme" ? 7 : 10) + Math.ceil(this.settings.wordTargetBonus / 2);
       this.completed = 0;
       this.player = { x: 0, y: 0 };
       this.target = this.randomTarget();

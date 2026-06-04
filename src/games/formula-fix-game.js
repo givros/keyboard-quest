@@ -9,7 +9,7 @@
       this.timeLimit = this.settings.time + 8;
       this.timeLeft = this.timeLimit;
       this.tasks = shuffle(this.selectTasks());
-      this.goal = (this.difficulty === "calme" ? 7 : this.difficulty === "rythme" ? 12 : 22) + this.settings.wordTargetBonus;
+      this.goal = (this.difficulty === "calme" ? 7 : this.difficulty === "rythme" ? 11 : 17) + this.settings.wordTargetBonus;
       this.completed = 0;
       this.index = 0;
       this.flash = 0;

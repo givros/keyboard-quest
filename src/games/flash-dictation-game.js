@@ -7,7 +7,7 @@
     constructor(options) {
       super(options);
       this.rounds = shuffle(this.selectLines());
-      this.target = (this.difficulty === "calme" ? 4 : this.difficulty === "rythme" ? 5 : 7) + Math.ceil(this.settings.wordTargetBonus / 2);
+      this.target = (this.difficulty === "calme" ? 4 : this.difficulty === "rythme" ? 5 : 6) + Math.ceil(this.settings.wordTargetBonus / 2);
       this.index = 0;
       this.current = this.rounds[this.index % this.rounds.length];
       this.buffer = "";
@@ -22,11 +22,11 @@
 
     previewTime() {
       const base = {
-        calme: 2.6,
-        rythme: 1.75,
-        defi: 1.05,
+        calme: 3,
+        rythme: 2.55,
+        defi: 2.1,
       }[this.difficulty] || 2;
-      return Math.max(0.85, base * (this.grade === "4e" ? 0.86 : 1));
+      return Math.max(1.8, base);
     }
 
     selectLines() {

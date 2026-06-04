@@ -27,18 +27,17 @@
     constructor(options) {
       super(options);
       this.gates = shuffle(this.buildGates());
-      this.goal = (this.difficulty === "calme" ? 9 : this.difficulty === "rythme" ? 15 : 25) + this.settings.shortcutGoalBonus;
+      this.goal = (this.difficulty === "calme" ? 8 : this.difficulty === "rythme" ? 12 : 18) + this.settings.shortcutGoalBonus;
       this.completed = 0;
       this.index = 0;
       this.current = this.gates[this.index % this.gates.length];
       this.buffer = "";
       this.progress = 0;
-      this.speed = this.difficulty === "calme" ? 0.07 : this.difficulty === "rythme" ? 0.12 : 0.2;
+      this.speed = this.difficulty === "calme" ? 0.065 : this.difficulty === "rythme" ? 0.08 : 0.095;
       this.gateDistance = 0.72;
       this.timeLimit = this.settings.time + 10;
       this.timeLeft = this.timeLimit;
-      this.lives = this.difficulty === "calme" ? 5 : this.difficulty === "rythme" ? 4 : 3;
-      if (this.grade === "4e") this.lives = Math.max(2, this.lives - 1);
+      this.lives = this.difficulty === "calme" ? 5 : this.difficulty === "rythme" ? 5 : 4;
       this.flash = 0;
     }
 
