@@ -2,8 +2,8 @@
 
 Projet Supabase utilise :
 
-- Project ID : `xyckwwhcwfsywvmomevb`
-- API URL : `https://xyckwwhcwfsywvmomevb.supabase.co`
+- Project ID : `xyckwwhcwfsywwmomevb`
+- API URL : `https://xyckwwhcwfsywwmomevb.supabase.co`
 - Table unique : `keyboard_quest_scores`
 
 Objectif :
@@ -76,7 +76,7 @@ Elle utilise :
 
 ```js
 provider: "supabase",
-url: "https://xyckwwhcwfsywvmomevb.supabase.co",
+url: "https://xyckwwhcwfsywwmomevb.supabase.co",
 anonKey: "sb_publishable_7_MeeyNGPOb3WoS5nxPktw_PDjiCYdx",
 table: "keyboard_quest_scores",
 pollMs: 3000,

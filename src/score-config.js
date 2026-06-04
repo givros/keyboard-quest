@@ -10,7 +10,7 @@
     cooldownMs: CQ.SCORE_COOLDOWN_MS,
     supabase: {
       enabled: true,
-      url: "https://xyckwwhcwfsywvmomevb.supabase.co",
+      url: "https://xyckwwhcwfsywwmomevb.supabase.co",
       anonKey: "sb_publishable_7_MeeyNGPOb3WoS5nxPktw_PDjiCYdx",
       table: "keyboard_quest_scores",
       pollMs: 3000,
