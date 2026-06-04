@@ -194,6 +194,10 @@
 
   function scoreStatusText() {
     const room = CQ.scoreService.getRoom();
+    if (app.scoreStatus === "supabase") return t("leaderboard.live", { room });
+    if (app.scoreStatus === "supabaseConnecting") return t("leaderboard.supabaseConnecting", { room });
+    if (app.scoreStatus === "supabaseError") return t("leaderboard.supabaseError", { room });
+    if (app.scoreStatus === "supabaseMissingConfig") return t("leaderboard.supabaseMissingConfig");
     if (app.scoreStatus === "relay") return t("leaderboard.live", { room });
     if (app.scoreStatus === "relayConnecting") return t("leaderboard.connecting", { room });
     if (app.scoreStatus === "relayError") return t("leaderboard.relayError", { room });

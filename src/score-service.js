@@ -93,6 +93,7 @@
   }
 
   function defaultRoom() {
+    if (CQ.scoreConfig?.provider === "supabase") return supabaseRoom(CQ.scoreConfig);
     return cleanRoom(CQ.scoreConfig?.relay?.room || CQ.DEFAULT_SCORE_ROOM || "1") || "1";
   }
 
@@ -101,7 +102,7 @@
   }
 
   function relayEnabled(config) {
-    return config?.provider !== "local" && config?.relay?.enabled !== false;
+    return config?.provider === "relay" && config?.relay?.enabled !== false;
   }
 
   function relayBaseUrl(config) {
@@ -123,6 +124,36 @@
 
   function roomMetaKey(room) {
     return `${CQ.SCORE_STORAGE_KEY}:meta:${room}`;
+  }
+
+  function supabaseUrl(config) {
+    return String(config?.supabase?.url || "").replace(/\/+$/, "");
+  }
+
+  function supabaseAnonKey(config) {
+    return String(config?.supabase?.anonKey || "");
+  }
+
+  function supabaseTable(config) {
+    return String(config?.supabase?.table || "keyboard_quest_scores").replace(/[^a-zA-Z0-9_]/g, "");
+  }
+
+  function supabaseRoom(config) {
+    return cleanRoom(config?.supabase?.room || CQ.DEFAULT_SCORE_ROOM || "1") || "1";
+  }
+
+  function supabaseConfigured(config) {
+    const url = supabaseUrl(config);
+    const key = supabaseAnonKey(config);
+    return /^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url) && key && !/COLLE_TA_CLE|ANON_ICI/i.test(key);
+  }
+
+  function supabaseEnabled(config) {
+    return config?.provider === "supabase" && config?.supabase?.enabled !== false && supabaseConfigured(config);
+  }
+
+  function supabaseRequestedButMissing(config) {
+    return config?.provider === "supabase" && !supabaseEnabled(config);
   }
 
   async function fetchWithTimeout(url, options = {}, timeoutMs = 2500) {
@@ -147,6 +178,8 @@
     status: "local",
     relay: null,
     relayPollTimer: 0,
+    supabase: null,
+    supabasePollTimer: 0,
     lastResetAt: 0,
     seenEvents: new Set(),
     entryListeners: [],
@@ -183,7 +216,11 @@
       if (onEntries) this.entryListeners.push(onEntries);
       if (onStatus) this.statusListeners.push(onStatus);
       saveJson(CQ.PLAYER_STORAGE_KEY, this.player);
-      if (this.room && relayEnabled(CQ.scoreConfig)) {
+      if (this.room && supabaseEnabled(CQ.scoreConfig)) {
+        this.connectSupabase(this.room);
+      } else if (supabaseRequestedButMissing(CQ.scoreConfig)) {
+        this.useLocalScores("supabaseMissingConfig");
+      } else if (this.room && relayEnabled(CQ.scoreConfig)) {
         this.connectRelay(this.room);
       } else {
         this.useLocalScores("local");
@@ -203,11 +240,13 @@
       const nextRoom = defaultRoom();
       this.room = nextRoom;
       saveJson(CQ.SCORE_ROOM_STORAGE_KEY, nextRoom);
-      if (!nextRoom || !relayEnabled(CQ.scoreConfig)) {
+      if (!nextRoom) {
         this.useLocalScores("local");
         return true;
       }
-      this.connectRelay(nextRoom);
+      if (supabaseEnabled(CQ.scoreConfig)) this.connectSupabase(nextRoom);
+      else if (relayEnabled(CQ.scoreConfig)) this.connectRelay(nextRoom);
+      else this.useLocalScores(supabaseRequestedButMissing(CQ.scoreConfig) ? "supabaseMissingConfig" : "local");
       return true;
     },
 
@@ -218,10 +257,10 @@
       saveJson(CQ.PLAYER_STORAGE_KEY, this.player);
       this.ensureActiveEntry();
       this.emitEntries();
-      if (this.relay) {
+      if (this.relay || this.supabase) {
         this.publishProfile().catch((error) => {
           console.warn("Live score profile sync unavailable.", error);
-          this.emitStatus("relayError");
+          this.emitStatus(this.supabase ? "supabaseError" : "relayError");
         });
       }
       return true;
@@ -242,7 +281,7 @@
     },
 
     activeStorageKey() {
-      return this.relay && this.room ? roomCacheKey(this.room) : CQ.SCORE_STORAGE_KEY;
+      return (this.relay || this.supabase) && this.room ? roomCacheKey(this.room) : CQ.SCORE_STORAGE_KEY;
     },
 
     saveActiveEntries() {
@@ -297,12 +336,200 @@
       this.seenEvents = new Set();
     },
 
+    disconnectSupabase() {
+      if (this.supabasePollTimer) window.clearInterval(this.supabasePollTimer);
+      this.supabasePollTimer = 0;
+      this.supabase = null;
+    },
+
     useLocalScores(status) {
       this.disconnectRelay();
+      this.disconnectSupabase();
       this.entriesById = loadJson(CQ.SCORE_STORAGE_KEY, {});
       this.ensureActiveEntry();
       this.emitEntries();
       this.emitStatus(status);
+    },
+
+    async connectSupabase(room) {
+      const clean = cleanRoom(room);
+      if (!clean || !supabaseEnabled(CQ.scoreConfig)) {
+        this.useLocalScores(supabaseRequestedButMissing(CQ.scoreConfig) ? "supabaseMissingConfig" : "local");
+        return;
+      }
+
+      this.disconnectRelay();
+      this.disconnectSupabase();
+      this.room = clean;
+      saveJson(CQ.SCORE_ROOM_STORAGE_KEY, clean);
+      this.entriesById = loadJson(roomCacheKey(clean), {});
+      this.supabase = {
+        baseUrl: supabaseUrl(CQ.scoreConfig),
+        anonKey: supabaseAnonKey(CQ.scoreConfig),
+        table: supabaseTable(CQ.scoreConfig),
+        pollMs: Math.max(1500, Number(CQ.scoreConfig?.supabase?.pollMs) || 3000),
+      };
+      this.emitEntries();
+      this.emitStatus("supabaseConnecting");
+
+      try {
+        await this.loadSupabaseScores();
+        this.emitEntries();
+        this.emitStatus("supabase");
+      } catch (error) {
+        console.warn("Supabase score load unavailable.", error);
+        this.emitStatus("supabaseError");
+      }
+
+      this.startSupabasePolling();
+      if (this.player.nickname) {
+        this.publishProfile().catch((error) => {
+          console.warn("Supabase profile sync unavailable.", error);
+          this.emitStatus("supabaseError");
+        });
+      }
+    },
+
+    async supabaseRequest(path, options = {}) {
+      if (!this.supabase) throw new Error("No Supabase score connection");
+      const headers = {
+        apikey: this.supabase.anonKey,
+        Authorization: `Bearer ${this.supabase.anonKey}`,
+        ...options.headers,
+      };
+      const response = await fetchWithTimeout(`${this.supabase.baseUrl}/rest/v1/${path}`, {
+        ...options,
+        headers,
+      }, 6000);
+      const text = await response.text();
+      if (!text) return null;
+      try {
+        return JSON.parse(text);
+      } catch {
+        return text;
+      }
+    },
+
+    async loadSupabaseScores() {
+      if (!this.supabase || !this.room) return;
+      const select = "player_id,nickname,total,last_game,updated_at,cooldowns";
+      const rows = await this.supabaseRequest(`${this.supabase.table}?select=${select}&order=total.desc`);
+      const nextEntries = {};
+      (Array.isArray(rows) ? rows : []).forEach((row) => {
+        const playerId = String(row.player_id || "").slice(0, 90);
+        const nickname = cleanNickname(row.nickname);
+        if (!playerId || !nickname) return;
+        const updatedAt = Date.parse(row.updated_at);
+        nextEntries[playerId] = {
+          nickname,
+          total: Number(row.total) || 0,
+          updatedAt: Number.isFinite(updatedAt) ? updatedAt : Date.now(),
+          lastGame: String(row.last_game || "").slice(0, 64),
+          cooldowns: row.cooldowns && typeof row.cooldowns === "object" ? row.cooldowns : {},
+        };
+      });
+      this.entriesById = nextEntries;
+      this.saveActiveEntries();
+    },
+
+    startSupabasePolling() {
+      if (!this.supabase || this.supabasePollTimer) return;
+      const poll = () => {
+        if (!this.supabase) return;
+        this.loadSupabaseScores()
+          .then(() => {
+            this.emitEntries();
+            this.emitStatus("supabase");
+          })
+          .catch((error) => {
+            console.warn("Supabase score polling unavailable.", error);
+            this.emitStatus("supabaseError");
+          });
+      };
+      this.supabasePollTimer = window.setInterval(poll, this.supabase.pollMs);
+    },
+
+    async upsertSupabaseEntry(playerId, entry) {
+      if (!this.supabase || !this.room || !entry) return;
+      const row = {
+        player_id: playerId,
+        nickname: cleanNickname(entry.nickname),
+        total: Number(entry.total) || 0,
+        last_game: String(entry.lastGame || "").slice(0, 64),
+        cooldowns: entry.cooldowns || {},
+        updated_at: new Date(Number(entry.updatedAt) || Date.now()).toISOString(),
+      };
+      await this.supabaseRequest(`${this.supabase.table}?on_conflict=player_id`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Prefer: "resolution=merge-duplicates,return=minimal",
+        },
+        body: JSON.stringify(row),
+      });
+    },
+
+    async publishSupabaseProfile() {
+      this.ensureActiveEntry();
+      await this.upsertSupabaseEntry(this.player.id, this.entriesById[this.player.id]);
+      this.emitEntries();
+    },
+
+    async submitSupabaseAward(award) {
+      await this.loadSupabaseScores().catch((error) => {
+        console.warn("Supabase pre-award refresh unavailable.", error);
+      });
+      const result = this.submitLocalAward(award);
+      if (result.awarded) {
+        try {
+          await this.upsertSupabaseEntry(this.player.id, this.entriesById[this.player.id]);
+        } catch (error) {
+          console.warn("Supabase score upsert unavailable.", error);
+          this.emitStatus("supabaseError");
+        }
+      }
+      return result;
+    },
+
+    async submitSupabasePenalty(penalty) {
+      await this.loadSupabaseScores().catch((error) => {
+        console.warn("Supabase pre-penalty refresh unavailable.", error);
+      });
+      const result = this.submitLocalPenalty(penalty);
+      try {
+        await this.upsertSupabaseEntry(this.player.id, this.entriesById[this.player.id]);
+      } catch (error) {
+        console.warn("Supabase penalty upsert unavailable.", error);
+        this.emitStatus("supabaseError");
+      }
+      return result;
+    },
+
+    async clearSupabaseRoom() {
+      if (!this.supabase && supabaseEnabled(CQ.scoreConfig)) await this.connectSupabase(this.room || defaultRoom());
+      if (this.supabase && this.room) {
+        try {
+          await this.supabaseRequest(`${this.supabase.table}?player_id=not.is.null`, {
+            method: "DELETE",
+            headers: {
+              Prefer: "return=minimal",
+            },
+          });
+          this.entriesById = {};
+          this.saveActiveEntries();
+          this.emitEntries();
+          this.emitStatus("supabase");
+          return { cleared: true, live: true };
+        } catch (error) {
+          console.warn("Supabase score reset unavailable.", error);
+          this.emitStatus("supabaseError");
+        }
+      }
+
+      this.entriesById = {};
+      this.saveActiveEntries();
+      this.emitEntries();
+      return { cleared: true, live: false };
     },
 
     async connectRelay(room) {
@@ -517,6 +744,7 @@
     },
 
     async publishProfile() {
+      if (this.supabase && this.player.nickname) return this.publishSupabaseProfile();
       if (!this.relay || !this.player.nickname) return;
       const payload = {
         app: "keyboard-quest",
@@ -537,6 +765,7 @@
     },
 
     async clearRoom() {
+      if (this.supabase) return this.clearSupabaseRoom();
       const room = this.room || defaultRoom();
       if (!this.relay && relayEnabled(CQ.scoreConfig)) await this.connectRelay(room);
       const payload = {
@@ -582,6 +811,14 @@
         cooldownMs: CQ.scoreConfig?.cooldownMs || CQ.SCORE_COOLDOWN_MS,
         now: Date.now(),
       };
+      if (this.supabase) {
+        try {
+          return await this.submitSupabaseAward(award);
+        } catch (error) {
+          console.warn("Supabase score award unavailable.", error);
+          this.emitStatus("supabaseError");
+        }
+      }
       if (this.relay) {
         try {
           return await this.submitRelayAward(award);
@@ -600,6 +837,13 @@
         points: pointsFor(payload),
         now: Date.now(),
       };
+      if (this.supabase) {
+        return this.submitSupabasePenalty(penalty).catch((error) => {
+          console.warn("Supabase score penalty unavailable.", error);
+          this.emitStatus("supabaseError");
+          return this.submitLocalPenalty(penalty);
+        });
+      }
       if (this.relay) {
         return this.submitRelayPenalty(penalty).catch((error) => {
           console.warn("Live score penalty unavailable.", error);
