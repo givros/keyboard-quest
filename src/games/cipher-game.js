@@ -9,7 +9,7 @@
       this.timeLimit = this.settings.time + 12;
       this.timeLeft = this.timeLimit;
       this.pool = shuffle(this.symbolPool());
-      this.targetRounds = (this.difficulty === "calme" ? 5 : this.difficulty === "rythme" ? 7 : 9) + Math.ceil(this.settings.wordTargetBonus / 2);
+      this.targetRounds = (this.difficulty === "calme" ? 7 : this.difficulty === "rythme" ? 9 : 12) + Math.ceil(this.settings.wordTargetBonus / 2);
       this.completed = 0;
       this.sequence = [];
       this.cursor = 0;

@@ -71,6 +71,7 @@
 
   function isBrowserReservedShortcut(combo) {
     const parts = String(combo || "").split("+");
+    if (parts.includes("Alt") && parts.at(-1) === "F4") return true;
     return parts.includes("Ctrl") && ["N", "P", "O", "L", "H", "K", "R", "T", "W"].includes(parts.at(-1));
   }
 

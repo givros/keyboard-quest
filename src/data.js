@@ -13,21 +13,21 @@
     calme: {
       speed: 0.84,
       spawn: 1.18,
-      time: 86,
+      time: 96,
       lives: 6,
       tokens: 6,
     },
     rythme: {
       speed: 0.96,
       spawn: 1.05,
-      time: 96,
+      time: 112,
       lives: 5,
       tokens: 8,
     },
     defi: {
       speed: 1.08,
       spawn: 0.92,
-      time: 112,
+      time: 134,
       lives: 4,
       tokens: 11,
     },
@@ -49,9 +49,9 @@
       spawnMultiplier: 1,
       timeMultiplier: 1.04,
       livesDelta: 0,
-      tokensDelta: 2,
-      wordTargetBonus: 2,
-      shortcutGoalBonus: 2,
+      tokensDelta: 3,
+      wordTargetBonus: 3,
+      shortcutGoalBonus: 3,
       meteorExtraPool: 6,
     },
   };
@@ -124,6 +124,22 @@
       { symbol: ".", combo: "Maj + ;", modifier: "Maj" },
       { symbol: "/", combo: "Maj + :", modifier: "Maj" },
       { symbol: ":", combo: ".", modifier: "direct" },
+      { symbol: "{", combo: "AltGr + 4", modifier: "AltGr" },
+      { symbol: "}", combo: "AltGr + =", modifier: "AltGr" },
+      { symbol: "[", combo: "AltGr + 5", modifier: "AltGr" },
+      { symbol: "]", combo: "AltGr + )", modifier: "AltGr" },
+      { symbol: "|", combo: "AltGr + 6", modifier: "AltGr" },
+      { symbol: "\\", combo: "AltGr + 8", modifier: "AltGr" },
+      { symbol: "~", combo: "AltGr + 2", modifier: "AltGr" },
+      { symbol: "^", combo: "touche ^", modifier: "direct" },
+      { symbol: "+", combo: "touche +", modifier: "direct" },
+      { symbol: "=", combo: "touche =", modifier: "direct" },
+      { symbol: "<", combo: "touche <", modifier: "direct" },
+      { symbol: ">", combo: "Maj + <", modifier: "Maj" },
+      { symbol: "*", combo: "touche *", modifier: "direct" },
+      { symbol: "%", combo: "touche %", modifier: "direct" },
+      { symbol: "(", combo: "touche (", modifier: "direct" },
+      { symbol: ")", combo: "touche )", modifier: "direct" },
     ],
     "4e": [
       { symbol: "@", combo: "AltGr + 0", modifier: "AltGr" },
@@ -146,14 +162,14 @@
 
   CQ.difficultySymbolSets = {
     "5e": {
-      calme: ["@", "#", "€", "_", "-", "?", "!", ".", "/", ":"],
-      rythme: ["@", "#", "€", "_", "-", "?", "!", ".", "/", ":", "{", "}", "[", "]"],
-      defi: ["@", "#", "€", "_", "-", "?", "!", ".", "/", ":", "{", "}", "[", "]", "|"],
+      calme: ["@", "#", "€", "{", "}", "[", "]", "|", "\\", "~", "^", "+", "=", "<", ">", "*", "%", "(", ")", "_", "-", "?", "!", ".", "/", ":"],
+      rythme: ["@", "#", "€", "{", "}", "[", "]", "|", "\\", "~", "^", "+", "=", "<", ">", "*", "%", "(", ")", "_", "-", "?", "!", ".", "/", ":"],
+      defi: ["@", "#", "€", "{", "}", "[", "]", "|", "\\", "~", "^", "+", "=", "<", ">", "*", "%", "(", ")", "_", "-", "?", "!", ".", "/", ":"],
     },
     "4e": {
-      calme: ["@", "#", "€", "_", "-", "?", "!", ".", "/", ":", "[", "]"],
-      rythme: ["@", "#", "€", "{", "}", "[", "]", "|", "\\", "~", "_", "?", "!", "/", ":"],
-      defi: ["@", "#", "€", "{", "}", "[", "]", "|", "\\", "~", "^", "_", "?", "!", "/", ":", "."],
+      calme: ["@", "#", "€", "{", "}", "[", "]", "|", "\\", "~", "^", "+", "=", "<", ">", "*", "%", "(", ")", "_", "-", "?", "!", ".", "/", ":"],
+      rythme: ["@", "#", "€", "{", "}", "[", "]", "|", "\\", "~", "^", "+", "=", "<", ">", "*", "%", "(", ")", "_", "-", "?", "!", ".", "/", ":"],
+      defi: ["@", "#", "€", "{", "}", "[", "]", "|", "\\", "~", "^", "+", "=", "<", ">", "*", "%", "(", ")", "_", "-", "?", "!", ".", "/", ":"],
     },
   };
 
@@ -173,11 +189,11 @@
     fr: {
       "5e": {
         calme: [
-          "Le clavier reste calme et précis.",
-          "Je lis la ligne puis je tape sans courir.",
-          "Chaque espace compte dans le texte.",
-          "Mes doigts reviennent au point de départ.",
-          "La dernière ligne valide le sprint.",
+          "Le mail aide@college.fr reste exact.",
+          "Je tape @ # € puis je vérifie.",
+          "Le code { ok } utilise des accolades.",
+          "Le tableau[2] garde sa valeur.",
+          "La ligne finit par ? puis !",
         ],
         rythme: [
           "La classe prépare un exposé clair.",
@@ -196,11 +212,11 @@
       },
       "4e": {
         calme: [
-          "Un argument solide se construit avec méthode.",
-          "La distance se calcule avec soin.",
-          "Je vérifie les accents avant de valider.",
-          "Une formule claire évite les erreurs.",
-          "La cinquième ligne conclut le sprint.",
+          "mail@classe.fr coûte 25€.",
+          "tableau[3] = { score: 12 }.",
+          "Le choix a | b reste lisible.",
+          "Chemin C:\\docs puis symbole ~.",
+          "Je tape <, >, +, =, * et %.",
         ],
         rythme: [
           "Le tableau[3] indique une position précise.",
@@ -221,11 +237,11 @@
     en: {
       "5e": {
         calme: [
-          "The keyboard stays calm and precise.",
-          "I read the line before typing carefully.",
-          "Every space counts in the text.",
-          "My fingers return to the home row.",
-          "The last line completes the sprint.",
+          "The mail help@school.org stays exact.",
+          "I type @ # € and check again.",
+          "The code { ok } uses braces.",
+          "array[2] keeps its value.",
+          "The line ends with ? then !",
         ],
         rythme: [
           "The class prepares a clear report.",
@@ -244,11 +260,11 @@
       },
       "4e": {
         calme: [
-          "A strong argument is built with method.",
-          "Speed depends on distance and time.",
-          "I check punctuation before validating.",
-          "A clear formula avoids mistakes.",
-          "The fifth line closes the sprint.",
+          "mail@class.org costs 25€.",
+          "array[3] = { score: 12 }.",
+          "The choice a | b stays readable.",
+          "Path C:\\docs then symbol ~.",
+          "I type <, >, +, =, * and %.",
         ],
         rythme: [
           "The array[3] shows a precise position.",
@@ -269,11 +285,11 @@
     es: {
       "5e": {
         calme: [
-          "El teclado queda tranquilo y preciso.",
-          "Leo la línea antes de escribir con cuidado.",
-          "Cada espacio cuenta en el texto.",
-          "Mis dedos vuelven a la fila inicial.",
-          "La última línea valida el sprint.",
+          "El mail ayuda@colegio.es queda exacto.",
+          "Tecleo @ # € y reviso otra vez.",
+          "El código { ok } usa llaves.",
+          "tabla[2] conserva su valor.",
+          "La línea termina con ? y !",
         ],
         rythme: [
           "La clase prepara una exposición clara.",
@@ -292,11 +308,11 @@
       },
       "4e": {
         calme: [
-          "Un argumento sólido se construye con método.",
-          "La distancia se calcula con cuidado.",
-          "Reviso los acentos antes de validar.",
-          "Una fórmula clara evita errores.",
-          "La quinta línea cierra el sprint.",
+          "mail@clase.es cuesta 25€.",
+          "tabla[3] = { score: 12 }.",
+          "La opción a | b queda legible.",
+          "Ruta C:\\docs luego símbolo ~.",
+          "Tecleo <, >, +, =, * y %.",
         ],
         rythme: [
           "La tabla[3] indica una posición precisa.",
@@ -1479,6 +1495,12 @@
           "moyen âge",
           "énergie",
           "proportion",
+          "mail@college.fr",
+          "#maths",
+          "prix=12€",
+          "code[2]",
+          "{ok}",
+          "a|b",
           "Le chevalier ajuste son heaume.",
           "Une carte claire aide la mémoire.",
           "La rivière traverse la vallée.",
@@ -1517,6 +1539,12 @@
           "algorithmique",
           "proportionnalité",
           "coordonnées",
+          "tableau[3]",
+          "{score:12}",
+          "a|b",
+          "C:\\docs",
+          "x>y",
+          "total=25€",
           "La distance se déduit du temps et de la mesure.",
           "Un argument solide s'appuie sur des preuves.",
           "L'expérience confirme l'hypothèse.",
@@ -1561,6 +1589,12 @@
           "middle age",
           "energy",
           "proportion",
+          "mail@school.org",
+          "#science",
+          "price=12€",
+          "code[2]",
+          "{ok}",
+          "a|b",
           "The knight adjusts his helmet.",
           "A clear map helps memory.",
           "The river crosses the valley.",
@@ -1599,6 +1633,12 @@
           "algorithm",
           "proportionality",
           "coordinates",
+          "array[3]",
+          "{score:12}",
+          "a|b",
+          "C:\\docs",
+          "x>y",
+          "total=25€",
           "Speed depends on distance and time.",
           "A strong argument relies on evidence.",
           "The experiment confirms the hypothesis.",
@@ -1643,6 +1683,12 @@
           "edad media",
           "energía",
           "proporción",
+          "mail@colegio.es",
+          "#mates",
+          "precio=12€",
+          "tabla[2]",
+          "{ok}",
+          "a|b",
           "El caballero ajusta su casco.",
           "Un mapa claro ayuda a la memoria.",
           "El río cruza el valle.",
@@ -1681,6 +1727,12 @@
           "algoritmo",
           "proporcionalidad",
           "coordenadas",
+          "tabla[3]",
+          "{score:12}",
+          "a|b",
+          "C:\\docs",
+          "x>y",
+          "total=25€",
           "La distancia se deduce del tiempo y de la medida.",
           "Un argumento sólido se apoya en pruebas.",
           "El experimento confirma la hipótesis.",
@@ -2005,7 +2057,7 @@
     },
     {
       id: "coordinates",
-      art: ["A", "1", "B", "4", "(", "3", ";", "7", "x", "=", "y", "2"],
+      art: ["@", "#", "€", "{", "}", "[", "]", "|", "+", "=", "?", "!"],
     },
     {
       id: "repair",
@@ -2017,7 +2069,7 @@
     },
     {
       id: "boss",
-      art: ["@", "#", "€", "Ctrl", "Tab", "mémo", "A1", "{}", "[]", "?!", "Boss", "✓"],
+      art: ["@", "#", "€", "Ctrl", "Tab", "mémo", "{ }", "[ ]", "?!", "+=", "Boss", "✓"],
     },
   );
 
@@ -2081,10 +2133,10 @@
         tag: "stratégie",
       },
       coordinates: {
-        title: "Carte aux coordonnées",
+        title: "Carte des touches",
         mode: "Repérage",
-        summary: "Compose les coordonnées caractère par caractère pour guider le personnage.",
-        tag: "coord.",
+        summary: "Repère la case jaune et tape la touche affichée : lettres, accents ou symboles.",
+        tag: "touches",
       },
       repair: {
         title: "Réparation de message",
@@ -2150,11 +2202,11 @@
       mission: "Tape le code de l'ennemi le plus proche de la base.",
     },
     coordinates: {
-      target: "Case : {label}",
-      typeSequence: "Tape la coordonnée caractère par caractère",
+      target: "Touche : {label}",
+      typeSequence: "Tape la touche affichée dans la case jaune",
       timeUp: "La carte se referme.",
       success: "Le trajet est validé.",
-      mission: "La coordonnée n'est pas une touche : tape chaque caractère affiché, dans l'ordre.",
+      mission: "Repère la case jaune puis tape exactement la touche affichée.",
     },
     repair: {
       title: "Message à réparer",
@@ -2201,7 +2253,7 @@
       shop: { title: "AltGr Shop", mode: "Useful symbols", summary: "Complete customer orders with @, #, €, braces and other rare keys.", tag: "AltGr" },
       flash: { title: "Flash Dictation", mode: "Memory", summary: "Read a line, memorize its signs, then type it back when it disappears.", tag: "memo" },
       tower: { title: "Keyboard Tower", mode: "Defense", summary: "Waves move toward the base: type the right code to stop them.", tag: "strategy" },
-      coordinates: { title: "Coordinate Map", mode: "Location", summary: "Build coordinates character by character to guide the character.", tag: "coord." },
+      coordinates: { title: "Key Map", mode: "Location", summary: "Find the yellow tile and type the displayed key: letters, accents or symbols.", tag: "keys" },
       repair: { title: "Message Repair", mode: "Correction", summary: "Find the missing character in a sentence and type the correction.", tag: "text" },
       relay: { title: "Relay Race", mode: "Target keys", summary: "Pass gates with the right keys before the runner reaches them.", tag: "race" },
       boss: { title: "Keyboard Final Boss", mode: "Full mix", summary: "Symbols, shortcuts, memory and precise typing in a longer challenge.", tag: "boss" },
@@ -2220,7 +2272,7 @@
       base: "BASE", lives: "Base", wait: "Get ready", lost: "The base is overwhelmed.", timeUp: "The wave disperses.", success: "The base holds.", mission: "Type the code of the enemy closest to the base.",
     },
     coordinates: {
-      target: "Tile: {label}", typeSequence: "Type the coordinate character by character", timeUp: "The map closes.", success: "The route is validated.", mission: "The coordinate is not a key: type each displayed character in order.",
+      target: "Key: {label}", typeSequence: "Type the key shown in the yellow tile", timeUp: "The map closes.", success: "The route is validated.", mission: "Find the yellow tile, then type exactly the displayed key.",
     },
     repair: {
       title: "Message to repair", symbolHint: "missing symbol", timeUp: "The message stays incomplete.", success: "The messages are repaired.", mission: "Type only the missing character.",
@@ -2243,7 +2295,7 @@
       shop: { title: "Tienda AltGr", mode: "Símbolos útiles", summary: "Completa pedidos con @, #, €, llaves y otras teclas raras.", tag: "AltGr" },
       flash: { title: "Dictado flash", mode: "Memoria", summary: "Lee una línea, memoriza sus signos y escríbela cuando desaparece.", tag: "memo" },
       tower: { title: "Torre teclado", mode: "Defensa", summary: "Las oleadas avanzan hacia la base: escribe el código correcto.", tag: "estrategia" },
-      coordinates: { title: "Mapa de coordenadas", mode: "Ubicación", summary: "Compón coordenadas carácter por carácter para guiar al personaje.", tag: "coord." },
+      coordinates: { title: "Mapa de teclas", mode: "Ubicación", summary: "Encuentra la casilla amarilla y escribe la tecla mostrada: letras, acentos o símbolos.", tag: "teclas" },
       repair: { title: "Reparación de mensaje", mode: "Corrección", summary: "Encuentra el carácter que falta y escribe la corrección.", tag: "texto" },
       relay: { title: "Carrera de relevos", mode: "Teclas objetivo", summary: "Pasa puertas con las teclas correctas antes de llegar.", tag: "carrera" },
       boss: { title: "Boss final teclado", mode: "Mezcla completa", summary: "Símbolos, atajos, memoria y escritura precisa en un reto largo.", tag: "boss" },
@@ -2262,7 +2314,7 @@
       base: "BASE", lives: "Base", wait: "Prepárate", lost: "La base está superada.", timeUp: "La oleada se dispersa.", success: "La base resiste.", mission: "Escribe el código del enemigo más cercano a la base.",
     },
     coordinates: {
-      target: "Casilla: {label}", typeSequence: "Escribe la coordenada carácter por carácter", timeUp: "El mapa se cierra.", success: "La ruta está validada.", mission: "La coordenada no es una tecla: escribe cada carácter mostrado, en orden.",
+      target: "Tecla: {label}", typeSequence: "Escribe la tecla de la casilla amarilla", timeUp: "El mapa se cierra.", success: "La ruta está validada.", mission: "Encuentra la casilla amarilla y escribe exactamente la tecla mostrada.",
     },
     repair: {
       title: "Mensaje para reparar", symbolHint: "símbolo que falta", timeUp: "El mensaje queda incompleto.", success: "Los mensajes están reparados.", mission: "Escribe solo el carácter que falta.",

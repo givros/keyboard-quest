@@ -14,7 +14,7 @@
       this.buffer = "";
       this.shake = 0;
       this.completed = 0;
-      this.target = (this.difficulty === "calme" ? 8 : this.difficulty === "rythme" ? 11 : 16) + this.settings.wordTargetBonus;
+      this.target = (this.difficulty === "calme" ? 10 : this.difficulty === "rythme" ? 14 : 20) + this.settings.wordTargetBonus;
     }
 
     selectPhrases() {
@@ -22,7 +22,8 @@
       const sentenceItems = all.filter((item) => /[.!?]$/.test(item.trim()));
       const termItems = all.filter((item) => !sentenceItems.includes(item));
       const shortLimit = this.grade === "4e" ? 13 : 12;
-      const shortTerms = termItems.filter((item) => item.length <= shortLimit);
+      const keyboardSymbols = /[@#€{}\[\]|\\~^+=<>*%()]/;
+      const shortTerms = termItems.filter((item) => item.length <= shortLimit || keyboardSymbols.test(item));
       const longTerms = termItems.filter((item) => item.length > shortLimit);
 
       if (this.difficulty === "calme") {

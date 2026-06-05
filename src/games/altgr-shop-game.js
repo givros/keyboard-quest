@@ -13,7 +13,7 @@
       this.current = this.orders[this.index % this.orders.length];
       this.buffer = "";
       this.completed = 0;
-      this.goal = (this.difficulty === "calme" ? 8 : this.difficulty === "rythme" ? 13 : 18) + this.settings.wordTargetBonus;
+      this.goal = (this.difficulty === "calme" ? 10 : this.difficulty === "rythme" ? 16 : 23) + this.settings.wordTargetBonus;
       this.patienceLimit = this.buildPatienceLimit();
       this.patience = this.patienceLimit;
       this.flash = 0;
@@ -62,14 +62,17 @@
 
       const hardOrders = [
         { display: "total□15€", answer: "=", hint: "=" },
+        { display: "calcul 3□5", answer: "+", hint: this.symbolMeta("+").combo },
         { display: "liste□4]", answer: "[", hint: this.symbolMeta("[").combo },
         { display: "objet□score:12}", answer: "{", hint: this.symbolMeta("{").combo },
         { display: "a□b", answer: "|", hint: this.symbolMeta("|").combo },
         { display: "chemin□docs", answer: "\\", hint: this.symbolMeta("\\").combo },
+        { display: "score□10", answer: ">", hint: this.symbolMeta(">").combo },
+        { display: "bonus□20", answer: "%", hint: this.symbolMeta("%").combo },
       ].filter((order) => allowed.has(order.answer) || ["=", "\\"].includes(order.answer));
 
-      if (this.difficulty === "calme") return [...formulaOrders, ...singleOrders].filter((order) => ["@", "#", "€", "_", "-", "?", "!", ".", "/", ":"].includes(order.answer));
-      if (this.difficulty === "rythme") return [...formulaOrders, ...rhythmOrders, ...singleOrders].filter(Boolean);
+      if (this.difficulty === "calme") return [...formulaOrders, ...rhythmOrders, ...hardOrders, ...singleOrders].filter(Boolean);
+      if (this.difficulty === "rythme") return [...formulaOrders, ...rhythmOrders, ...hardOrders, ...singleOrders].filter(Boolean);
       return [...formulaOrders, ...rhythmOrders, ...hardOrders, ...singleOrders].filter(Boolean);
     }
 

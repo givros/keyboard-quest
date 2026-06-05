@@ -25,10 +25,10 @@
       if (this.difficulty === "calme") {
         const keyCount = this.grade === "4e" ? keys.length : Math.ceil(keys.length * 0.85);
         const extraCount = this.grade === "4e" ? 4 : 3;
-        pool = [...keys.slice(0, keyCount), ...extras.slice(0, extraCount)];
+        pool = [...keys.slice(0, keyCount), ...extras.slice(0, extraCount), ...symbols];
       } else if (this.difficulty === "rythme") {
         const extraCount = this.grade === "4e" ? 10 + this.settings.meteorExtraPool : 6;
-        pool = [...keys, ...extras.slice(0, extraCount)];
+        pool = [...keys, ...extras.slice(0, extraCount), ...symbols];
       } else {
         const extraCount = this.grade === "4e" ? extras.length : 8 + this.settings.meteorExtraPool;
         pool = [...symbols, ...extras.slice(0, extraCount), ...keys.slice(0, this.grade === "4e" ? 12 : 8)];

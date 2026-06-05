@@ -11,7 +11,7 @@
       this.deck = shuffle(this.selectDeck());
       this.current = randomOf(this.deck);
       this.completed = 0;
-      this.goal = (this.difficulty === "calme" ? 7 : this.difficulty === "rythme" ? 10 : 15) + this.settings.shortcutGoalBonus;
+      this.goal = (this.difficulty === "calme" ? 9 : this.difficulty === "rythme" ? 13 : 19) + this.settings.shortcutGoalBonus;
       this.playerHp = this.difficulty === "calme" ? 5 : this.difficulty === "rythme" ? 4 : 4;
       this.maxHp = this.playerHp;
       this.turnLimit = this.buildTurnLimit();
@@ -33,12 +33,7 @@
     selectDeck() {
       const all = this.content.shortcuts || [];
       const available = all.filter((item) => !isBrowserReservedShortcut(item.combo));
-      const calm = new Set(["Ctrl+C", "Ctrl+V", "Ctrl+Z", "Ctrl+A", "Ctrl+S", "Tab", "Enter", "Escape"]);
-      const rhythm = new Set([...calm, "Ctrl+F", "Ctrl+X", "Ctrl+Y", "Shift+Tab", "Ctrl+Enter", "Ctrl+Backspace", "Shift+Enter"]);
-      let deck = available;
-      if (this.difficulty === "calme") deck = available.filter((item) => calm.has(item.combo));
-      else if (this.difficulty === "rythme") deck = available.filter((item) => rhythm.has(item.combo));
-      return deck.length ? deck : available.length ? available : all;
+      return available.length ? available : all;
     }
 
     nextAttack() {

@@ -1,5 +1,5 @@
 (function registerCoordinateMapGame(CQ) {
-  const { compareChar, printableKey } = CQ.utils;
+  const { compareChar, printableKey, shuffle } = CQ.utils;
   const { drawKeycap, drawRoundRect, drawStageBackground } = CQ.drawing;
   const { width: W, height: H } = CQ.stage;
 
@@ -13,12 +13,28 @@
       this.offsetY = 78;
       this.timeLimit = this.settings.time + 16;
       this.timeLeft = this.timeLimit;
-      this.goal = (this.difficulty === "calme" ? 6 : this.difficulty === "rythme" ? 8 : 11) + Math.ceil(this.settings.wordTargetBonus / 2);
+      this.goal = (this.difficulty === "calme" ? 8 : this.difficulty === "rythme" ? 11 : 14) + Math.ceil(this.settings.wordTargetBonus / 2);
       this.completed = 0;
+      this.gridLabels = this.createGridLabels();
       this.player = { x: 0, y: 0 };
       this.target = this.randomTarget();
       this.buffer = "";
       this.flash = 0;
+    }
+
+    createGridLabels() {
+      const labels = [
+        ...(this.content.keys || []),
+        ...(this.content.extraKeys || []),
+        ...this.symbolPool().map((item) => item.symbol),
+      ];
+      const unique = [...new Set(labels)].filter(Boolean);
+      const priority = ["@", "#", "\u20ac", "{", "}", "[", "]", "|", "\\", "+", "=", "<", ">", "*", "%", "?", "!"]
+        .filter((label) => unique.includes(label));
+      const pool = [...priority, ...shuffle(unique.filter((label) => !priority.includes(label)))];
+      const total = this.cols * this.rows;
+      const filled = Array.from({ length: total }, (_, index) => pool[index % pool.length] || "?");
+      return Array.from({ length: this.rows }, (_, y) => filled.slice(y * this.cols, (y + 1) * this.cols));
     }
 
     randomTarget() {
@@ -33,11 +49,7 @@
     }
 
     targetLabel() {
-      const col = String.fromCharCode(65 + this.target.x);
-      const row = String(this.target.y + 1);
-      if (this.difficulty === "calme") return `${col}${row}`;
-      if (this.difficulty === "rythme") return `(${this.target.x + 1};${this.target.y + 1})`;
-      return `x=${this.target.x + 1};y=${this.target.y + 1}`;
+      return this.gridLabels[this.target.y]?.[this.target.x] || "?";
     }
 
     targetSequenceLabel() {
@@ -109,7 +121,8 @@
           context.textAlign = "center";
           context.textBaseline = "middle";
           context.font = "900 16px Inter, sans-serif";
-          context.fillText(`${String.fromCharCode(65 + x)}${y + 1}`, px + this.tile / 2 - 3, py + this.tile / 2 - 3);
+          context.font = "900 20px Inter, sans-serif";
+          context.fillText(this.gridLabels[y]?.[x] || "?", px + this.tile / 2 - 3, py + this.tile / 2 - 3);
         }
       }
 

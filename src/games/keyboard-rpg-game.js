@@ -90,13 +90,13 @@
     selectQuests(quests) {
       const plans = {
         "5e": {
-          calme: ["mail", "tag", "euro", "accents", "shortcut", "final"],
-          rythme: ["mail", "tag", "euro", "braces", "brackets", "accents", "shortcut", "final"],
+          calme: ["mail", "tag", "euro", "braces", "brackets", "bar", "slash", "accents", "shortcut", "final"],
+          rythme: ["mail", "tag", "euro", "braces", "brackets", "bar", "slash", "accents", "shortcut", "final"],
           defi: ["mail", "tag", "euro", "braces", "brackets", "bar", "slash", "accents", "shortcut", "final"],
         },
         "4e": {
-          calme: ["mail", "tag", "euro", "braces", "brackets", "accents", "shortcut"],
-          rythme: ["mail", "tag", "euro", "braces", "brackets", "bar", "slash", "accents", "shortcut"],
+          calme: ["mail", "tag", "euro", "braces", "brackets", "bar", "slash", "accents", "shortcut", "final"],
+          rythme: ["mail", "tag", "euro", "braces", "brackets", "bar", "slash", "accents", "shortcut", "final"],
           defi: ["mail", "tag", "euro", "braces", "brackets", "bar", "slash", "accents", "shortcut", "final"],
         },
       };

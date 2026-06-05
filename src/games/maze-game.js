@@ -102,10 +102,10 @@
 
       if (this.difficulty === "calme") {
         const keyCount = this.grade === "4e" ? keys.length : Math.ceil(keys.length * 0.75);
-        pool = keys.slice(0, keyCount);
+        pool = [...keys.slice(0, keyCount), ...extras.slice(0, this.grade === "4e" ? 6 : 4), ...symbols];
       } else if (this.difficulty === "rythme") {
         const extraCount = this.grade === "4e" ? 12 : 7;
-        pool = [...extras.slice(0, extraCount), ...keys];
+        pool = [...extras.slice(0, extraCount), ...symbols, ...keys];
       } else {
         pool = [...symbols, ...extras, ...keys.slice(0, this.grade === "4e" ? 8 : 5)];
       }

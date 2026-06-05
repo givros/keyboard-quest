@@ -985,12 +985,28 @@ body.has-mobile-keyboard.virtual-keyboard-open {
   }
 
   .section-head,
-  .play-header,
   .scoreboard-head {
     align-items: stretch;
     grid-template-columns: 1fr;
     flex-direction: column;
     gap: 10px;
+  }
+
+  .play-header {
+    align-items: stretch;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .play-header > div {
+    order: -1;
+    grid-column: 1 / -1;
+  }
+
+  .play-header .back-button,
+  .play-header .text-button {
+    min-height: 36px;
   }
 
   .scoreboard-actions {
@@ -1006,13 +1022,21 @@ body.has-mobile-keyboard.virtual-keyboard-open {
     flex-direction: column;
   }
 
-  .game-grid,
-  .hud {
+  .game-grid {
     grid-template-columns: 1fr;
   }
 
+  .hud {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .meter-block,
+  .mission {
+    grid-column: 1 / -1;
+  }
+
   .play-header h1 {
-    font-size: clamp(1.35rem, 8vw, 2.1rem);
+    font-size: clamp(1.3rem, 7vw, 1.9rem);
   }
 
   .stage-wrap {
@@ -1026,7 +1050,7 @@ body.has-mobile-keyboard.virtual-keyboard-open {
   }
 
   .mission {
-    min-height: 86px;
+    min-height: 74px;
   }
 
   .intro-copy h1 {

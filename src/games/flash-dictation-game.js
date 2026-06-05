@@ -7,7 +7,7 @@
     constructor(options) {
       super(options);
       this.rounds = shuffle(this.selectLines());
-      this.target = (this.difficulty === "calme" ? 5 : this.difficulty === "rythme" ? 6 : 7) + Math.ceil(this.settings.wordTargetBonus / 2);
+      this.target = (this.difficulty === "calme" ? 6 : this.difficulty === "rythme" ? 8 : 10) + Math.ceil(this.settings.wordTargetBonus / 2);
       this.index = 0;
       this.current = this.rounds[this.index % this.rounds.length];
       this.buffer = "";

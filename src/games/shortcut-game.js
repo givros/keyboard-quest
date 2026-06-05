@@ -13,24 +13,14 @@
       this.current = this.deck[this.index];
       this.feedback = "";
       this.feedbackTimer = 0;
-      this.goal = (this.difficulty === "calme" ? 10 : this.difficulty === "rythme" ? 14 : 20) + this.settings.shortcutGoalBonus;
+      this.goal = (this.difficulty === "calme" ? 12 : this.difficulty === "rythme" ? 18 : 25) + this.settings.shortcutGoalBonus;
       this.completed = 0;
     }
 
     selectShortcuts() {
       const all = this.content.shortcuts || [];
       const available = all.filter((item) => !isBrowserReservedShortcut(item.combo));
-      const essential = new Set(["Ctrl+C", "Ctrl+V", "Ctrl+Z", "Ctrl+A", "Ctrl+S", "Ctrl+F", "Tab", "Enter", "Escape"]);
-      const method = new Set([...essential, "Ctrl+X", "Ctrl+Y", "Shift+Tab"]);
-      let deck = available;
-
-      if (this.difficulty === "calme") {
-        deck = available.filter((item) => essential.has(item.combo));
-      } else if (this.difficulty === "rythme") {
-        deck = available.filter((item) => method.has(item.combo));
-      }
-
-      return deck.length ? deck : available.length ? available : all;
+      return available.length ? available : all;
     }
 
     update(dt) {

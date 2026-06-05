@@ -8,7 +8,7 @@
       super(options);
       this.timeLimit = this.buildTimeLimit();
       this.timeLeft = this.timeLimit;
-      this.goal = (this.difficulty === "calme" ? 8 : this.difficulty === "rythme" ? 12 : 17) + this.settings.shortcutGoalBonus;
+      this.goal = (this.difficulty === "calme" ? 10 : this.difficulty === "rythme" ? 15 : 22) + this.settings.shortcutGoalBonus;
       this.completed = 0;
       this.lives = this.difficulty === "calme" ? 5 : this.difficulty === "rythme" ? 4 : 4;
       this.phaseDeck = this.buildPhaseDeck();
@@ -97,10 +97,6 @@
     selectShortcuts() {
       const all = this.content.shortcuts || [];
       const available = all.filter((item) => !isBrowserReservedShortcut(item.combo));
-      if (this.difficulty === "calme") {
-        const deck = available.filter((item) => ["Ctrl+C", "Ctrl+V", "Ctrl+Z", "Ctrl+S", "Tab", "Enter", "Escape"].includes(item.combo));
-        return deck.length ? deck : available.length ? available : all;
-      }
       return available.length ? available : all.length ? all : [{ combo: "Ctrl+C", action: "copy" }];
     }
 

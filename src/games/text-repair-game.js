@@ -11,7 +11,7 @@
       this.current = this.tasks[this.index % this.tasks.length];
       this.buffer = "";
       this.completed = 0;
-      this.goal = (this.difficulty === "calme" ? 8 : this.difficulty === "rythme" ? 12 : 17) + this.settings.wordTargetBonus;
+      this.goal = (this.difficulty === "calme" ? 10 : this.difficulty === "rythme" ? 15 : 22) + this.settings.wordTargetBonus;
       this.timeLimit = this.settings.time + 14;
       this.timeLeft = this.timeLimit;
       this.flash = 0;
@@ -49,9 +49,21 @@
         ],
       }[this.language] || [];
 
-      const base = [...languageTasks, ...formulaTasks].filter((task) => task.answer && (allowed.has(task.answer) || ["ç", "-", "?", "/", "€"].includes(task.answer)));
-      if (this.difficulty === "calme") return base.filter((task) => ["ç", "-", "?", ".", "@", "#", "€"].includes(task.answer));
-      if (this.difficulty === "rythme") return base.filter((task) => !["{", "}", "|", "\\", "~", "^"].includes(task.answer));
+      const technicalTasks = [
+        { text: "tableau□3]", answer: "[", hint: this.t("repair.symbolHint") },
+        { text: "tableau[3□", answer: "]", hint: this.t("repair.symbolHint") },
+        { text: "bloc □ score: 12 }", answer: "{", hint: this.t("repair.symbolHint") },
+        { text: "bloc { score: 12 □", answer: "}", hint: this.t("repair.symbolHint") },
+        { text: "choix A □ choix B", answer: "|", hint: this.t("repair.symbolHint") },
+        { text: "chemin□docs", answer: "\\", hint: this.t("repair.symbolHint") },
+        { text: "3 □ 5 = 8", answer: "+", hint: this.t("repair.symbolHint") },
+        { text: "total □ 25", answer: "=", hint: this.t("repair.symbolHint") },
+        { text: "score □ 10", answer: ">", hint: this.t("repair.symbolHint") },
+      ];
+
+      const base = [...languageTasks, ...formulaTasks, ...technicalTasks].filter((task) => task.answer && (allowed.has(task.answer) || ["ç", "-", "?", "/", "€"].includes(task.answer)));
+      if (this.difficulty === "calme") return base;
+      if (this.difficulty === "rythme") return base;
       return base;
     }
 
