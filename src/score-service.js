@@ -1,10 +1,10 @@
 (function registerScoreService(CQ) {
   const { loadJson, saveJson } = CQ.utils;
-  const BASE_CHALLENGE_POINTS = 3;
+  const BASE_CHALLENGE_POINTS = 4;
   const DIFFICULTY_MULTIPLIERS = {
     calme: 1,
-    rythme: 2,
-    defi: 4,
+    rythme: 2.2,
+    defi: 5,
   };
 
   function cleanNickname(value) {

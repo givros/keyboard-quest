@@ -313,15 +313,31 @@
     url.pathname = `${directory}${fileName}`;
     url.search = "";
     url.hash = "";
-    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+    const routePath = `${url.pathname}${url.search}${url.hash}`;
+    try {
+      window.history.replaceState(null, "", routePath);
+      return true;
+    } catch {
+      try {
+        window.history.replaceState(null, "", url.href);
+        return true;
+      } catch {
+        return false;
+      }
+    }
   }
 
   function showScoreRouteUrl() {
-    if (!isScoresPath()) replaceRouteFile("scores.html");
+    if (!isScoresPath() && !replaceRouteFile("scores.html") && window.location.hash !== "#scores") {
+      window.location.hash = "#scores";
+    }
   }
 
   function showHomeRouteUrl() {
-    if (isScoresPath() || window.location.hash === "#scores") replaceRouteFile("index.html");
+    if (isScoresPath() || window.location.hash === "#scores") {
+      const changed = replaceRouteFile("index.html");
+      if (!changed && window.location.hash) window.location.hash = "";
+    }
   }
 
   function openOnboardingModal() {

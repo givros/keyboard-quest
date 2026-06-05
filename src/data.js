@@ -57,8 +57,8 @@
   };
 
   CQ.gradeScoreTargets = {
-    "5e": 180,
-    "4e": 220,
+    "5e": 380,
+    "4e": 460,
   };
 
   CQ.gameCards = [
@@ -101,15 +101,15 @@
   ];
 
   CQ.gameRewardBonuses = {
-    meteors: 0,
-    words: 1,
-    typing: 5,
-    shortcuts: 2,
-    maze: 2,
-    symbols: 3,
-    cipher: 4,
-    formula: 4,
-    rpg: 6,
+    meteors: 1,
+    words: 2,
+    typing: 9,
+    shortcuts: 4,
+    maze: 4,
+    symbols: 5,
+    cipher: 6,
+    formula: 6,
+    rpg: 11,
   };
 
   CQ.symbolSets = {
@@ -2024,21 +2024,21 @@
   Object.assign(CQ.gameRewardBonuses, {
     meteors: 1,
     words: 2,
-    typing: 8,
-    shortcuts: 3,
-    maze: 3,
-    symbols: 4,
-    cipher: 5,
-    formula: 5,
-    rpg: 9,
-    duel: 5,
-    shop: 5,
-    flash: 6,
-    tower: 6,
-    coordinates: 4,
-    repair: 5,
-    relay: 5,
-    boss: 12,
+    typing: 9,
+    shortcuts: 4,
+    maze: 4,
+    symbols: 5,
+    cipher: 6,
+    formula: 6,
+    rpg: 11,
+    duel: 6,
+    shop: 6,
+    flash: 8,
+    tower: 7,
+    coordinates: 5,
+    repair: 6,
+    relay: 6,
+    boss: 14,
   });
 
   function extendTranslations(language, patch) {
