@@ -13,7 +13,7 @@
       this.current = this.orders[this.index % this.orders.length];
       this.buffer = "";
       this.completed = 0;
-      this.goal = (this.difficulty === "calme" ? 7 : this.difficulty === "rythme" ? 11 : 16) + this.settings.wordTargetBonus;
+      this.goal = (this.difficulty === "calme" ? 8 : this.difficulty === "rythme" ? 13 : 18) + this.settings.wordTargetBonus;
       this.patienceLimit = this.buildPatienceLimit();
       this.patience = this.patienceLimit;
       this.flash = 0;
@@ -22,8 +22,8 @@
     buildPatienceLimit() {
       const base = {
         calme: 10,
-        rythme: 8.5,
-        defi: 7,
+        rythme: 7.8,
+        defi: 6.5,
       }[this.difficulty] || 7;
       return Math.max(5.5, base);
     }

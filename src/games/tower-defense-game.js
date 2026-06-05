@@ -8,12 +8,12 @@
       super(options);
       this.timeLimit = this.settings.time + 12;
       this.timeLeft = this.timeLimit;
-      this.lives = this.difficulty === "calme" ? 7 : this.difficulty === "rythme" ? 6 : 5;
+      this.lives = this.difficulty === "calme" ? 6 : this.difficulty === "rythme" ? 5 : 4;
       this.spawnTimer = 0;
       this.enemies = [];
       this.pool = shuffle(this.buildPool());
       this.destroyed = 0;
-      this.goal = (this.difficulty === "calme" ? 10 : this.difficulty === "rythme" ? 16 : 24) + this.settings.tokens;
+      this.goal = (this.difficulty === "calme" ? 12 : this.difficulty === "rythme" ? 18 : 26) + this.settings.tokens;
       this.buffer = "";
       this.flash = 0;
       this.lanes = [106, 178, 250, 322, 394];
@@ -23,7 +23,7 @@
       const keys = this.content.keys || [];
       const extras = this.content.extraKeys || [];
       const symbols = this.symbolPool().map((item) => item.symbol);
-      if (this.difficulty === "calme") return keys.slice(0, this.grade === "4e" ? 18 : 12);
+      if (this.difficulty === "calme") return [...keys.slice(0, this.grade === "4e" ? 20 : 15), ...extras.slice(0, this.grade === "4e" ? 4 : 2)];
       if (this.difficulty === "rythme") return [...keys.slice(0, 14), ...extras.slice(0, this.grade === "4e" ? 14 : 8), ...symbols.slice(0, 4)];
       const pairs = ["@#", "#€", "?!", "[]", "{}", "\\|", "_-", "/:"].filter((pair) => Array.from(pair).every((char) => symbols.includes(char) || extras.includes(char)));
       return [...symbols, ...extras, ...pairs, ...keys.slice(0, this.grade === "4e" ? 10 : 6)].filter(Boolean);

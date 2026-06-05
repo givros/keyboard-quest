@@ -23,8 +23,9 @@
       let pool = keys;
 
       if (this.difficulty === "calme") {
-        const keyCount = this.grade === "4e" ? keys.length : Math.ceil(keys.length * 0.7);
-        pool = keys.slice(0, keyCount);
+        const keyCount = this.grade === "4e" ? keys.length : Math.ceil(keys.length * 0.85);
+        const extraCount = this.grade === "4e" ? 4 : 3;
+        pool = [...keys.slice(0, keyCount), ...extras.slice(0, extraCount)];
       } else if (this.difficulty === "rythme") {
         const extraCount = this.grade === "4e" ? 10 + this.settings.meteorExtraPool : 6;
         pool = [...keys, ...extras.slice(0, extraCount)];

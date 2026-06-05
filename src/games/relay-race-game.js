@@ -27,17 +27,17 @@
     constructor(options) {
       super(options);
       this.gates = shuffle(this.buildGates());
-      this.goal = (this.difficulty === "calme" ? 8 : this.difficulty === "rythme" ? 12 : 18) + this.settings.shortcutGoalBonus;
+      this.goal = (this.difficulty === "calme" ? 10 : this.difficulty === "rythme" ? 14 : 20) + this.settings.shortcutGoalBonus;
       this.completed = 0;
       this.index = 0;
       this.current = this.gates[this.index % this.gates.length];
       this.buffer = "";
       this.progress = 0;
-      this.speed = this.difficulty === "calme" ? 0.065 : this.difficulty === "rythme" ? 0.08 : 0.095;
+      this.speed = this.difficulty === "calme" ? 0.072 : this.difficulty === "rythme" ? 0.088 : 0.104;
       this.gateDistance = 0.72;
       this.timeLimit = this.settings.time + 10;
       this.timeLeft = this.timeLimit;
-      this.lives = this.difficulty === "calme" ? 5 : this.difficulty === "rythme" ? 5 : 4;
+      this.lives = this.difficulty === "calme" ? 5 : this.difficulty === "rythme" ? 4 : 4;
       this.flash = 0;
     }
 
@@ -48,7 +48,7 @@
       const combos = (this.content.shortcuts || [])
         .filter((item) => !isBrowserReservedShortcut(item.combo))
         .map((item) => ({ type: "combo", label: item.combo, answer: item.combo, hint: item.action }));
-      if (this.difficulty === "calme") return [...letters, ...symbols.filter((item) => ["@", "#", "€", "?", "!"].includes(item.answer))];
+      if (this.difficulty === "calme") return [...letters, ...extras.slice(0, this.grade === "4e" ? 4 : 2), ...symbols.filter((item) => ["@", "#", "€", "?", "!"].includes(item.answer))];
       if (this.difficulty === "rythme") return [...letters, ...extras, ...symbols, ...combos.filter((item) => ["Tab", "Enter", "Escape", "Ctrl+C", "Ctrl+V", "Ctrl+Z"].includes(item.answer))];
       return [...symbols, ...extras, ...combos, ...letters.slice(0, 8)];
     }

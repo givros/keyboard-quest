@@ -7,7 +7,7 @@
     constructor(options) {
       super(options);
       this.rounds = shuffle(this.selectLines());
-      this.target = (this.difficulty === "calme" ? 4 : this.difficulty === "rythme" ? 5 : 6) + Math.ceil(this.settings.wordTargetBonus / 2);
+      this.target = (this.difficulty === "calme" ? 5 : this.difficulty === "rythme" ? 6 : 7) + Math.ceil(this.settings.wordTargetBonus / 2);
       this.index = 0;
       this.current = this.rounds[this.index % this.rounds.length];
       this.buffer = "";
@@ -34,7 +34,7 @@
       const sentences = words.filter((word) => /[.!?]$/.test(word.trim()));
       const terms = words.filter((word) => !sentences.includes(word));
       const typingLines = CQ.typingTextFor(this.language, this.grade, this.difficulty).filter((line) => line.length <= (this.difficulty === "defi" ? 54 : 42));
-      if (this.difficulty === "calme") return [...terms.filter((word) => word.length <= 13), ...sentences.filter((line) => line.length <= 38)].filter(Boolean);
+      if (this.difficulty === "calme") return [...terms.filter((word) => word.length <= 15), ...sentences.filter((line) => line.length <= 42)].filter(Boolean);
       if (this.difficulty === "rythme") return [...terms, ...sentences, ...typingLines].filter((line) => line.length <= 46);
       return [...sentences, ...typingLines, ...terms].filter((line) => line.length <= 58);
     }

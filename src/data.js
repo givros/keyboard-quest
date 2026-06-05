@@ -11,25 +11,25 @@
 
   CQ.difficultySettings = {
     calme: {
-      speed: 0.78,
-      spawn: 1.3,
-      time: 92,
-      lives: 7,
-      tokens: 5,
+      speed: 0.84,
+      spawn: 1.18,
+      time: 86,
+      lives: 6,
+      tokens: 6,
     },
     rythme: {
-      speed: 0.88,
-      spawn: 1.15,
-      time: 104,
-      lives: 6,
-      tokens: 7,
+      speed: 0.96,
+      spawn: 1.05,
+      time: 96,
+      lives: 5,
+      tokens: 8,
     },
     defi: {
-      speed: 1,
-      spawn: 1,
-      time: 122,
-      lives: 5,
-      tokens: 10,
+      speed: 1.08,
+      spawn: 0.92,
+      time: 112,
+      lives: 4,
+      tokens: 11,
     },
   };
 
@@ -47,12 +47,12 @@
     "4e": {
       speedMultiplier: 1,
       spawnMultiplier: 1,
-      timeMultiplier: 1.08,
+      timeMultiplier: 1.04,
       livesDelta: 0,
-      tokensDelta: 1,
-      wordTargetBonus: 1,
-      shortcutGoalBonus: 1,
-      meteorExtraPool: 4,
+      tokensDelta: 2,
+      wordTargetBonus: 2,
+      shortcutGoalBonus: 2,
+      meteorExtraPool: 6,
     },
   };
 
@@ -146,13 +146,13 @@
 
   CQ.difficultySymbolSets = {
     "5e": {
-      calme: ["_", "-", "?", "!", ".", "/", ":", "@"],
-      rythme: ["@", "#", "€", "_", "-", "?", "!", ".", "/", ":"],
-      defi: ["@", "#", "€", "_", "-", "?", "!", ".", "/", ":", "{", "}", "[", "]"],
+      calme: ["@", "#", "€", "_", "-", "?", "!", ".", "/", ":"],
+      rythme: ["@", "#", "€", "_", "-", "?", "!", ".", "/", ":", "{", "}", "[", "]"],
+      defi: ["@", "#", "€", "_", "-", "?", "!", ".", "/", ":", "{", "}", "[", "]", "|"],
     },
     "4e": {
-      calme: ["@", "#", "€", "_", "-", "?", "!", ".", "/", ":"],
-      rythme: ["@", "#", "€", "{", "}", "[", "]", "|", "\\", "_", "?", "!", "/", ":"],
+      calme: ["@", "#", "€", "_", "-", "?", "!", ".", "/", ":", "[", "]"],
+      rythme: ["@", "#", "€", "{", "}", "[", "]", "|", "\\", "~", "_", "?", "!", "/", ":"],
       defi: ["@", "#", "€", "{", "}", "[", "]", "|", "\\", "~", "^", "_", "?", "!", "/", ":", "."],
     },
   };

@@ -11,8 +11,8 @@
       this.deck = shuffle(this.selectDeck());
       this.current = randomOf(this.deck);
       this.completed = 0;
-      this.goal = (this.difficulty === "calme" ? 6 : this.difficulty === "rythme" ? 9 : 13) + this.settings.shortcutGoalBonus;
-      this.playerHp = this.difficulty === "calme" ? 5 : this.difficulty === "rythme" ? 5 : 4;
+      this.goal = (this.difficulty === "calme" ? 7 : this.difficulty === "rythme" ? 10 : 15) + this.settings.shortcutGoalBonus;
+      this.playerHp = this.difficulty === "calme" ? 5 : this.difficulty === "rythme" ? 4 : 4;
       this.maxHp = this.playerHp;
       this.turnLimit = this.buildTurnLimit();
       this.turnLeft = this.turnLimit;
@@ -23,11 +23,11 @@
 
     buildTurnLimit() {
       const base = {
-        calme: 5.8,
-        rythme: 5,
-        defi: 4.2,
+        calme: 5.2,
+        rythme: 4.6,
+        defi: 4,
       }[this.difficulty] || 4;
-      return Math.max(3.6, base);
+      return Math.max(3.4, base);
     }
 
     selectDeck() {

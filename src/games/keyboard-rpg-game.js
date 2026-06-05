@@ -69,9 +69,9 @@
     constructor(options) {
       super(options);
       const questTimeBonus = {
-        calme: 135,
-        rythme: 95,
-        defi: 60,
+        calme: 115,
+        rythme: 82,
+        defi: 52,
       };
       this.timeLimit = this.settings.time + (questTimeBonus[this.difficulty] || 110);
       this.timeLeft = this.timeLimit;

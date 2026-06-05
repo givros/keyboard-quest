@@ -17,11 +17,11 @@
 
     buildTimeLimit() {
       const base = {
-        calme: 112,
-        rythme: 138,
-        defi: 168,
+        calme: 102,
+        rythme: 126,
+        defi: 152,
       }[this.difficulty] || 76;
-      return Math.round(base * (this.grade === "4e" ? 1.08 : 1));
+      return Math.round(base * (this.grade === "4e" ? 1.05 : 1));
     }
 
     difficultyBonus() {

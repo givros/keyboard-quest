@@ -13,7 +13,7 @@
       this.current = this.deck[this.index];
       this.feedback = "";
       this.feedbackTimer = 0;
-      this.goal = (this.difficulty === "calme" ? 8 : this.difficulty === "rythme" ? 12 : 18) + this.settings.shortcutGoalBonus;
+      this.goal = (this.difficulty === "calme" ? 10 : this.difficulty === "rythme" ? 14 : 20) + this.settings.shortcutGoalBonus;
       this.completed = 0;
     }
 

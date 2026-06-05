@@ -9,7 +9,7 @@
       this.timeLimit = this.settings.time;
       this.timeLeft = this.timeLimit;
       this.pool = shuffle(this.symbolPool());
-      this.goal = (this.difficulty === "calme" ? 9 : this.difficulty === "rythme" ? 14 : 22) + this.settings.shortcutGoalBonus;
+      this.goal = (this.difficulty === "calme" ? 11 : this.difficulty === "rythme" ? 16 : 24) + this.settings.shortcutGoalBonus;
       this.completed = 0;
       this.queue = [];
       this.flash = 0;

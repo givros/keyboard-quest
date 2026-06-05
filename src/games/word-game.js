@@ -14,7 +14,7 @@
       this.buffer = "";
       this.shake = 0;
       this.completed = 0;
-      this.target = (this.difficulty === "calme" ? 6 : this.difficulty === "rythme" ? 9 : 14) + this.settings.wordTargetBonus;
+      this.target = (this.difficulty === "calme" ? 8 : this.difficulty === "rythme" ? 11 : 16) + this.settings.wordTargetBonus;
     }
 
     selectPhrases() {
@@ -26,7 +26,8 @@
       const longTerms = termItems.filter((item) => item.length > shortLimit);
 
       if (this.difficulty === "calme") {
-        return shortTerms.length ? shortTerms : termItems;
+        const shortSentences = sentenceItems.filter((item) => item.length <= (this.grade === "4e" ? 46 : 40));
+        return [...(shortTerms.length ? shortTerms : termItems), ...shuffle(shortSentences).slice(0, this.grade === "4e" ? 3 : 2)].filter(Boolean);
       }
 
       if (this.difficulty === "rythme") {

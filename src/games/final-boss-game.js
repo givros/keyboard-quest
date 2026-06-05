@@ -8,9 +8,9 @@
       super(options);
       this.timeLimit = this.buildTimeLimit();
       this.timeLeft = this.timeLimit;
-      this.goal = (this.difficulty === "calme" ? 7 : this.difficulty === "rythme" ? 10 : 15) + this.settings.shortcutGoalBonus;
+      this.goal = (this.difficulty === "calme" ? 8 : this.difficulty === "rythme" ? 12 : 17) + this.settings.shortcutGoalBonus;
       this.completed = 0;
-      this.lives = this.difficulty === "calme" ? 5 : this.difficulty === "rythme" ? 5 : 4;
+      this.lives = this.difficulty === "calme" ? 5 : this.difficulty === "rythme" ? 4 : 4;
       this.phaseDeck = this.buildPhaseDeck();
       this.current = null;
       this.buffer = "";
@@ -42,7 +42,7 @@
       this.buffer = "";
       if (type === "memory") {
         this.state = "preview";
-        this.previewLeft = Math.max(1.6, (this.difficulty === "defi" ? 1.6 : this.difficulty === "rythme" ? 1.9 : 2.2) + this.current.answer.length * 0.22);
+        this.previewLeft = Math.max(1.5, (this.difficulty === "defi" ? 1.5 : this.difficulty === "rythme" ? 1.75 : 2) + this.current.answer.length * 0.2);
       } else {
         this.state = "input";
         this.previewLeft = 0;

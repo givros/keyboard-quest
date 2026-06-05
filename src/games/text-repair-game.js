@@ -11,7 +11,7 @@
       this.current = this.tasks[this.index % this.tasks.length];
       this.buffer = "";
       this.completed = 0;
-      this.goal = (this.difficulty === "calme" ? 6 : this.difficulty === "rythme" ? 10 : 15) + this.settings.wordTargetBonus;
+      this.goal = (this.difficulty === "calme" ? 8 : this.difficulty === "rythme" ? 12 : 17) + this.settings.wordTargetBonus;
       this.timeLimit = this.settings.time + 14;
       this.timeLeft = this.timeLimit;
       this.flash = 0;
