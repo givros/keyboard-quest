@@ -296,6 +296,10 @@
     els.home.classList.toggle("screen-active", screen === "home");
     els.play.classList.toggle("screen-active", screen === "play");
     els.scores.classList.toggle("screen-active", screen === "scores");
+    if (typeof window.scrollTo === "function") {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: "auto" }));
+    }
     updateVirtualKeyboardVisibility();
   }
 
@@ -366,7 +370,7 @@
     els.resultAwardText.textContent = "";
     updatePlayHeader();
     setScreen("play");
-    canvas.focus();
+    canvas.focus({ preventScroll: true });
     loop(app.lastTime);
   }
 

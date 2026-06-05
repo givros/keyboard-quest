@@ -1,5 +1,5 @@
 (function registerFinalBossGame(CQ) {
-  const { canonicalCombo, compareChar, printableKey, randomOf, shuffle } = CQ.utils;
+  const { canonicalCombo, compareChar, isBrowserReservedShortcut, printableKey, randomOf, shuffle } = CQ.utils;
   const { drawCenteredWrappedText, drawKeycap, drawRoundRect, drawStageBackground, wrapText } = CQ.drawing;
   const { width: W, height: H } = CQ.stage;
 
@@ -96,13 +96,12 @@
 
     selectShortcuts() {
       const all = this.content.shortcuts || [];
-      const browserReservedCombo = (combo) => {
-        const parts = String(combo || "").split("+");
-        return parts[0] === "Ctrl" && ["N", "P", "O", "L", "H", "K"].includes(parts.at(-1));
-      };
-      if (this.difficulty === "calme") return all.filter((item) => ["Ctrl+C", "Ctrl+V", "Ctrl+Z", "Ctrl+S", "Tab", "Enter", "Escape"].includes(item.combo)) || all;
-      if (this.difficulty === "rythme") return all.filter((item) => !browserReservedCombo(item.combo)) || all;
-      return all.length ? all : [{ combo: "Ctrl+C", action: "copy" }];
+      const available = all.filter((item) => !isBrowserReservedShortcut(item.combo));
+      if (this.difficulty === "calme") {
+        const deck = available.filter((item) => ["Ctrl+C", "Ctrl+V", "Ctrl+Z", "Ctrl+S", "Tab", "Enter", "Escape"].includes(item.combo));
+        return deck.length ? deck : available.length ? available : all;
+      }
+      return available.length ? available : all.length ? all : [{ combo: "Ctrl+C", action: "copy" }];
     }
 
     answerChars() {

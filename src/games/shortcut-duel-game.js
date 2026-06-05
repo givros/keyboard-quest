@@ -1,5 +1,5 @@
 (function registerShortcutDuelGame(CQ) {
-  const { canonicalCombo, randomOf, shuffle } = CQ.utils;
+  const { canonicalCombo, isBrowserReservedShortcut, randomOf, shuffle } = CQ.utils;
   const { drawCenteredWrappedText, drawKeycap, drawRoundRect, drawStageBackground } = CQ.drawing;
   const { width: W, height: H } = CQ.stage;
 
@@ -32,12 +32,13 @@
 
     selectDeck() {
       const all = this.content.shortcuts || [];
+      const available = all.filter((item) => !isBrowserReservedShortcut(item.combo));
       const calm = new Set(["Ctrl+C", "Ctrl+V", "Ctrl+Z", "Ctrl+A", "Ctrl+S", "Tab", "Enter", "Escape"]);
       const rhythm = new Set([...calm, "Ctrl+F", "Ctrl+X", "Ctrl+Y", "Shift+Tab", "Ctrl+Enter", "Ctrl+Backspace", "Shift+Enter"]);
-      let deck = all;
-      if (this.difficulty === "calme") deck = all.filter((item) => calm.has(item.combo));
-      else if (this.difficulty === "rythme") deck = all.filter((item) => rhythm.has(item.combo));
-      return deck.length ? deck : all;
+      let deck = available;
+      if (this.difficulty === "calme") deck = available.filter((item) => calm.has(item.combo));
+      else if (this.difficulty === "rythme") deck = available.filter((item) => rhythm.has(item.combo));
+      return deck.length ? deck : available.length ? available : all;
     }
 
     nextAttack() {

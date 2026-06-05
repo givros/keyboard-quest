@@ -1,6 +1,6 @@
 (function registerRelayRaceGame(CQ) {
-  const { canonicalCombo, compareChar, printableKey, randomOf, shuffle } = CQ.utils;
-  const { drawKeycap, drawRoundRect, drawStageBackground } = CQ.drawing;
+  const { canonicalCombo, compareChar, isBrowserReservedShortcut, printableKey, randomOf, shuffle } = CQ.utils;
+  const { drawCenteredWrappedText, drawKeycap, drawRoundRect, drawStageBackground } = CQ.drawing;
   const { width: W, height: H } = CQ.stage;
 
   const PLAYER_SHEET = (() => {
@@ -45,7 +45,9 @@
       const symbols = this.symbolPool().map((item) => ({ type: "text", label: item.symbol, answer: item.symbol, hint: item.combo }));
       const letters = (this.content.keys || []).slice(0, this.grade === "4e" ? 18 : 12).map((key) => ({ type: "text", label: key, answer: key, hint: this.t("relay.key") }));
       const extras = (this.content.extraKeys || []).slice(0, this.grade === "4e" ? 12 : 7).map((key) => ({ type: "text", label: key, answer: key, hint: this.t("relay.key") }));
-      const combos = (this.content.shortcuts || []).map((item) => ({ type: "combo", label: item.combo, answer: item.combo, hint: item.action }));
+      const combos = (this.content.shortcuts || [])
+        .filter((item) => !isBrowserReservedShortcut(item.combo))
+        .map((item) => ({ type: "combo", label: item.combo, answer: item.combo, hint: item.action }));
       if (this.difficulty === "calme") return [...letters, ...symbols.filter((item) => ["@", "#", "€", "?", "!"].includes(item.answer))];
       if (this.difficulty === "rythme") return [...letters, ...extras, ...symbols, ...combos.filter((item) => ["Tab", "Enter", "Escape", "Ctrl+C", "Ctrl+V", "Ctrl+Z"].includes(item.answer))];
       return [...symbols, ...extras, ...combos, ...letters.slice(0, 8)];
@@ -136,7 +138,7 @@
       context.font = "900 26px Inter, sans-serif";
       context.fillText(this.t("relay.title"), W / 2, 48);
       context.font = "850 19px Inter, sans-serif";
-      context.fillText(this.current.hint, W / 2, 366);
+      drawCenteredWrappedText(context, this.current.hint, W / 2, 356, W - 220, 24);
       context.fillText(`${this.t("relay.lives")} ${"■".repeat(Math.max(0, this.lives))}`, W / 2, 408);
       context.fillText(`${this.completed}/${this.goal}`, W / 2, H - 66);
       context.restore();

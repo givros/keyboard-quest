@@ -69,6 +69,11 @@
     return parts.join("+");
   }
 
+  function isBrowserReservedShortcut(combo) {
+    const parts = String(combo || "").split("+");
+    return parts.includes("Ctrl") && ["N", "P", "O", "L", "H", "K", "R", "T", "W"].includes(parts.at(-1));
+  }
+
   CQ.utils = {
     loadJson,
     saveJson,
@@ -79,6 +84,7 @@
     printableKey,
     compareChar,
     canonicalCombo,
+    isBrowserReservedShortcut,
   };
 
   CQ.audio = {
